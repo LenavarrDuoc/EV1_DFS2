@@ -11,7 +11,7 @@ class Footer extends HTMLElement {
             <footer>
                 <p>@ SonidoVivo 2026 - Todos los derechos reservados</p>
                 <p><b>Teléfono: <a href="tel:+${fonoLimpio}">${fono}</a></b></p>
-                <p><b>Whatsapp: <a href="https://wa.me/${fonoWspLimpio}">${fonoWsp}</a><b></p>
+                <p><b>Whatsapp: <a href="https://wa.me/${fonoWspLimpio}">${fonoWsp}</a></b></p>
                 <p><b>Email: <a href="mailto:${correo}">${correo}</a></b></p>
             </footer>
         `;
