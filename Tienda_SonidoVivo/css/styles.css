@@ -1,0 +1,89 @@
+:root {
+    /*Paleta de colores*/
+    --color_1: #FFFFFF;  /*Fondos principales, tarjetas, texto títulos*/
+    --color_2: #F4F5F6;  /*Fondos alternativos/secciones*/
+    --color_3: #252525;  /*Textos principales*/
+    --color_4: #6B7280;  /*Textos secundarios*/
+    --color_5: #101820; /*Header, footer, títulos importantes*/
+    --color_6: #1C2A36; /*Menús, tarjetas oscuras, elementos secundarios*/
+    --color_7: #F28C28; /*Botones principales, enlaces activos, llamadas a la acción*/
+    --color_8: #FFB84D; /*Hover, destacados, pequeños acentos*/
+
+    /*Convención de estructura*/
+    --espaciado: 1rem;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color_1);
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px 50px;
+
+    font-weight: bold;
+
+    background-color: var(--color_5);
+    color: var(--color_1);
+    border-bottom: 5px solid var(--color_7);
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+/* Nav */
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--color_6);
+    color: var(--color_7)
+}
+
+nav a {
+    text-decoration: none;
+    font-size: 16px;
+
+    color: var(--color_1);
+}
+
+nav a:hover {
+    color: var(--color_8);
+}
+
+nav a.active {
+    color: var(--color_7);
+}
+
+nav navegacion-principal {
+    align-items: left;
+}
+
+nav inicio-registo {
+    align-items: right;
+}
+
+/* Footer */
+main-footer{
+    display: block;
+    margin-top: auto;
+    text-align: center;
+}
+
+
+main-footer footer{
+    background-color: var(--color_5);
+    color: var(--color_1);
+}
+
