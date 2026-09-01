@@ -15,6 +15,9 @@
 
     /*Convención de estructura*/
     --espaciado: 1rem;
+
+    /* Animaciones */
+    --animacion_boton1: all 0.2s ease;
 }
 
 * {
@@ -126,7 +129,7 @@ header {
     border: 1px solid var(--color_1);
     border-radius: 6px;
 
-    transition: all 0.2s ease;
+    transition: var(--animacion_boton1);
 }
 
 .navegacion-usuario a:hover {
@@ -424,3 +427,62 @@ main {
     }
 
 }
+
+/* ******* INICIO ESTILOS PARA Registro.HTML******* */
+
+/* formulario */
+#formulario{
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    line-height: 2;
+    text-align: justify;
+    color: rgb(14, 13, 13);
+}
+
+/* configuración de formulario en forma de grilla para separar labels de inputs en dos columnas virtuales. */
+.grid-formulario{
+    display: grid;
+    background-color: rgba(226, 234, 198, 0.5);
+    grid-template-columns: max-content 1fr;
+    gap: 12px 16px;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.legend-titulo-fieldset{
+    grid-column: 1 / -1; /*para que el título ocupe las dos columnas virtuales*/
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    /* background-color: rgba(226, 234, 198, 0.3); */
+    color: var(--color_3);
+}
+
+/*Al poner el nombre de clase .campo a los div, se descuadra el conenido. Con display = contents, se realínean en las dos columnas virtuales de la configuración grid*/
+.campo{
+    display: contents;
+}
+
+.grid-formulario button{
+    grid-column: 1 / -1; /*para que el botón ocupe las dos columnas virtuales*/
+    justify-self: center; /*para centrar el botón en la grilla*/
+    padding: 10px 20px;
+    background-color: var(--color_3);
+    color: var(--color_1);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: var(--animacion_boton1)
+}
+
+.grid-formulario button:hover{
+    background-color: var(--color_7);
+    border-color: var(--color_7);
+    color: var(--color_1);
+}
+
+/* ******* FIN ESTILOS PARA Registro.HTML******* */

@@ -44,7 +44,7 @@ class Header extends HTMLElement {
             </ul>
         </nav>
 
-    </header>}`;
+    </header>`;
 
     //Se sacó la referencia de clase activa desde el enlace de inicio y de catálogo para automatizarlo con la función "enlaceActivo()" según la página activa en que se encuentre el usuario.
 
