@@ -32,7 +32,7 @@ class Header extends HTMLElement {
 
         <nav class="navegacion-principal">
             <ul>
-                <li><a href="index.html" class="active">INICIO</a></li>
+                <li><a href="index.html">INICIO</a></li>
                 <li><a href="productos.html">CATÁLOGO</a></li>
             </ul>
         </nav>
@@ -45,6 +45,29 @@ class Header extends HTMLElement {
         </nav>
 
     </header>}`;
+
+    //Se sacó la referencia de clase activa desde el enlace de inicio y de catálogo para automatizarlo con la función "enlaceActivo()" según la página activa en que se encuentre el usuario.
+
+    this.enlaceActivo(); // Se invoca a la función enlaceActivo() para resaltar el enlace activo en la navegación principal.
+    }
+
+    //Definimos la función enlaceActivo() para resaltar/subrayar el enlace activo en la navegación principal.
+    //Lo dejamos dentro de la misma clase Header para que solo se ejecute en el header y referenciar a la clase fácilmente con "this".
+    enlaceActivo() {
+        // Obtiene la ruta actual del navegador
+        const pagActual = window.location.pathname.split("/").pop() || "index.html"; // si enlace luego de "/" es vacío, el navegador redirige a index, por lo que es mejor dejar "ó" index.html en caso de llegar a la raíz.
+        
+        //trabajamos sobre los enlaces de navegación principal (Inicio y Catálogo).
+        const enlaceNavPrincipal = this.querySelectorAll(".navegacion-principal a"); //en vez de document.querySelectorAll, usamos this.querySelectorAll para que busque enlaces (<a></a>) solo dentro de la clase navegación-principal.
+
+        //Recorre todos los enlaces de navegación principal y busca la coincidencia del href de cada uno con el obtenido en la página actual.
+        // De encontrarlo, agrega la clase "active" al enlace coincidente.
+        enlaceNavPrincipal.forEach(enlace => {
+            if (enlace.getAttribute("href") === pagActual) {
+                enlace.classList.add("active");
+            }
+        });
     }
 }
 customElements.define('main-header', Header);
+
