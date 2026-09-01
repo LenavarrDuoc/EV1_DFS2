@@ -34,7 +34,7 @@ body {
     min-height: 100vh;
 }
 
-/*=== Header ===*/
+/* ========INICIO ESTILOS PARA HEADER======== */
 header {
     display: flex;
     align-items: center;
@@ -47,6 +47,7 @@ header {
     color: var(--color_1);
 
     border-bottom: 4px solid var(--color_7);
+    flex-wrap: wrap;
 }
 
 .marca {
@@ -113,6 +114,7 @@ header {
 /*=== Navegacíon usuario ===*/
 .navegacion-usuario ul {
     gap: 15px;
+    margin-top: 10px; /* separación de enlaces de inicio de sesión y registrarse para que no queden pegados a otros elementos en alineación de columna vertical */
 }
 
 .navegacion-usuario a {
@@ -137,6 +139,21 @@ header {
     border-color: var(--color_7);
     color: var(--color_1);
 }
+
+@media (max-width: 768px) {
+  .main-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-principal ul,
+  .nav-auth ul {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+/* ========FIN ESTILOS PARA HEADER======== */
+
 
 /*=== Footer ===*/
 main-footer{

@@ -21,7 +21,7 @@ customElements.define('main-footer', Footer);
 
 class Header extends HTMLElement {
     connectedCallback() {
-        this.innerHTML = `<header>
+        this.innerHTML = `<header class="main-header">
         
         <div class="marca">
             <a href="index.html">
