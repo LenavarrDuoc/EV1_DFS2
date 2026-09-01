@@ -18,3 +18,33 @@ class Footer extends HTMLElement {
     }
 }
 customElements.define('main-footer', Footer);
+
+class Header extends HTMLElement {
+    connectedCallback() {
+        this.innerHTML = `<header>
+        
+        <div class="marca">
+            <a href="index.html">
+                <img src="img/logo_main.png" alt="Logo de Sonido Vivo" id="logo">
+            </a>
+            <h1>Sonido Vivo</h1>
+        </div>
+
+        <nav class="navegacion-principal">
+            <ul>
+                <li><a href="index.html" class="active">INICIO</a></li>
+                <li><a href="productos.html">CATÁLOGO</a></li>
+            </ul>
+        </nav>
+
+        <nav class="navegacion-usuario">
+            <ul>
+                <li><a href="login.html">INICIAR SESIÓN</a></li>
+                <li><a href="registro.html">REGISTRARSE</a></li>
+            </ul>
+        </nav>
+
+    </header>}`;
+    }
+}
+customElements.define('main-header', Header);
