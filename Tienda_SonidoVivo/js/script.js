@@ -71,3 +71,352 @@ class Header extends HTMLElement {
 }
 customElements.define('main-header', Header);
 
+/*==================================================
+    PRODUCTOS
+==================================================*/
+
+const productos = {
+
+    "sv-strat-01": {
+
+        nombre: "Guitarra Eléctrica SV-Strat 01",
+
+        imagen: "img/producto-1.png",
+
+        categoria: "Instrumentos musicales",
+
+        descripcion:
+            "Guitarra eléctrica de diseño clásico, ideal para rock, blues y pop. Destaca por su versatilidad y por ofrecer una excelente opción para músicos que buscan comenzar o mejorar su experiencia con guitarra eléctrica.",
+
+        precio: "$249.990",
+
+        caracteristicas: [
+            "Diseño clásico y versátil.",
+            "Ideal para rock, blues y pop.",
+            "Pensada para músicos principiantes y usuarios con mayor experiencia.",
+            "Producto perteneciente al catálogo de Sonido Vivo."
+        ]
+
+    },
+
+
+    "sv-studio-h1": {
+
+        nombre: "Auriculares SV-Studio H1",
+
+        imagen: "img/producto-2.png",
+
+        categoria: "Audio",
+
+        descripcion:
+            "Auriculares de monitoreo diseñados para escuchar música con claridad y detalle. Su diseño circumaural permite una experiencia cómoda, siendo una excelente alternativa para practicar, producir música o disfrutar de tus canciones favoritas.",
+
+        precio: "$79.990",
+
+        caracteristicas: [
+            "Diseño circumaural.",
+            "Orientados a monitoreo y reproducción de audio.",
+            "Cómodos para sesiones prolongadas.",
+            "Adecuados para practicar, producir y escuchar música."
+        ]
+
+    },
+
+
+    "sv-mic-pro-01": {
+
+        nombre: "Micrófono SV-Mic Pro 01",
+
+        imagen: "img/producto-3.png",
+
+        categoria: "Audio",
+
+        descripcion:
+            "Micrófono de condensador orientado a grabación y creación de contenido. Destaca por su diseño profesional y por ser una alternativa ideal para grabar voces, instrumentos y podcasts con mayor claridad.",
+
+        precio: "$119.990",
+
+        caracteristicas: [
+            "Micrófono de condensador.",
+            "Orientado a grabación y creación de contenido.",
+            "Adecuado para voces e instrumentos.",
+            "Alternativa para grabación de podcasts."
+        ]
+
+    },
+
+
+    "sv-key-61": {
+
+        nombre: "Teclado Digital SV-Key 61",
+
+        imagen: "img/producto-4.png",
+
+        categoria: "Instrumentos musicales",
+
+        descripcion:
+            "Teclado digital de 61 teclas, pensado para estudiantes y músicos que buscan practicar y desarrollar sus habilidades musicales.",
+
+        precio: "$189.990",
+
+        caracteristicas: [
+            "61 teclas.",
+            "Pensado para estudiantes y músicos.",
+            "Adecuado para practicar.",
+            "Ideal para desarrollar habilidades musicales."
+        ]
+
+    },
+
+
+    "sv-bass-4": {
+
+        nombre: "Bajo Eléctrico SV-Bass 4",
+
+        imagen: "img/producto-5.png",
+
+        categoria: "Instrumentos musicales",
+
+        descripcion:
+            "Bajo eléctrico de cuatro cuerdas con un diseño cómodo y versátil para acompañar distintos estilos y proyectos musicales.",
+
+        precio: "$229.990",
+
+        caracteristicas: [
+            "Cuatro cuerdas.",
+            "Diseño cómodo.",
+            "Versátil para distintos estilos musicales.",
+            "Adecuado para diferentes proyectos musicales."
+        ]
+
+    },
+
+
+    "sv-amp-20": {
+
+        nombre: "Amplificador SV-Amp 20",
+
+        imagen: "img/producto-6.png",
+
+        categoria: "Amplificación",
+
+        descripcion:
+            "Amplificador compacto ideal para practicar con guitarra eléctrica y disfrutar de un sonido claro en espacios pequeños.",
+
+        precio: "$139.990",
+
+        caracteristicas: [
+            "Diseño compacto.",
+            "Pensado para guitarra eléctrica.",
+            "Adecuado para practicar.",
+            "Ideal para espacios pequeños."
+        ]
+
+    }
+
+};
+
+
+/*
+=== CARGAR PRODUCTO ===
+*/
+function cargarProducto() {
+
+    const elementoNombre =
+        document.getElementById("producto-nombre");
+
+    /*
+        Si no existe este elemento,
+        significa que no estamos en producto.html.
+    */
+    if (!elementoNombre) {
+        return;
+    }
+
+
+    const parametros =
+        new URLSearchParams(window.location.search);
+
+    const idProducto =
+        parametros.get("producto");
+
+
+    /*
+        Si no se especifica un producto,
+        se muestra la guitarra por defecto.
+    */
+    const producto =
+        productos[idProducto] || productos["sv-strat-01"];
+
+
+    const imagen =
+        document.getElementById("producto-imagen");
+
+    const categoria =
+        document.querySelector(".producto-categoria");
+
+    const descripcion =
+        document.getElementById("producto-descripcion");
+
+    const precio =
+        document.getElementById("producto-precio");
+
+    const listaCaracteristicas =
+        document.getElementById("lista-caracteristicas");
+
+
+    /*=== Actualizar información ===*/
+    elementoNombre.textContent =
+        producto.nombre;
+
+    imagen.src =
+        producto.imagen;
+
+    imagen.alt =
+        producto.nombre;
+
+    categoria.textContent =
+        producto.categoria;
+
+    descripcion.textContent =
+        producto.descripcion;
+
+    precio.textContent =
+        producto.precio;
+
+
+    /*=== Actualizar características ===*/
+    listaCaracteristicas.innerHTML = "";
+
+    producto.caracteristicas.forEach(caracteristica => {
+
+        const elemento =
+            document.createElement("li");
+
+        elemento.textContent =
+            caracteristica;
+
+        listaCaracteristicas.appendChild(elemento);
+
+    });
+
+
+    /*=== Actualizar título de la página ===*/
+    document.title =
+        `${producto.nombre} - SonidoVivo`;
+}
+
+
+
+/*
+=== INFORMACIÓN ADICIONAL ===
+*/
+function configurarInformacionAdicional() {
+
+    const boton =
+        document.getElementById("btn-informacion");
+
+    const informacion =
+        document.getElementById("informacion-adicional");
+
+
+    if (!boton || !informacion) {
+        return;
+    }
+
+
+    boton.addEventListener("click", () => {
+
+        if (informacion.hidden) {
+
+            informacion.hidden = false;
+
+            boton.textContent =
+                "OCULTAR INFORMACIÓN ADICIONAL";
+
+        } else {
+
+            informacion.hidden = true;
+
+            boton.textContent =
+                "MOSTRAR INFORMACIÓN ADICIONAL";
+
+        }
+
+    });
+
+}
+
+
+/*
+=== AGREGAR AL CARRO ===
+*/
+function configurarCarro() {
+
+    const boton =
+        document.getElementById("btn-agregar");
+
+    const cantidad =
+        document.getElementById("cantidad");
+
+
+    if (!boton || !cantidad) {
+        return;
+    }
+
+
+    boton.addEventListener("click", () => {
+
+        const cantidadSeleccionada =
+            parseInt(cantidad.value);
+
+
+        if (
+            isNaN(cantidadSeleccionada) ||
+            cantidadSeleccionada < 1
+        ) {
+
+            alert("Ingresa una cantidad válida.");
+
+            return;
+        }
+
+
+        const nombreProducto =
+            document.getElementById("producto-nombre")
+                .textContent;
+
+
+        boton.textContent =
+            "¡AGREGADO AL CARRO!";
+
+
+        alert(
+            `${cantidadSeleccionada} unidad(es) de ${nombreProducto} fueron agregadas al carro.`
+        );
+
+
+        setTimeout(() => {
+
+            boton.textContent =
+                "AGREGAR AL CARRO";
+
+        }, 2000);
+
+    });
+
+}
+
+
+/*
+=== INICIALIZACIÓN ===
+*/
+document.addEventListener("DOMContentLoaded", () => {
+
+    cargarProducto();
+
+    configurarInformacionAdicional();
+
+    configurarCarro();
+
+});
