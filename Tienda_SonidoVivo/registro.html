@@ -13,7 +13,7 @@
 
     <form id="formulario">
         <fieldset class="grid-formulario">
-            <legend class="legend-titulo-fieldset">Ingrese datos de contacto: </legend>
+            <legend class="legend-titulo-fieldset">Ingrese datos de registro de usuario: </legend>
             <div class="campo">
                 <label for="nombreCompleto">Nombre completo: </label>
                 <input type="text" placeholder="Ingrese su nombre" required id="nombre">
@@ -28,6 +28,11 @@
             <div class="campo">
                 <label for="correo">Correo E: </label>
                 <input type="email" placeholder="ej: xxxxx@xxxxx.com" required id="correo">
+                <!-- el elemento span marcará la viñeta de input si se dispara un evento de error configurado en JS. En este caso, que el correo exista en el registro. -->
+                 <!-- descomentar en caso de implementar la función -->
+<!--                 <span id="msg-error-correo" class="error-texto" style="display: none; color: red;">
+                    • Este correo ya se encuentra registrado.
+                </span> -->
             </div>
             <!-- <br> -->
             <div class="campo">
@@ -101,9 +106,21 @@
                     <option value="Vitacura">Vitacura</option>
                 </select>
             </div>
-            <br>
+            <!--  <div> -->
+                <!-- <label for="password-registro">Contraseña: </label> -->
+                <password-input input-id="password-registro" label-text="Contraseña:"></password-input>
+            <!-- </div> -->
+            <label id="label-password-requirements"> (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un caracter especial. No debe contener datos personales ni palabras comunes a contraseña/password.)</label>
+           <!--  <div> -->
+                
+            <!-- </div> -->
+           <!--  <div> -->
+                <!-- <label for="repeat-password-registro">Repetir contraseña: </label> -->
+                <password-input input-id="repeat-password-registro" label-text="Repetir contraseña:"></password-input>    
+            <!-- </div> -->
+  
             <button type="submit" id="btn-registrarse">Registrarse</button>
-            <br>
+
         </fieldset>
     </form>
 

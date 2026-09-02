@@ -2,6 +2,12 @@
     GENERAL
 */
 
+/* Oculta el ícono nativo de Microsoft Edge para mostrar/ocultar contraseña */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
 :root {
     /*Paleta de colores*/
     --color_1: #FFFFFF;  /*Fondos principales, tarjetas, texto títulos*/
@@ -25,6 +31,8 @@
     margin: 0;
     padding: 0;
 }
+
+
 
 /*=== Body ===*/
 body {
@@ -500,6 +508,47 @@ main {
     background-color: var(--color_7);
     border-color: var(--color_7);
     color: var(--color_1);
+}
+
+/*campos de contraseña*/
+.grid-formulario password-input {
+    display: contents; /*para que el contenido del componente se muestre en la grilla del formulario*/
+}
+
+/* Ajusta el envoltorio para juntar input y botón */
+.password-wrapper {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.password-wrapper input {
+    flex: 1;
+    width: 100%;
+    padding-right: 8px; /* Ya no requiere un espacio grande */
+    border-top-right-radius: 0;    /* Quita las esquinas redondeadas derechas */
+    border-bottom-right-radius: 0;
+}
+
+/* Botón flotante para alternar visibilidad */
+.btn-toggle-pass {
+    position: static; /* Cancela la posición absoluta */
+    padding: 0 10px;
+    border: 1px solid #ccc; /* Ajusta este borde al mismo color de tu input */
+    border-left: none;       /* Quita el borde izquierdo para unirlo al input */
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+#label-password-requirements{
+    display: inline-block; /*bloquea la propiedad de mostrar texto en 1 sola línea y, ergo, poder darle ancho máximo*/
+    min-width: 0;
+    overflow-wrap: break-word; /*permite que el texto se divida en varias líneas si es necesario*/
+    line-height: 1.5;
+    font-size: 0.8rem;
+    grid-column: 1 / -1; /*para que el label ocupe las dos columnas virtuales*/
 }
 
 /* ******* FIN ESTILOS PARA Registro.HTML******* */
