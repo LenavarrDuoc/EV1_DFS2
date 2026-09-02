@@ -10,32 +10,138 @@
 </head>
 <body>
     <main-header></main-header>
-    <!-- eliminar lo comentado si ya se prueba la carga del header: -->
-   <!--  <header>
-        
-        <div class="marca">
-            <a href="index.html">
-                <img src="img/logo_main.png" alt="Logo de Sonido Vivo" id="logo">
-            </a>
-            <h1>Sonido Vivo</h1>
-        </div>
+    <main>
 
-        <nav class="navegacion-principal">
-            <ul>
-                <li><a href="index.html">INICIO</a></li>
-                <li><a href="productos.html" class="active">CATÁLOGO</a></li>
-            </ul>
-        </nav>
+        <!--=== DETALLE DEL PRODUCTO ===-->
+        <section id="detalle-producto">
 
-        <nav class="navegacion-usuario">
-            <ul>
-                <li><a href="login.html">INICIAR SESIÓN</a></li>
-                <li><a href="registro.html">REGISTRARSE</a></li>
-            </ul>
-        </nav>
+            <div class="producto-navegacion">
 
-    </header> -->
+                <a href="productos.html" class="boton-secundario">
+                    ← VOLVER AL CATÁLOGO
+                </a>
 
+            </div>
+
+
+            <div class="producto-detalle">
+
+                <!--=== IMAGEN DEL PRODUCTO ===-->
+                <div class="producto-detalle-imagen">
+
+                    <img
+                        id="producto-imagen"
+                        src="img/producto-1.png"
+                        alt="Guitarra eléctrica Sonido Vivo SV-Strat 01"
+                    >
+
+                </div>
+
+
+                <!--=== INFORMACIÓN DEL PRODUCTO ===-->
+                <div class="producto-detalle-info">
+
+                    <p class="producto-categoria">
+                        Instrumentos musicales
+                    </p>
+
+                    <h1 id="producto-nombre">
+                        Guitarra Eléctrica SV-Strat 01
+                    </h1>
+
+                    <p id="producto-descripcion" class="producto-descripcion">
+                        Guitarra eléctrica de diseño clásico, ideal para rock,
+                        blues y pop. Destaca por su versatilidad y por ofrecer
+                        una excelente opción para músicos que buscan comenzar
+                        o mejorar su experiencia con guitarra eléctrica.
+                    </p>
+
+
+                    <!--=== PRECIO ===-->
+                    <p id="producto-precio" class="producto-precio-detalle">
+                        $249.990
+                    </p>
+
+
+                    <!--=== INFORMACIÓN ADICIONAL ===-->
+                    <div class="producto-adicional">
+
+                        <button
+                            id="btn-informacion"
+                            class="boton"
+                            type="button"
+                        >
+                            MOSTRAR INFORMACIÓN ADICIONAL
+                        </button>
+
+                        <div
+                            id="informacion-adicional"
+                            class="informacion-adicional"
+                            hidden
+                        >
+
+                            <h2>Información adicional</h2>
+
+                            <ul id="lista-caracteristicas">
+
+                                <li>
+                                    Diseño clásico y versátil.
+                                </li>
+
+                                <li>
+                                    Ideal para rock, blues y pop.
+                                </li>
+
+                                <li>
+                                    Pensada para músicos principiantes y
+                                    usuarios con mayor experiencia.
+                                </li>
+
+                                <li>
+                                    Producto perteneciente al catálogo
+                                    de Sonido Vivo.
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+
+                    <!--=== ELEMENTO INTERACTIVO ===-->
+                    <div class="producto-accion">
+
+                        <label for="cantidad">
+                            Cantidad:
+                        </label>
+
+                        <input
+                            type="number"
+                            id="cantidad"
+                            name="cantidad"
+                            value="1"
+                            min="1"
+                            max="10"
+                        >
+
+                        <button
+                            id="btn-agregar"
+                            class="boton"
+                            type="button"
+                        >
+                            AGREGAR AL CARRO
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
     <main-footer></main-footer>
 </body>
 </html>
