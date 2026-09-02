@@ -10,31 +10,119 @@
 </head>
 <body>
     <main-header></main-header>
-    <!-- eliminar lo comentado si ya se prueba la carga del header: -->
-    <!-- <header>
-        
-        <div class="marca">
-            <a href="index.html">
-                <img src="img/logo_main.png" alt="Logo de Sonido Vivo" id="logo">
-            </a>
-            <h1>Sonido Vivo</h1>
-        </div>
 
-        <nav class="navegacion-principal">
-            <ul>
-                <li><a href="index.html">INICIO</a></li>
-                <li><a href="productos.html">CATÁLOGO</a></li>
-            </ul>
-        </nav>
+    <form id="formulario">
+        <fieldset class="grid-formulario">
+            <legend class="legend-titulo-fieldset">Ingrese datos de registro de usuario: </legend>
+            <div class="campo">
+                <label for="nombreCompleto">Nombre completo: </label>
+                <input type="text" placeholder="Ingrese su nombre" required id="nombre">
+            </div>
+            
+            <!-- <br> -->
+            <div class="campo">
+                <label for="run">RUN: </label>
+                <input type="text" placeholder="ej: 99999999-9" required id="run">
+            </div>
+            <!-- <br> -->
+            <div class="campo">
+                <label for="correo">Correo E: </label>
+                <input type="email" placeholder="ej: xxxxx@xxxxx.com" required id="correo">
+                <!-- el elemento span marcará la viñeta de input si se dispara un evento de error configurado en JS. En este caso, que el correo exista en el registro. -->
+                 <!-- descomentar en caso de implementar la función -->
+<!--                 <span id="msg-error-correo" class="error-texto" style="display: none; color: red;">
+                    • Este correo ya se encuentra registrado.
+                </span> -->
+            </div>
+            <!-- <br> -->
+            <div class="campo">
+                <label for="telefono">Teléfono: </label>
+                <input type="tel" placeholder="ej: +56999999999" required id="telefono">
+            </div>
+            <!-- <br> -->
+            <div class="campo">
+                <label for="fecNac">Fecha de nacimiento: </label>
+                <input type="date" required id="fecNac">
+            </div>
+            <div class="campo">
+                <label for="direccion">Dirección: </label>
+                <input type="text" placeholder="ej: Calle Norte 123" required id="direccion">
+            </div>
+            <div class="campo">
+                <label for="comuna">Comuna (RM): </label>
+                <select required id="comuna" name="comuna">
+                    <option value="" disabled selected>Seleccione una comuna</option>
+                    <option value="Alhué">Alhué</option>
+                    <option value="Buin">Buin</option>
+                    <option value="Calera de Tango">Calera de Tango</option>
+                    <option value="Cerrillos">Cerrillos</option>
+                    <option value="Cerro Navia">Cerro Navia</option>
+                    <option value="Colina">Colina</option>
+                    <option value="Conchalí">Conchalí</option>
+                    <option value="Curacaví">Curacaví</option>
+                    <option value="El Bosque">El Bosque</option>
+                    <option value="El Monte">El Monte</option>
+                    <option value="Estación Central">Estación Central</option>
+                    <option value="Huechuraba">Huechuraba</option>
+                    <option value="Independencia">Independencia</option>
+                    <option value="Isla de Maipo">Isla de Maipo</option>
+                    <option value="La Cisterna">La Cisterna</option>
+                    <option value="La Florida">La Florida</option>
+                    <option value="La Granja">La Granja</option>
+                    <option value="La Pintana">La Pintana</option>
+                    <option value="La Reina">La Reina</option>
+                    <option value="Lampa">Lampa</option>
+                    <option value="Las Condes">Las Condes</option>
+                    <option value="Lo Barnechea">Lo Barnechea</option>
+                    <option value="Lo Espejo">Lo Espejo</option>
+                    <option value="Lo Prado">Lo Prado</option>
+                    <option value="Macul">Macul</option>
+                    <option value="Maipú">Maipú</option>
+                    <option value="María Pinto">María Pinto</option>
+                    <option value="Melipilla">Melipilla</option>
+                    <option value="Ñuñoa">Ñuñoa</option>
+                    <option value="Padre Hurtado">Padre Hurtado</option>
+                    <option value="Paine">Paine</option>
+                    <option value="Pedro Aguirre Cerda">Pedro Aguirre Cerda</option>
+                    <option value="Peñaflor">Peñaflor</option>
+                    <option value="Peñalolén">Peñalolén</option>
+                    <option value="Pirque">Pirque</option>
+                    <option value="Providencia">Providencia</option>
+                    <option value="Pudahuel">Pudahuel</option>
+                    <option value="Puente Alto">Puente Alto</option>
+                    <option value="Quilicura">Quilicura</option>
+                    <option value="Quinta Normal">Quinta Normal</option>
+                    <option value="Recoleta">Recoleta</option>
+                    <option value="Renca">Renca</option>
+                    <option value="San Bernardo">San Bernardo</option>
+                    <option value="San Joaquín">San Joaquín</option>
+                    <option value="San José de Maipo">San José de Maipo</option>
+                    <option value="San Miguel">San Miguel</option>
+                    <option value="San Pedro">San Pedro</option>
+                    <option value="San Ramón">San Ramón</option>
+                    <option value="Santiago">Santiago</option>
+                    <option value="Talagante">Talagante</option>
+                    <option value="Til Til">Til Til</option>
+                    <option value="Vitacura">Vitacura</option>
+                </select>
+            </div>
+            <!--  <div> -->
+                <!-- <label for="password-registro">Contraseña: </label> -->
+                <password-input input-id="password-registro" label-text="Contraseña:"></password-input>
+            <!-- </div> -->
+            <label id="label-password-requirements"> (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un caracter especial. No debe contener datos personales ni palabras comunes a contraseña/password.)</label>
+           <!--  <div> -->
+                
+            <!-- </div> -->
+           <!--  <div> -->
+                <!-- <label for="repeat-password-registro">Repetir contraseña: </label> -->
+                <password-input input-id="repeat-password-registro" label-text="Repetir contraseña:"></password-input>    
+            <!-- </div> -->
+  
+            <button type="submit" id="btn-registrarse">Registrarse</button>
 
-        <nav class="navegacion-usuario">
-            <ul>
-                <li><a href="login.html">INICIAR SESIÓN</a></li>
-                <li><a href="registro.html" class="active">REGISTRARSE</a></li>
-            </ul>
-        </nav>
-
-    </header> -->
+        </fieldset>
+    </form>
 
     <main-footer></main-footer>
 </body>

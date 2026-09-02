@@ -1,3 +1,17 @@
+class Usuario{
+    //Constructor
+    constructor(nombre, run, correo, telefono, fecNac, password){
+        this.nombre = nombre.trim();
+        this.run = run.trim();
+        this.correo = correo.trim();
+        this.telefono = telefono.trim();
+        this.fecNac = new Date(fecNac.trim() + "T00:00:00"); //se agrega T00:00:00 para evitar errores de cálculo por zona horaria en ciertos casos.
+        this.password = password.trim();
+    }
+
+}
+
+
 class Footer extends HTMLElement {
     connectedCallback() {
     const fono = "+56988888888";
@@ -21,7 +35,7 @@ customElements.define('main-footer', Footer);
 
 class Header extends HTMLElement {
     connectedCallback() {
-        this.innerHTML = `<header>
+        this.innerHTML = `<header class="main-header">
         
         <div class="marca">
             <a href="index.html">
@@ -71,9 +85,261 @@ class Header extends HTMLElement {
 }
 customElements.define('main-header', Header);
 
+
+/* ===== FORMULARIO ===== */
+const formulario = document.getElementById("formulario");
+
+if (formulario) {
+    //Se reciben los objetos DOM (Document Object Model) de los campos del formulario para poder manipularlos y validarlos.
+    //Por lo tanto, las variables a continuación son objetos tipo DOM y no strings, por lo que se debe usar la propiedad .value para obtener el valor ingresado por el usuario.
+    let nombre = document.getElementById("nombre");
+    let run = document.getElementById("run");
+    let correo = document.getElementById("correo");
+    let telefono = document.getElementById("telefono");
+    let fecNac = document.getElementById("fecNac");
+    let btnRegistrarse = document.getElementById("btn-registrarse");
+
+    //Se comentó el código ya que se pretendía deshabilitar botón "registrar" si no estaban llenos todos los campos, pero es mejor permitir que la página advierta de los campos faltantes.
+    //Se deja comentado en caso de requerir la función más adelante
+ /*    function validarCamposLlenos() {
+        btnRegistrarse.disabled = !formulario.checkValidity(); // Deshabilita el botón si algún campo requerido está vacío o inválido
+        if (!formulario.checkValidity()) {
+            formulario.reportValidity(); // Muestra las alertas emergentes del navegador en los campos vacíos o inválidos
+        }
+    }
+
+    formulario.addEventListener("input", validarCamposLlenos); // Valida los campos cada vez que el usuario ingresa datos
+    formulario.addEventListener("change", validarCamposLlenos); // Valida los campos cuando el usuario cambia un campo (por ejemplo, selecciona una fecha)
+ */
+    
+    //Se declaró como "async function" en vez de solo "function" debido a que se implementó la encriptación de contraseña que utiliza la función "await". De otra forma, no funcionaría en sincrónico al no esperar a que se haga la encriptación para poder mandar los datos.
+    //Tener en consideración que esa encriptación es solo para probar con un usuario local. Si no se realizara, no sería requerido que sea una función asíncrona.
+    formulario.addEventListener("submit", async function(event){
+        //validación nombre:
+        if(!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(nombre.value)){
+            event.preventDefault();
+            alert("El nombre debe contener letras y espacios");
+            nombre.focus();
+            return
+        }
+        else if (nombre.value.length < 3){
+            event.preventDefault();
+            alert("El nombre debe tener al menos 3 caracteres");
+            nombre.focus();
+            return
+        }
+        
+        //validación run:
+        if(!/^[0-9kK-]+$/.test(run.value)){
+            event.preventDefault();
+            alert("El RUN debe contener solo números, guión y dígito verificador");
+            run.focus();
+            return
+        }
+        else if(run.value.length <9 || run.value.length >10){
+            event.preventDefault();
+            alert("El RUN debe tener entre 9 y 10 caracteres");
+            run.focus();
+            return
+        }
+        
+        //validación run/dv:
+        let dvValido = run.value.slice(-2)[0].toUpperCase() === "-" && (run.value.trim().slice(-1).toUpperCase() === "K" || !isNaN(run.value.trim().slice(-1))); 
+        if(!dvValido){
+            event.preventDefault();
+            alert("El RUN debe terminar en - y un dígito verificador válido (0 a 9 o K)");
+            run.focus();
+            return
+
+        }
+        
+        //validación correo electrónico:
+        let dominiovalido = correo.value.trim().toLowerCase().endsWith(".com") || correo.value.trim().toLowerCase().endsWith(".cl") || correo.value.trim().toLowerCase().endsWith(".org");
+        if(!correo.checkValidity() || !dominiovalido){ /*require_tld verifica quie tenga dominio si se declara "true"*/
+            event.preventDefault();
+            alert("Debe ingresar un correo válido");
+            correo.focus();
+            return
+        }
+
+        //verificación de existencia de cuenta con el mismo correo electrónico en localStorage:
+        let usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
+        let correoExistente = usuariosRegistrados.some(usuario => usuario.correo.trim().toLowerCase() === correo.value.trim().toLowerCase());
+        if(correoExistente){
+            event.preventDefault();
+            alert("Ya existe una cuenta registrada con este correo electrónico");
+            correo.focus();
+            return
+        }
+
+        //validación teléfono:
+        if(!/^[0-9+]+$/.test(telefono.value)){
+            event.preventDefault();
+            alert("El teléfono debe contener solo números y el signo +");
+            telefono.focus();
+            return
+        }else if(telefono.value.length !== 12 || !telefono.value.startsWith("+")){
+            event.preventDefault();
+            alert("El teléfono debe tener 12 caracteres e iniciar con +");
+            telefono.focus();
+            return
+        }
+
+        //validación fecha de nacimiento:
+        let fecha = new Date(fecNac.value + "T00:00:00"); //fecha completa ingresada. Debe llevar T00:00:00 para evitar errores de cálculo por zona horaria en ciertos casos.
+        let anio = fecha.getFullYear(); //extracción de año de fecha ingresada
+        let fechaActual = new Date() //fecha actual de sistema
+        const difAnios= fechaActual.getFullYear() - fecha.getFullYear();
+        const difMeses = fecha.getMonth() - fechaActual.getMonth();
+        const difDias = fecha.getDate() - fechaActual.getDate();
+        if(anio < 1900 || fecha > fechaActual){ //compara que año ingresado no sea inferior a 1900 y que fecha ingresada comnpleta no sea superior a la actual al momento de ingreso.
+            event.preventDefault();
+            alert("Debe ingresar una fecha de nacimiento inferior a la fecha actual");
+            fecNac.focus();
+            return
+        }
+        else if(difAnios < 18){
+            event.preventDefault();
+            alert("Debe ser mayor de edad para registrarse.");
+            fecNac.focus();
+            return
+        }
+        else if(difAnios === 18){
+            if(difMeses > 0 || (difMeses === 0 && difDias > 0)){
+                event.preventDefault();
+                alert("Debe ser mayor de edad para registrarse.");
+                fecNac.focus();
+                return;
+            }
+        }
+
+        //Validación de contraseña:
+        let passInput = document.getElementById("password-registro");
+        let pass = passInput.value;
+        let passRepeat = document.getElementById("repeat-password-registro");
+        let passR = passRepeat.value;
+
+        if (pass.length < 8) {
+            event.preventDefault();
+            alert("La contraseña debe tener al menos 8 caracteres.");
+            passInput.focus();
+            return;
+        }else if (!/[A-Z]/.test(pass)) {
+            event.preventDefault();
+            alert("La contraseña debe contener al menos una letra mayúscula.");
+            passInput.focus();
+            return;
+        }else if (!/[a-z]/.test(pass)) {
+            event.preventDefault();
+            alert("La contraseña debe contener al menos una letra minúscula.");
+            passInput.focus();
+            return;
+        }else if (!/[0-9]/.test(pass)) {
+            event.preventDefault();
+            alert("La contraseña debe contener al menos un número.");
+            passInput.focus();
+            return;
+        }else if(!/[-+!@#$%^&*(),.?":{}|<>]/.test(pass)) {
+            event.preventDefault();
+            alert("La contraseña debe contener al menos un carácter especial.");
+            passInput.focus();
+            return;
+        }else if (/\s/.test(pass)) {
+            event.preventDefault();
+            alert("La contraseña no debe contener espacios.");
+            passInput.focus();
+            return;
+        }else if (pass === nombre.value || pass === run.value || pass === correo.value || pass === telefono.value || pass === fecNac.value) {
+            event.preventDefault();
+            alert("La contraseña no debe ser igual a ninguno de los otros campos.");
+            passInput.focus();
+            return;
+        } else if (pass.toLowerCase().includes("password") || pass.toLowerCase().includes("1234")) {
+            event.preventDefault();
+            alert("La contraseña no debe contener palabras comunes como 'password' o secuencias como '1234'.");
+            passInput.focus();
+            return;
+        }else if(pass !== passR){
+            event.preventDefault();
+            alert("Las contraseñas no coinciden.");
+            passRepeat.focus();
+            return;
+        }
+
+        // Verifica si todos los campos requeridos están llenos y válidos
+        if (formulario.checkValidity()) {
+            /* si se realiza un envío de datos para API, debe evitarse el envío nativo HTML
+            colocando un event.preventDefault aquí*/
+            btnRegistrarse.disabled = true; // Deshabilita el botón de registro para evitar envíos múltiples
+
+            //Hasheo de la contraseña usando SHA-256 para el usuario mock en local.
+            const conversionBinario = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pass));
+            
+            //Conversión necesaria a texto legible (Hexadecimal de 64 caracteres)
+            const passwordEncriptada = Array.from(new Uint8Array(conversionBinario)).map(b => b.toString(16).padStart(2, '0')).join('');
+
+            //Instanciación de la clase Usuario con los datos ingresados en el formulario:
+            //No pasar variable "fecha" en los atributos sino que fecNac.value (directamente el valor del DOM) ya que el constructor convierte a fecha.
+            //Esto es mejor práctica ya que es la clase quien tiene la responsabilidad de asegurar la integridad de datos al momento de instanciar el objeto. Debe ser defensivo.
+            const uMock = new Usuario(nombre.value, run.value, correo.value, telefono.value, fecNac.value, passwordEncriptada);
+
+            //Persistencia de datos en localStorage para simular un registro de usuario:
+            usuariosRegistrados.push(uMock);
+            localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
+
+            let mensaje = `Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`;
+            console.log(mensaje);
+            alert(mensaje);
+            // Aquí ejecutas la lógica para registrar al usuario o iniciar sesión
+        } else {
+            // Muestra las alertas emergentes del navegador en los campos vacíos
+            formulario.reportValidity();
+        }
+
+    });
+}
+
+//Input de contraseña personalizado:
+class PasswordInput extends HTMLElement {
+    connectedCallback() {
+        const inputId = this.getAttribute('input-id') || 'contrasena';
+        const name = this.getAttribute('name') || inputId;
+        const placeholder = this.getAttribute('placeholder') || '';
+        const required = this.hasAttribute('required') ? 'required' : '';
+        const labelText = this.getAttribute('label-text') || 'Contraseña:';
+
+        // Inyección HTML directa en Light DOM para mantener compatibilidad con el formulario
+        this.innerHTML = `
+        <label for="${inputId}">${labelText}</label>
+            <div class="password-wrapper">
+                <input type="password" id="${inputId}" name="${name}" placeholder="${placeholder}" ${required}>
+                <button type="button" class="btn-toggle-pass" aria-label="Mostrar u ocultar contraseña" style="width: min-content; height: min-content;">👁️</button>
+            </div>
+        `;
+        //todos los atributos de la etiqueta input se pasan por variables según las variavbles que se leingresen a la etiqueta de clase <password-input>
+        
+        //saca contenido y estado de input y botón para poder manipularlos con el evento click del botón.
+        const input = this.querySelector('input');
+        const btn = this.querySelector('.btn-toggle-pass');
+
+        // Evento click para alternar la visibilidad de la contraseña
+        btn.addEventListener('click', () => {
+            const esPassword = input.type === 'password';
+            input.type = esPassword ? 'text' : 'password'; //si input.type da true a password, el evento click lo convierte a type text, y viceversa.
+            btn.textContent = esPassword ? '🙈' : '👁️';
+        });
+    }
+
+    // Permite leer el valor directamente si selecciones la etiqueta custom
+    get value() {
+        const input = this.querySelector('input');
+        return input ? input.value : '';
+    }
+}
+
+customElements.define('password-input', PasswordInput);
 /*==================================================
     PRODUCTOS
-==================================================*/
 
 const productos = {
 
