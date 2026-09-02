@@ -338,9 +338,9 @@ class PasswordInput extends HTMLElement {
 }
 
 customElements.define('password-input', PasswordInput);
-/*==================================================
-    PRODUCTOS
-
+/*
+=== PRODUCTOS ===
+*/
 const productos = {
 
     "sv-strat-01": {
