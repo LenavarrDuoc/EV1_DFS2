@@ -9,8 +9,7 @@ class Usuario{
         this.password = password.trim();
     }
 
-}
-
+} 
 
 class Footer extends HTMLElement {
     connectedCallback() {
@@ -33,32 +32,63 @@ class Footer extends HTMLElement {
 }
 customElements.define('main-footer', Footer);
 
+const sesionStatus = sessionStorage.getItem('sesionActiva') === 'true';
 class Header extends HTMLElement {
     connectedCallback() {
-        this.innerHTML = `<header class="main-header">
-        
-        <div class="marca">
-            <a href="index.html">
-                <img src="img/logo_main.png" alt="Logo de Sonido Vivo" id="logo">
-            </a>
-            <h1>Sonido Vivo</h1>
-        </div>
+        if(!sesionStatus || sesionStatus == null){
 
-        <nav class="navegacion-principal">
-            <ul>
-                <li><a href="index.html">INICIO</a></li>
-                <li><a href="productos.html">CATÁLOGO</a></li>
-            </ul>
-        </nav>
+            this.innerHTML = `<header class="main-header">
+            
+            <div class="marca">
+                <a href="index.html">
+                    <img src="img/logo_main.png" alt="Logo de Sonido Vivo" id="logo">
+                </a>
+                <h1>Sonido Vivo</h1>
+            </div>
+    
+            <nav class="navegacion-principal">
+                <ul>
+                    <li><a href="index.html">INICIO</a></li>
+                    <li><a href="productos.html">CATÁLOGO</a></li>
+                </ul>
+            </nav>
+    
+            <nav class="navegacion-usuario">
+                <ul>
+                    <li><a href="login.html">INICIAR SESIÓN</a></li>
+                    <li><a href="registro.html">REGISTRARSE</a></li>
+                </ul>
+            </nav>
+    
+        </header>`;
+        } else {
+            const usuario = JSON.parse(sessionStorage.getItem("usuarioActivo"));
 
-        <nav class="navegacion-usuario">
-            <ul>
-                <li><a href="login.html">INICIAR SESIÓN</a></li>
-                <li><a href="registro.html">REGISTRARSE</a></li>
-            </ul>
-        </nav>
-
-    </header>`;
+            this.innerHTML = `<header class="main-header">
+            
+            <div class="marca">
+                <a href="index.html">
+                    <img src="img/logo_main.png" alt="Logo de Sonido Vivo" id="logo">
+                </a>
+                <h1>Sonido Vivo</h1>
+            </div>
+    
+            <nav class="navegacion-principal">
+                <ul>
+                    <li><a href="index.html">INICIO</a></li>
+                    <li><a href="productos.html">CATÁLOGO</a></li>
+                </ul>
+            </nav>
+    
+            <nav class="navegacion-usuario">
+                <ul>
+                    <li><a href="index.html">CERRAR SESIÓN</a></li>
+                    <li><a href="registro.html">MI PERFIL: ${usuario.correo}</a></li>
+                </ul>
+            </nav>
+    
+        </header>`;
+        }
 
     //Se sacó la referencia de clase activa desde el enlace de inicio y de catálogo para automatizarlo con la función "enlaceActivo()" según la página activa en que se encuentre el usuario.
 
@@ -86,10 +116,13 @@ class Header extends HTMLElement {
 customElements.define('main-header', Header);
 
 
-/* ===== FORMULARIO ===== */
+const login = document.getElementById("login");
+const registro = document.getElementById("registro");
+
+/* ===== INICIO FORMULARIO REGISTRO===== */
 const formulario = document.getElementById("formulario");
 
-if (formulario) {
+if (formulario && registro) {
     //Se reciben los objetos DOM (Document Object Model) de los campos del formulario para poder manipularlos y validarlos.
     //Por lo tanto, las variables a continuación son objetos tipo DOM y no strings, por lo que se debe usar la propiedad .value para obtener el valor ingresado por el usuario.
     let nombre = document.getElementById("nombre");
@@ -290,14 +323,106 @@ if (formulario) {
             let mensaje = `Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`;
             console.log(mensaje);
             alert(mensaje);
+            window.location.href = "login.html";
+            formulario.reset();
             // Aquí ejecutas la lógica para registrar al usuario o iniciar sesión
         } else {
             // Muestra las alertas emergentes del navegador en los campos vacíos
             formulario.reportValidity();
         }
-
+        
     });
 }
+/* ===== FIN FORMULARIO REGISTRO ===== */
+
+
+
+/* ===== INICIO FORMULARIO LOGIN ===== */
+if (formulario && login) {
+    formulario.addEventListener("submit", async function(event){
+        event.preventDefault();
+        
+        // IDs actualizados según tu HTML ("correo" y "contrasena")
+        let correoLogin = document.getElementById("correo");
+        let passInput = document.getElementById("contrasena");
+        const btnIniciarSesion = document.getElementById("btn-iniciar-sesion");
+        
+        if (!correoLogin || !passInput) {
+            console.error("No se encontraron los campos del formulario en el DOM.");
+            return;
+        }
+        
+        let pass = passInput.value;
+        let mensajeCredenciales = "Credenciales de Usuario y/o Contraseña inválidas."; 
+        
+        // Validación correo electrónico:
+        let dominiovalido = correoLogin.value.trim().toLowerCase().endsWith(".com") || 
+        correoLogin.value.trim().toLowerCase().endsWith(".cl") || 
+        correoLogin.value.trim().toLowerCase().endsWith(".org");
+        
+        if(!correoLogin.checkValidity() || !dominiovalido){
+            alert("Debe ingresar un correo válido");
+            correoLogin.focus();
+            return;
+        }
+        
+        if(pass.length < 8){
+            alert("La contraseña debe ser de 8 caracteres mínimos");
+            passInput.focus();
+            return;
+        }
+
+        // Verificación de existencia de cuenta en localStorage:
+        let usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
+        let usuarioEncontrado = usuariosRegistrados.find(u => u.correo.toLowerCase() === correoLogin.value.trim().toLowerCase());
+        
+        if(!usuarioEncontrado){
+            alert(mensajeCredenciales);
+            correoLogin.value = "";
+            passInput.value = "";
+            correoLogin.focus();
+            return;
+        }
+        
+        // Encriptación de contraseña ingresada:
+        const conversionBinario = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pass));
+        const passwordEncriptada = Array.from(new Uint8Array(conversionBinario)).map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        // Validación de contraseña de usuario:
+        if(passwordEncriptada === usuarioEncontrado.password){
+            alert(`¡Hola, ${usuarioEncontrado.nombre}! Le damos la bienvenida al sistema de Sonido Vivo.`);
+            
+            if (btnIniciarSesion) btnIniciarSesion.disabled = true;
+            
+            // Guardar sesión persistente en sessionStorage
+            const usuarioSesionObj = { ...usuarioEncontrado };
+            delete usuarioSesionObj.password;
+            sessionStorage.setItem("usuarioActivo", JSON.stringify(usuarioSesionObj));
+            sessionStorage.setItem('sesionActiva', true)
+            
+            formulario.reset();
+            window.location.href = "index.html";
+            
+        } else {
+            alert(mensajeCredenciales);
+            correoLogin.value = "";
+            passInput.value = "";
+            correoLogin.focus();
+        }
+    });
+    
+    const btnIrRegistro = document.getElementById("btn-ir-registro");
+    if(btnIrRegistro){
+        btnIrRegistro.addEventListener("click", function(){
+            window.location.href = "registro.html";
+        });
+        
+    }
+}
+
+/* ===== FIN FORMULARIO LOGIN ===== */
+
+
 
 //Input de contraseña personalizado:
 class PasswordInput extends HTMLElement {
