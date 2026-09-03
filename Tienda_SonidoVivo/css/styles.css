@@ -1150,3 +1150,78 @@ main {
 }
 
 /* ******* FIN ESTILOS PARA Registro.HTML******* */
+
+
+/* ******* DIÁLOGOS ******** */
+
+/* diálogo cerrar sesión */
+
+/* Cuadro principal modal */
+#modal-cerrar-sesion {
+  border: none;
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  font-family: inherit;
+  margin: auto; /* Centrado horizontal y vertical automático */
+}
+
+/* Fondo oscuro transparente detrás del dialog */
+#modal-cerrar-sesion::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Contenido del texto */
+.modal-contenido h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #222;
+  font-size: 1.25rem;
+}
+
+.modal-contenido p {
+  margin: 0 0 20px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Contenedor de botones alineados */
+.modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Estilo del botón Cancelar */
+#btn-cancelar-logout {
+  background-color: #6c757d;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+#btn-cancelar-logout:hover {
+  background-color: #5a6268;
+}
+
+/* Estilo del botón Confirmar (Sí, salir) */
+#btn-confirmar-logout {
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+#btn-confirmar-logout:hover {
+  background-color: #bd2130;
+}

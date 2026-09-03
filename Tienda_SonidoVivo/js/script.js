@@ -32,9 +32,9 @@ class Footer extends HTMLElement {
 }
 customElements.define('main-footer', Footer);
 
-const sesionStatus = sessionStorage.getItem('sesionActiva') === 'true';
 class Header extends HTMLElement {
     connectedCallback() {
+        const sesionStatus = sessionStorage.getItem('sesionActiva') === 'true';
         if(!sesionStatus || sesionStatus == null){
 
             this.innerHTML = `<header class="main-header">
@@ -82,12 +82,27 @@ class Header extends HTMLElement {
     
             <nav class="navegacion-usuario">
                 <ul>
-                    <li><a href="index.html">CERRAR SESIÓN</a></li>
-                    <li><a href="registro.html">MI PERFIL: ${usuario.correo}</a></li>
+                    <li><span>Hola, ${usuario.nombre}</span></li>
+                    <li><a href="#" id="link-cerrar-sesion">CERRAR SESIÓN</a></li>
                 </ul>
             </nav>
     
-        </header>`;
+        </header>
+
+        <!-- Dialog de confirmación de cierre de sesión. -->
+        <dialog id="modal-cerrar-sesion">
+                <div class="modal-contenido">
+                    <h3>¿Cerrar Sesión?</h3>
+                    <p>¿Estás seguro de que deseas salir del sistema?</p>
+                    <div class="modal-acciones">
+                        <button type="button" id="btn-cancelar-logout">Cancelar</button>
+                        <button type="button" id="btn-confirmar-logout">Sí, salir</button>
+                    </div>
+                </div>
+            </dialog>
+        `;
+        // Configurar los eventos del modal solo si la sesión está abierta
+            this.configurarCierreSesion();
         }
 
     //Se sacó la referencia de clase activa desde el enlace de inicio y de catálogo para automatizarlo con la función "enlaceActivo()" según la página activa en que se encuentre el usuario.
@@ -112,6 +127,35 @@ class Header extends HTMLElement {
             }
         });
     }
+
+    configurarCierreSesion() {
+        // Usamos this.querySelector para buscar solo dentro de este Web Component
+        const linkCerrar = this.querySelector("#link-cerrar-sesion");
+        const modal = this.querySelector("#modal-cerrar-sesion");
+        const btnCancelar = this.querySelector("#btn-cancelar-logout");
+        const btnConfirmar = this.querySelector("#btn-confirmar-logout");
+
+        if (linkCerrar && modal) {
+            // Abrir el modal al pulsar el enlace
+            linkCerrar.addEventListener("click", (e) => {
+                e.preventDefault();
+                modal.showModal();
+            });
+
+            // Cerrar el modal sin hacer nada
+            btnCancelar.addEventListener("click", () => {
+                modal.close();
+            });
+
+            // Confirmar salida
+            btnConfirmar.addEventListener("click", () => {
+                sessionStorage.removeItem("usuarioActivo");
+                sessionStorage.removeItem('sesionActiva')
+                window.location.href = "index.html";
+            });
+        }
+    }
+
 }
 customElements.define('main-header', Header);
 
