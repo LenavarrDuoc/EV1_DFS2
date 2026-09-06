@@ -35,6 +35,7 @@ customElements.define('main-footer', Footer);
 class Header extends HTMLElement {
     connectedCallback() {
         const sesionStatus = sessionStorage.getItem('sesionActiva') === 'true';
+        const pagActual = window.location.pathname.split("/").pop() || "index.html"; // si enlace luego de "/" es vacío, el navegador redirige a index, por lo que es mejor dejar "ó" index.html en caso de llegar a la raíz.
         if(!sesionStatus || sesionStatus == null){
 
             this.innerHTML = `<header class="main-header">
@@ -55,8 +56,8 @@ class Header extends HTMLElement {
     
             <nav class="navegacion-usuario">
                 <ul>
-                    <li><a href="login.html">INICIAR SESIÓN</a></li>
-                    <li><a href="registro.html">REGISTRARSE</a></li>
+                    <li>${pagActual == "login.html" ? '<span>INICIAR SESIÓN</span>' : '<a href="login.html">INICIAR SESIÓN</a>'}</li>
+                    <li>${pagActual == "registro.html" ? '<span>REGISTRARSE</span>' : '<a href="registro.html">REGISTRARSE</a>'}</li>
                 </ul>
             </nav>
     
