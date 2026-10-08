@@ -180,14 +180,14 @@ header {
 
 
 /*=== Footer ===*/
-main-footer {
+.main-footer {
     display: block;
     margin-top: auto;
     text-align: center;
 }
 
 
-main-footer footer {
+.main-footer footer {
     padding: 25px;
 
     font-weight: bold;
@@ -197,12 +197,12 @@ main-footer footer {
     color: var(--color_1);
 }
 
-main-footer a {
+.main-footer a {
     color: var(--color_1);
 }
 
 
-main-footer a:hover {
+.main-footer a:hover {
     color: var(--color_8);
 }
 
