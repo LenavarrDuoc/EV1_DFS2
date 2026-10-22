@@ -18,6 +18,31 @@ function Registro() {
     "San Miguel", "San Pedro", "San Ramón", "Santiago", "Talagante", "Til Til", "Vitacura"
   ];
 
+  const estilosMusicales = [
+    "Rock",
+    "Pop",
+    "Jazz",
+    "Blues",
+    "Metal",
+    "Hip Hop / Rap",
+    "Reggae",
+    "Música Clásica",
+    "Música Electrónica",
+    "Folclore / Tradicional",
+    "Funk / Soul",
+    "Latina / Salsa / Cumbia"
+  ];
+
+  const categoriasInstrumentos = [
+    "Cuerdas (Guitarras, Bajos, Violines, etc.)",
+    "Percusión (Baterías, Percusión latina, etc.)",
+    "Viento Madera (Saxofones, Flautas, Clarinetes, etc.)",
+    "Viento Metal (Trompetas, Trombones, Tubas, etc.)",
+    "Teclados y Pianos (Teclados, Pianos, Sintetizadores)",
+    "Equipos de Audio / Djing (Micrófonos, Interfaces, Mezcladoras)",
+    "Accesorios Musicales"
+  ];
+
   // Estado centralizado para el formulario
   const [formData, setFormData] = useState({
     nombre: '',
@@ -27,6 +52,8 @@ function Registro() {
     fecNac: '',
     direccion: '',
     comuna: '',
+    estiloMusical: '',
+    categoriaInstrumento: '',
     password: '',
     repeatPassword: ''
   });
@@ -117,6 +144,42 @@ function Registro() {
               {comunasRM.map((comuna) => (
                 <option key={comuna} value={comuna}>
                   {comuna}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="campo">
+            <label htmlFor="estiloMusical">Estilo musical de preferencia: </label>
+            <select 
+              required 
+              id="estiloMusical" 
+              name="estiloMusical" 
+              value={formData.estiloMusical} 
+              onChange={handleChange}
+            >
+              <option value="" disabled>Seleccione un estilo musical</option>
+              {estilosMusicales.map((estilo) => (
+                <option key={estilo} value={estilo}>
+                  {estilo}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="campo">
+            <label htmlFor="categoriaInstrumento">Categoría de instrumento de preferencia: </label>
+            <select 
+              required 
+              id="categoriaInstrumento" 
+              name="categoriaInstrumento" 
+              value={formData.categoriaInstrumento} 
+              onChange={handleChange}
+            >
+              <option value="" disabled>Seleccione una categoría</option>
+              {categoriasInstrumentos.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
                 </option>
               ))}
             </select>

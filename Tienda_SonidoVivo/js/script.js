@@ -1,15 +1,30 @@
-class Usuario{
-    //Constructor
-    constructor(nombre, run, correo, telefono, fecNac, password){
+class Usuario {
+    // Constructor con los nuevos campos de dirección, comuna y preferencias musicales
+    constructor(
+        nombre, 
+        run, 
+        correo, 
+        telefono, 
+        fecNac, 
+        direccion, 
+        comuna, 
+        estiloMusical, 
+        categoriaInstrumento, 
+        password
+    ) {
         this.nombre = nombre.trim();
         this.run = run.trim();
         this.correo = correo.trim();
         this.telefono = telefono.trim();
-        this.fecNac = new Date(fecNac.trim() + "T00:00:00"); //se agrega T00:00:00 para evitar errores de cálculo por zona horaria en ciertos casos.
+        // Se agrega "T00:00:00" para evitar desfases de zona horaria al parsear la fecha
+        this.fecNac = fecNac ? new Date(fecNac.trim() + "T00:00:00") : null;
+        this.direccion = direccion ? direccion.trim() : "";
+        this.comuna = comuna ? comuna.trim() : "";
+        this.estiloMusical = estiloMusical ? estiloMusical.trim() : "";
+        this.categoriaInstrumento = categoriaInstrumento ? categoriaInstrumento.trim() : "";
         this.password = password.trim();
     }
-
-} 
+}
 
 class Footer extends HTMLElement {
     connectedCallback() {
