@@ -1,6 +1,19 @@
-import logo_main from '../assets/img/logo_main.png'
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
+import logo_main from '../../assets/img/logo_main.png'
 
 function Header() {
+
+    const { user, logout, isAdmin } = useAuth();
+    const { totalItems } = useCart();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/");
+    }
+
     return (
         <>
             <header className="main-header">
@@ -16,13 +29,31 @@ function Header() {
                     <ul>
                         <li><a href="/">INICIO</a></li>
                         <li><a href="/productos">CATÁLOGO</a></li>
+                        {isAdmin && (
+                            <li><Link to="/admin">ADMINISTRACIÓN</Link></li>
+                        )}
                     </ul>
                 </nav>
         
                 <nav className="navegacion-usuario">
                     <ul>
-                        <li><a href="/login">INICIAR SESIÓN</a></li>
-                        <li><a href="/registro">REGISTRARSE</a></li>
+                        <li>
+                            <Link to="/carrito" className="cart-icon">
+                                🛒 {totalItems > 0 && <span className="cart-badge">({totalItems})</span>}
+                            </Link>
+                        </li>
+
+                        {user ? (
+                            <>
+                                <li><Link to="/perfil">{user.nombre || 'MI PERFIL'}</Link></li>
+                                <li><button onClick={handleLogout} className="btn-logout">CERRAR SESIÓN</button></li>
+                            </>
+                        ) : (
+                            <>
+                                <li><Link to="/login">INICIAR SESIÓN</Link></li>
+                                <li><Link to="/registro">REGISTRARSE</Link></li>
+                            </>
+                        )}
                     </ul>
                 </nav>
         

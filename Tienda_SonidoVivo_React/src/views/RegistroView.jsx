@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import Header from '../components/organisms/Header';
-import Footer from '../components/organisms/Footer';
-import PasswordInput from '../components/PasswordInput';
-import FormField from '../components/FormField';
-import { itemsFooter } from '../data/footer';
+import PasswordInput from '../components/molecules/PasswordInput';
+import FormField from '../components/molecules/FormField';
 
-function Registro() {
+function RegistroView() {
   const comunasRM = [
     "Alhué", "Buin", "Calera de Tango", "Cerrillos", "Cerro Navia", "Colina",
     "Conchalí", "Curacaví", "El Bosque", "El Monte", "Estación Central", "Huechuraba",
@@ -48,7 +45,6 @@ function Registro() {
 
   return (
     <>
-      <Header />
       <form id="formulario" onSubmit={handleSubmit}>
         <fieldset className="grid-formulario">
           <legend className="legend-titulo-fieldset">Ingrese datos de registro de usuario: </legend>
@@ -145,10 +141,8 @@ function Registro() {
           <button type="submit" id="btn-registrarse">Registrarse</button>
         </fieldset>
       </form>
-
-      <Footer itemsFooter={itemsFooter} />
     </>
   );
 }
 
-export default Registro;
+export default RegistroView;

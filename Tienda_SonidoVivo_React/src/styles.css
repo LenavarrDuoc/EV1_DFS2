@@ -176,6 +176,64 @@ header {
     gap: 1rem;
   }
 }
+
+/*=== CARRITO ===*/
+.cart-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--color_1);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border: 1px solid var(--color_1);
+    border-radius: 6px;
+    transition: var(--animacion_boton1);
+}
+
+.cart-icon:hover {
+    background-color: var(--color_7);
+    border-color: var(--color_7);
+    color: var(--color_1);
+}
+
+.cart-badge {
+    background-color: var(--color_7);
+    color: var(--color_1);
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 12px;
+    line-height: 1;
+}
+
+.cart-icon:hover .cart-badge {
+    background-color: var(--color_5);
+    color: var(--color_1);
+}
+
+/*=== CIERRE DE SESIÓN ===*/
+.btn-logout {
+    display: block;
+    padding: 10px 15px;
+    color: var(--color_1);
+    background: transparent;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: inherit;
+    border: 1px solid var(--color_1);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--animacion_boton1);
+}
+
+.btn-logout:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: var(--color_1);
+}
+
 /* ========FIN ESTILOS PARA HEADER======== */
 
 

@@ -1,5 +1,5 @@
-function Producto() {
+function ProductoDetalleView() {
 
 }
 
-export default Producto
+export default ProductoDetalleView

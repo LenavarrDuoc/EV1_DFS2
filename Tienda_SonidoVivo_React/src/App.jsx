@@ -4,7 +4,6 @@ import { CartProvider } from './context/CartContext';
 import { AppRouter } from './routes/AppRouter';
 
 import './App.css'
-import './index.css'
 
 function App() {
   return (

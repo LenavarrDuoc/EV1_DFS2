@@ -1,15 +1,15 @@
 import TarjetaProductoDestacado from '../molecules/TarjetaProductoDestacado'
 
-function GaleriaProductosDestacados({children}) {
+function GaleriaProductosDestacados({ productos = [] }) {
     return (
         <>
             <section id="productos-destacados">
 
                 <h2>Productos destacados</h2>
 
-                <div class="productos-grid">
+                <div className="productos-grid">
                     {
-                        children.map((producto) => (
+                        productos.map((producto) => (
                             <TarjetaProductoDestacado
                                 key={producto.id}
                                 producto={producto}

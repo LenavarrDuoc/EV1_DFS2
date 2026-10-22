@@ -1,19 +1,16 @@
-import Header from '../components/organisms/Header'
-import Footer from '../components/organisms/Footer'
+import { Link } from 'react-router-dom'
+
 import GaleriaProductosDestacados from '../components/organisms/GaleriaProductosDestacados'
 
 import imagen_presentacion from '../assets/img/imagen_presentacion.png'
 import tienda from '../assets/img/tienda.png'
 
-import {itemsFooter} from '../data/footer'
-import {itemsProductosDestacados} from '../data/productos'
+import { itemsProductosDestacados } from '../data/productos'
 
-function Home() {
+function HomeView() {
     return (
         <>
-            <Header/>
-
-                        <main>
+            <main>
 
                 {/*== PRESENTACIÓN ==*/}
                 <section id="presentacion">
@@ -27,9 +24,9 @@ function Home() {
                             en instrumentos y productos relacionados con la música.
                         </p>
 
-                        <a href="productos.html" className="boton">
+                        <Link to="/productos" className="boton">
                             VER CATÁLOGO
-                        </a>
+                        </Link>
 
                     </div>
 
@@ -79,7 +76,7 @@ function Home() {
 
                 {/*== PRODUCTOS DESTACADOS ==*/}
                 <GaleriaProductosDestacados
-                    children = {itemsProductosDestacados}
+                    productos={itemsProductosDestacados}
                 />
 
 
@@ -88,24 +85,32 @@ function Home() {
 
                     <h2>Conoce Sonido Vivo</h2>
 
-                    <p>
-                        Descubre nuestra tienda y el mundo de la música.
-                    </p>
+                    <p>Descubre nuestra tienda y el mundo de la música.</p>
 
                     <div className="video-container">
+
                         {/* YOUTUBE */}
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/KYK1lILuPGY?si=Si-AwArQShqo5yhc" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullscreen></iframe>
+                        <iframe
+                            width="560"
+                            height="315"
+                            src="https://www.youtube.com/embed/KYK1lILuPGY?si=Si-AwArQShqo5yhc"
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer;
+                            autoplay; clipboard-write;
+                            encrypted-media; gyroscope;
+                            picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen>
+                        </iframe>
+
                     </div>
 
                 </section>
 
             </main>
-
-            <Footer
-                itemsFooter={itemsFooter}
-            />
         </>
     )
 }
 
-export default Home
+export default HomeView

@@ -1,4 +1,4 @@
-function Footer({itemsFooter}) {
+function Footer({itemsFooter = []}) {
     return (
         <>
             <footer className="main-footer">

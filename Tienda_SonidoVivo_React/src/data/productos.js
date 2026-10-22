@@ -5,7 +5,7 @@ import imgProducto4 from '../assets/img/producto_4.png'
 import imgProducto5 from '../assets/img/producto_5.png'
 import imgProducto6 from '../assets/img/producto_6.png'
 
-export const itermsProductos = [
+export const itemsProductos = [
     {
         id: 1,
         nombre: "Guitarra Eléctrica SV-Strat 01",

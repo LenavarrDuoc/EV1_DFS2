@@ -1,5 +1,5 @@
-function Login() {
+function LoginView() {
 
 }
 
-export default Login
+export default LoginView
