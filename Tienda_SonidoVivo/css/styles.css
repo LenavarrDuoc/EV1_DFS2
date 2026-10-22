@@ -1085,9 +1085,33 @@ main {
     color: var(--color_3);
 }
 
-/*Al poner el nombre de clase .campo a los div, se descuadra el conenido. Con display = contents, se realínean en las dos columnas virtuales de la configuración grid*/
-.campo{
-    display: contents;
+/* 1. Modificamos FormField y selects dentro de la grilla */
+.grid-formulario input:not([type="checkbox"]):not([type="radio"]),
+.grid-formulario select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 2. Envoltorio visual para cada celda de input/select/password */
+.campo {
+    display: contents; /* Mantiene tu estructura de 2 columnas */
+}
+
+/* Marcamos los inputs con error */
+.input-error {
+    border: 1.5px solid #dc3545 !important;
+    outline: none;
+}
+
+/* Estilo para los mensajes de error en tiempo real */
+.error-texto {
+    grid-column: 2; /* Fuerza al mensaje a quedarse siempre en la 2da columna (debajo del input) */
+    color: #dc3545;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    margin-top: -6px; /* Lo acerca ligeramente al input */
+    margin-bottom: 4px;
+    display: block;
 }
 
 .grid-formulario button{

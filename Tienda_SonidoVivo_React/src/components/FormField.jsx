@@ -23,7 +23,7 @@ function FormField({
         className={error ? "input-error" : ""}
         {...props}
       />
-      {error && <span className="error-texto" style={{ color: "red" }}>{error}</span>}
+      {error && <span className="error-texto">{error}</span>}
     </div>
   );
 }
