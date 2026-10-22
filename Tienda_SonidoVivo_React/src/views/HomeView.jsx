@@ -1,6 +1,6 @@
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import GaleriaProductosDestacados from '../components/GaleriaProductosDestacados'
+import Header from '../components/organisms/Header'
+import Footer from '../components/organisms/Footer'
+import GaleriaProductosDestacados from '../components/organisms/GaleriaProductosDestacados'
 
 import imagen_presentacion from '../assets/img/imagen_presentacion.png'
 import tienda from '../assets/img/tienda.png'
@@ -12,7 +12,8 @@ function Home() {
     return (
         <>
             <Header/>
-            <main>
+
+                        <main>
 
                 {/*== PRESENTACIÓN ==*/}
                 <section id="presentacion">
@@ -99,6 +100,7 @@ function Home() {
                 </section>
 
             </main>
+
             <Footer
                 itemsFooter={itemsFooter}
             />

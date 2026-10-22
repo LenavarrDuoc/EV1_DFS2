@@ -1,4 +1,4 @@
-import TarjetaProductoDestacado from './TarjetaProductoDestacado'
+import TarjetaProductoDestacado from '../molecules/TarjetaProductoDestacado'
 
 function GaleriaProductosDestacados({children}) {
     return (

@@ -1,23 +1,21 @@
-import {Routes, Route} from 'react-router-dom'
-import  Home      from './views/Home'
-import  Producto  from './views/Producto'
-import  Productos from './views/Productos'
-import  Login     from './views/Login'
-import  Registro  from './views/Registro'
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import { AppRouter } from './routes/AppRouter';
 
 import './App.css'
 import './index.css'
 
 function App() {
   return (
-    <Routes>
-     <Route path="/"          element={<Home      />} />
-     <Route path="/productos" element={<Productos />} />
-     <Route path="/producto"  element={<Producto  />} />
-     <Route path="/login"     element={<Login     />} />
-     <Route path="/registro"  element={<Registro  />} />
-   </Routes>
-  )
-}
+    <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <AppRouter/>
+        </CartProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;

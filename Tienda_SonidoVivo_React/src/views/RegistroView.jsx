@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/organisms/Header';
+import Footer from '../components/organisms/Footer';
 import PasswordInput from '../components/PasswordInput';
 import FormField from '../components/FormField';
 import { itemsFooter } from '../data/footer';
