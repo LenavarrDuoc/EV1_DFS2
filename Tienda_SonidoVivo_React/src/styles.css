@@ -177,39 +177,45 @@ header {
   }
 }
 
-/*=== CARRITO ===*/
-.cart-icon {
-    display: inline-flex;
+/*=== Enlace de Carrito en Header ===*/
+.navegacion-usuario .link-carrito-header {
+    display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    gap: 6px;
+
+    /* Mismo padding y tipografía exacta de .navegacion-usuario a */
+    padding: 11px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1; /* Previene que los emojis alteren la altura de la caja */
+
     color: var(--color_1);
     text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding: 8px 12px;
+
     border: 1px solid var(--color_1);
     border-radius: 6px;
+
     transition: var(--animacion_boton1);
 }
 
-.cart-icon:hover {
+.navegacion-usuario .link-carrito-header:hover {
     background-color: var(--color_7);
     border-color: var(--color_7);
     color: var(--color_1);
 }
 
-.cart-badge {
-    background-color: var(--color_7);
-    color: var(--color_1);
-    font-size: 0.85rem;
-    font-weight: bold;
-    padding: 2px 7px;
-    border-radius: 12px;
+.icono-carrito-emoji {
+    font-size: 14px; /* Mismo tamaño para no forzar la altura */
     line-height: 1;
 }
 
-.cart-icon:hover .cart-badge {
-    background-color: var(--color_5);
+.contador-texto {
+    color: var(--color_8);
+    font-weight: bold;
+}
+
+.navegacion-usuario .link-carrito-header:hover .contador-texto {
     color: var(--color_1);
 }
 
@@ -880,11 +886,10 @@ main {
     font-size: 1.1rem;
 }
 
+
 /*
-    PÁGINA PRODUCTO.HTML
+    PÁGINA PRODUCTO.HTML (DETALLE)
 */
-
-
 
 /*=== Contenedor Principal ===*/
 #detalle-producto {
@@ -898,7 +903,6 @@ main {
 
 
 /*=== Navegación del Producto ===*/
-
 .producto-navegacion {
     margin-bottom: 30px;
 }
@@ -921,13 +925,13 @@ main {
 
 .boton-secundario:hover {
     background-color: var(--color_7);
+    color: var(--color_1);
 
     transform: translateY(-2px);
 }
 
 
 /*=== Contenedor del Detalle ===*/
-
 .producto-detalle {
     display: flex;
     align-items: flex-start;
@@ -945,7 +949,6 @@ main {
 
 
 /*=== Imagen del producto ===*/
-
 .producto-detalle-imagen {
     flex: 1;
 
@@ -965,7 +968,6 @@ main {
 
 
 /*=== Información del producto ===*/
-
 .producto-detalle-info {
     display: flex;
     flex-direction: column;
@@ -977,7 +979,6 @@ main {
 
 
 /*=== Categoría ===*/
-
 .producto-categoria {
     margin-bottom: 10px;
 
@@ -992,7 +993,6 @@ main {
 
 
 /*=== Nombre ===*/
-
 .producto-detalle-info h1 {
     margin-bottom: 20px;
 
@@ -1004,7 +1004,6 @@ main {
 
 
 /*=== Descripción ===*/
-
 .producto-descripcion {
     margin-bottom: 25px;
 
@@ -1016,7 +1015,6 @@ main {
 
 
 /*=== Precio ===*/
-
 .producto-precio-detalle {
     margin-bottom: 30px;
 
@@ -1028,32 +1026,36 @@ main {
 
 
 /*=== Información adicional ===*/
-
 .producto-adicional {
     margin-bottom: 30px;
 }
 
-.producto-adicional .boton {
+.btn-toggle-info {
     width: 100%;
+
+    padding: 12px 20px;
 
     background-color: var(--color_6);
     color: var(--color_1);
 
     border: 2px solid var(--color_6);
+    border-radius: 6px;
+
+    font-weight: bold;
 
     cursor: pointer;
 
     transition: all 0.3s ease;
 }
 
-.producto-adicional .boton:hover {
+.btn-toggle-info:hover {
     background-color: var(--color_7);
     border-color: var(--color_7);
+    color: var(--color_1);
 }
 
 
 /*=== Contenido información adicional ===*/
-
 .informacion-adicional {
     margin-top: 20px;
     padding: 20px;
@@ -1086,7 +1088,6 @@ main {
 
 
 /*=== Acciones del producto ===*/
-
 .producto-accion {
     display: flex;
     align-items: center;
@@ -1106,7 +1107,6 @@ main {
 
 
 /*=== Cantidad ===*/
-
 #cantidad {
     width: 70px;
 
@@ -1126,36 +1126,6 @@ main {
 #cantidad:focus {
     outline: 2px solid var(--color_7);
     border-color: var(--color_7);
-}
-
-
-/*=== Botón Agregar al Carro ===*/
-
-#btn-agregar {
-    flex: 1;
-
-    padding: 12px 20px;
-
-    background-color: var(--color_7);
-    color: var(--color_1);
-
-    border: 2px solid var(--color_7);
-    border-radius: 6px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: all 0.3s ease;
-}
-
-#btn-agregar:hover {
-    background-color: var(--color_8);
-    border-color: var(--color_8);
-
-    color: var(--color_5);
-
-    transform: translateY(-2px);
 }
 
 
@@ -1202,7 +1172,7 @@ main {
         flex-wrap: wrap;
     }
 
-    #btn-agregar {
+    .producto-accion .btn-agregar-carrito {
         width: 100%;
         flex-basis: 100%;
     }

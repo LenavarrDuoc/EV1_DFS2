@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
-import logo_main from '../../assets/img/logo_main.png'
+import logo_main from '../../assets/img/logo_main.png';
+import { IconoCarrito } from "../molecules/IconoCarrito";
 
 function Header() {
 
@@ -38,9 +39,7 @@ function Header() {
                 <nav className="navegacion-usuario">
                     <ul>
                         <li>
-                            <Link to="/carrito" className="cart-icon">
-                                🛒 {totalItems > 0 && <span className="cart-badge">({totalItems})</span>}
-                            </Link>
+                            <IconoCarrito />
                         </li>
 
                         {user ? (
