@@ -32,7 +32,7 @@ EV1_DSF2/
 Migración del proyecto a React-Bootstrap-Vite, incluyendo nuevas pantallas y funcionalidades como: Panel de Control (Admin), Carrito de Compras, Mi Perfil y Error 404.
 
 #### Estructura actual del proyecto
-
+```text
 EV2_DSF2/
 ├── README.md
 ├── package.json
@@ -65,3 +65,4 @@ EV2_DSF2/
     │   └── validaciones.js     # Lógica centralizada de validación y encriptación SHA-256
     └── views/                  # Páginas completas (Home, Productos, Detalle, Carrito,
                                 # Registro, Login, Perfil, AdminDashboard)
+```
