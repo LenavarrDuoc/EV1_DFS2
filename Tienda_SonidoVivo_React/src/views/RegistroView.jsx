@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import FormField from '../components/molecules/FormField';
 import PasswordInput from '../components/molecules/PasswordInput';
+import SelectField from '../components/molecules/SelectField';
 import { Usuario } from '../models/Usuario';
 import { validarRegistro, validarCampo, encriptarPassword } from '../utils/validaciones';
 
-
 function RegistroView() {
-
   const navigate = useNavigate();
 
   const comunasRM = [
@@ -68,7 +67,6 @@ function RegistroView() {
 
     setFormData(updatedFormData);
 
-    // Validación en tiempo real: Revisa ÚNICAMENTE el campo que se modifica
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
     const mensajeError = validarCampo(key, value, updatedFormData, usuariosRegistrados);
 
@@ -82,8 +80,6 @@ function RegistroView() {
     e.preventDefault();
 
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-    // Validar el formulario completo al intentar enviar
     const error = validarRegistro(formData, usuariosRegistrados);
 
     if (error) {
@@ -118,9 +114,7 @@ function RegistroView() {
       usuariosRegistrados.push(uMock);
       localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
 
-      const mensajeExito = `Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`;
-      alert(mensajeExito);
-
+      alert(`Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`);
       navigate('/login');
     } catch (err) {
       console.error("Error al procesar el registro:", err);
@@ -131,147 +125,160 @@ function RegistroView() {
   };
 
   return (
-    <>
-      <form id="formulario" onSubmit={handleSubmit} noValidate>
-        <fieldset className="grid-formulario">
-          <legend className="legend-titulo-fieldset">Ingrese datos de registro de usuario: </legend>
-          
-          <FormField 
-            label="Nombre completo:" 
-            id="nombre" 
-            placeholder="Ingrese su nombre" 
-            required 
-            value={formData.nombre}
-            onChange={handleChange}
-            error={errors.nombre}
-          />
-          <FormField 
-            label="RUN:" 
-            id="run" 
-            placeholder="ej: 99999999-9" 
-            required 
-            value={formData.run}
-            onChange={handleChange}
-            error={errors.run}
-          />
-          <FormField 
-            label="Correo E:" 
-            id="correo" 
-            type="email" 
-            placeholder="ej: xxxxx@xxxxx.com" 
-            autoComplete="username"
-            required 
-            value={formData.correo}
-            onChange={handleChange}
-            error={errors.correo}
-          />
-          <FormField 
-            label="Teléfono:" 
-            id="telefono" 
-            type="tel" 
-            placeholder="ej: +56999999999" 
-            required 
-            value={formData.telefono}
-            onChange={handleChange}
-            error={errors.telefono}
-          />
-          <FormField 
-            label="Fecha de nacimiento:" 
-            id="fecNac" 
-            type="date" 
-            required 
-            value={formData.fecNac}
-            onChange={handleChange}
-            error={errors.fecNac}
-          />
-          <FormField 
-            label="Dirección:" 
-            id="direccion" 
-            placeholder="ej: Calle Norte 123" 
-            required 
-            value={formData.direccion}
-            onChange={handleChange}
-            error={errors.direccion}
-          />
+    <div 
+      className="d-flex justify-content-center align-items-center w-100 my-5 px-3"
+      style={{ minHeight: '60vh' }}
+    >
+      <div 
+        className="rounded-3 shadow-sm w-100" 
+        style={{ 
+          maxWidth: '580px', 
+          backgroundColor: '#dbe4be' 
+        }}
+      >
+        <form id="formulario" onSubmit={handleSubmit} noValidate>
+          <fieldset className="border border-secondary-subtle p-4 rounded-3 w-100">
+            <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
+              Ingrese datos de registro de usuario:
+            </legend>
 
-          <div className="campo">
-            <label htmlFor="comuna">Comuna (RM): </label>
-            <select 
+            <FormField 
+              label="Nombre completo:" 
+              id="nombre" 
+              placeholder="Ingrese su nombre" 
               required 
-              id="comuna" 
-              name="comuna" 
-              value={formData.comuna} 
+              value={formData.nombre}
               onChange={handleChange}
-            >
-              <option value="" disabled>Seleccione una comuna</option>
-              {comunasRM.map((comuna) => (
-                <option key={comuna} value={comuna}>{comuna}</option>
-              ))}
-            </select>
-          </div>
+              error={errors.nombre}
+            />
 
-          <div className="campo">
-            <label htmlFor="estiloMusical">Estilo musical de preferencia: </label>
-            <select 
+            <FormField 
+              label="RUN:" 
+              id="run" 
+              placeholder="ej: 99999999-9" 
               required 
-              id="estiloMusical" 
-              name="estiloMusical" 
-              value={formData.estiloMusical} 
+              value={formData.run}
               onChange={handleChange}
-            >
-              <option value="" disabled>Seleccione un estilo musical</option>
-              {estilosMusicales.map((estilo) => (
-                <option key={estilo} value={estilo}>{estilo}</option>
-              ))}
-            </select>
-          </div>
+              error={errors.run}
+            />
 
-          <div className="campo">
-            <label htmlFor="categoriaInstrumento">Categoría de instrumento de preferencia: </label>
-            <select 
+            <FormField 
+              label="Correo E:" 
+              id="correo" 
+              type="email" 
+              placeholder="ej: xxxxx@xxxxx.com" 
+              autoComplete="username"
               required 
-              id="categoriaInstrumento" 
-              name="categoriaInstrumento" 
-              value={formData.categoriaInstrumento} 
+              value={formData.correo}
               onChange={handleChange}
-            >
-              <option value="" disabled>Seleccione una categoría</option>
-              {categoriasInstrumentos.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
+              error={errors.correo}
+            />
 
-          <PasswordInput 
-            inputId="password" 
-            labelText="Contraseña:" 
-            autoComplete="new-password"
-            required 
-            value={formData.password}
-            onChange={handleChange}
-            error={errors.password}
-          />
-          
-          <label id="label-password-requirements">
-            (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un caracter especial. No debe contener datos personales ni palabras comunes a contraseña/password.)
-          </label>
+            <FormField 
+              label="Teléfono:" 
+              id="telefono" 
+              type="tel" 
+              placeholder="ej: +56999999999" 
+              required 
+              value={formData.telefono}
+              onChange={handleChange}
+              error={errors.telefono}
+            />
 
-          <PasswordInput 
-            inputId="repeatPassword" 
-            labelText="Repetir contraseña:" 
-            autoComplete="new-password"
-            required
-            value={formData.repeatPassword}
-            onChange={handleChange}
-            error={errors.repeatPassword}
-          />
+            <FormField 
+              label="Fecha de nacimiento:" 
+              id="fecNac" 
+              type="date" 
+              required 
+              value={formData.fecNac}
+              onChange={handleChange}
+              error={errors.fecNac}
+            />
 
-          <button type="submit" id="btn-registrarse" disabled={isSubmitting}>
-            {isSubmitting ? "Procesando..." : "Registrarse"}
-          </button>
-        </fieldset>
-      </form>
-    </>
+            <FormField 
+              label="Dirección:" 
+              id="direccion" 
+              placeholder="ej: Calle Norte 123" 
+              required 
+              value={formData.direccion}
+              onChange={handleChange}
+              error={errors.direccion}
+            />
+
+            <SelectField 
+              label="Comuna (RM):"
+              id="comuna"
+              required
+              value={formData.comuna}
+              onChange={handleChange}
+              options={comunasRM}
+              defaultOptionText="Seleccione una comuna"
+              error={errors.comuna}
+            />
+
+            <SelectField 
+              label="Estilo musical:"
+              id="estiloMusical"
+              required
+              value={formData.estiloMusical}
+              onChange={handleChange}
+              options={estilosMusicales}
+              defaultOptionText="Seleccione un estilo musical"
+              error={errors.estiloMusical}
+            />
+
+            <SelectField 
+              label="Categoría preferida:"
+              id="categoriaInstrumento"
+              required
+              value={formData.categoriaInstrumento}
+              onChange={handleChange}
+              options={categoriasInstrumentos}
+              defaultOptionText="Seleccione una categoría"
+              error={errors.categoriaInstrumento}
+            />
+
+            <PasswordInput 
+              inputId="password" 
+              labelText="Contraseña:" 
+              autoComplete="new-password"
+              required 
+              value={formData.password}
+              onChange={handleChange}
+              error={errors.password}
+            />
+
+            <div className="mb-3 px-1">
+              <small className="text-muted d-block lh-sm" id="label-password-requirements" style={{ fontSize: '0.8rem' }}>
+                (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un carácter especial. No debe contener datos personales ni palabras comunes.)
+              </small>
+            </div>
+
+            <PasswordInput 
+              inputId="repeatPassword" 
+              labelText="Repetir contraseña:" 
+              autoComplete="new-password"
+              required
+              value={formData.repeatPassword}
+              onChange={handleChange}
+              error={errors.repeatPassword}
+            />
+
+            <div className="d-flex justify-content-center mt-4">
+              <button 
+                type="submit" 
+                id="btn-registrarse" 
+                disabled={isSubmitting}
+                className="btn text-white fw-bold px-4 py-2"
+                style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+              >
+                {isSubmitting ? "Procesando..." : "Registrarse"}
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   );
 }
 
