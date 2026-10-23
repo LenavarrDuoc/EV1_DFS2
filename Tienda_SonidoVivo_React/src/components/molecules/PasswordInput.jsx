@@ -12,30 +12,39 @@ function PasswordInput({
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
   return (
-    <div className="campo">
-      <label htmlFor={inputId}>{labelText}</label>
-      <div className="password-wrapper">
-        <input
-          type={mostrarPassword ? 'text' : 'password'}
-          id={inputId}
-          name={inputId}
-          placeholder={placeholder}
-          required={required}
-          value={value}
-          onChange={onChange}
-          className={error ? 'input-error' : ''}
-        />
-        <button
-          type="button"
-          className="btn-toggle-pass"
-          aria-label="Mostrar u ocultar contraseña"
-          onClick={() => setMostrarPassword((prev) => !prev)}
-          style={{ width: 'min-content', height: 'min-content' }}
+    <div className="d-flex align-items-center mb-3" style={{ gap: '10px' }}>
+      {labelText && (
+        <label 
+          htmlFor={inputId} 
+          className="fw-bold mb-0" 
+          style={{ flex: '0 0 35%', maxWidth: '35%', fontSize: '0.95rem' }}
         >
-          {mostrarPassword ? '🙈' : '👁️'}
-        </button>
+          {labelText}
+        </label>
+      )}
+      <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+        <div className="input-group w-100">
+          <input
+            type={mostrarPassword ? 'text' : 'password'}
+            id={inputId}
+            name={inputId}
+            placeholder={placeholder}
+            required={required}
+            value={value}
+            onChange={onChange}
+            className={`form-control ${error ? 'is-invalid' : ''}`}
+          />
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            aria-label="Mostrar u ocultar contraseña"
+            onClick={() => setMostrarPassword((prev) => !prev)}
+          >
+            {mostrarPassword ? '🙈' : '👁️'}
+          </button>
+        </div>
+        {error && <div className="invalid-feedback d-block mt-1">{error}</div>}
       </div>
-      {error && <span className="error-texto" style={{ color: 'red' }}>{error}</span>}
     </div>
   );
 }

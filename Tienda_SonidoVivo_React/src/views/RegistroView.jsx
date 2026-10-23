@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import FormField from '../components/molecules/FormField';
 import PasswordInput from '../components/molecules/PasswordInput';
+import SelectField from '../components/molecules/SelectField';
 import { Usuario } from '../models/Usuario';
 import { validarRegistro, validarCampo, encriptarPassword } from '../utils/validaciones';
 
-
 function RegistroView() {
-
   const navigate = useNavigate();
 
   const comunasRM = [
@@ -68,7 +67,6 @@ function RegistroView() {
 
     setFormData(updatedFormData);
 
-    // Validación en tiempo real: Revisa ÚNICAMENTE el campo que se modifica
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
     const mensajeError = validarCampo(key, value, updatedFormData, usuariosRegistrados);
 
@@ -82,8 +80,6 @@ function RegistroView() {
     e.preventDefault();
 
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-    // Validar el formulario completo al intentar enviar
     const error = validarRegistro(formData, usuariosRegistrados);
 
     if (error) {
@@ -118,9 +114,7 @@ function RegistroView() {
       usuariosRegistrados.push(uMock);
       localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
 
-      const mensajeExito = `Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`;
-      alert(mensajeExito);
-
+      alert(`Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`);
       navigate('/login');
     } catch (err) {
       console.error("Error al procesar el registro:", err);
@@ -131,11 +125,24 @@ function RegistroView() {
   };
 
   return (
-    <>
-      <form id="formulario" onSubmit={handleSubmit} noValidate>
-        <fieldset className="grid-formulario">
-          <legend className="legend-titulo-fieldset">Ingrese datos de registro de usuario: </legend>
-          
+    <div 
+      className="d-flex justify-content-center align-items-center w-100 my-5 px-3"
+      style={{ minHeight: '60vh' }}
+    >
+      <form 
+        id="formulario" 
+        onSubmit={handleSubmit} 
+        noValidate
+        style={{ maxWidth: '580px', width: '100%' }}
+      >
+        <fieldset 
+          className="border border-secondary-subtle p-4 rounded-3 shadow-sm w-100" 
+          style={{ backgroundColor: 'rgba(226, 234, 198, 0.5)' }}
+        >
+          <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
+            Ingrese datos de registro de usuario:
+          </legend>
+
           <FormField 
             label="Nombre completo:" 
             id="nombre" 
@@ -145,6 +152,7 @@ function RegistroView() {
             onChange={handleChange}
             error={errors.nombre}
           />
+
           <FormField 
             label="RUN:" 
             id="run" 
@@ -154,6 +162,7 @@ function RegistroView() {
             onChange={handleChange}
             error={errors.run}
           />
+
           <FormField 
             label="Correo E:" 
             id="correo" 
@@ -165,6 +174,7 @@ function RegistroView() {
             onChange={handleChange}
             error={errors.correo}
           />
+
           <FormField 
             label="Teléfono:" 
             id="telefono" 
@@ -175,6 +185,7 @@ function RegistroView() {
             onChange={handleChange}
             error={errors.telefono}
           />
+
           <FormField 
             label="Fecha de nacimiento:" 
             id="fecNac" 
@@ -184,6 +195,7 @@ function RegistroView() {
             onChange={handleChange}
             error={errors.fecNac}
           />
+
           <FormField 
             label="Dirección:" 
             id="direccion" 
@@ -194,53 +206,38 @@ function RegistroView() {
             error={errors.direccion}
           />
 
-          <div className="campo">
-            <label htmlFor="comuna">Comuna (RM): </label>
-            <select 
-              required 
-              id="comuna" 
-              name="comuna" 
-              value={formData.comuna} 
-              onChange={handleChange}
-            >
-              <option value="" disabled>Seleccione una comuna</option>
-              {comunasRM.map((comuna) => (
-                <option key={comuna} value={comuna}>{comuna}</option>
-              ))}
-            </select>
-          </div>
+          <SelectField 
+            label="Comuna (RM):"
+            id="comuna"
+            required
+            value={formData.comuna}
+            onChange={handleChange}
+            options={comunasRM}
+            defaultOptionText="Seleccione una comuna"
+            error={errors.comuna}
+          />
 
-          <div className="campo">
-            <label htmlFor="estiloMusical">Estilo musical de preferencia: </label>
-            <select 
-              required 
-              id="estiloMusical" 
-              name="estiloMusical" 
-              value={formData.estiloMusical} 
-              onChange={handleChange}
-            >
-              <option value="" disabled>Seleccione un estilo musical</option>
-              {estilosMusicales.map((estilo) => (
-                <option key={estilo} value={estilo}>{estilo}</option>
-              ))}
-            </select>
-          </div>
+          <SelectField 
+            label="Estilo musical:"
+            id="estiloMusical"
+            required
+            value={formData.estiloMusical}
+            onChange={handleChange}
+            options={estilosMusicales}
+            defaultOptionText="Seleccione un estilo musical"
+            error={errors.estiloMusical}
+          />
 
-          <div className="campo">
-            <label htmlFor="categoriaInstrumento">Categoría de instrumento de preferencia: </label>
-            <select 
-              required 
-              id="categoriaInstrumento" 
-              name="categoriaInstrumento" 
-              value={formData.categoriaInstrumento} 
-              onChange={handleChange}
-            >
-              <option value="" disabled>Seleccione una categoría</option>
-              {categoriasInstrumentos.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
+          <SelectField 
+            label="Categoría preferida:"
+            id="categoriaInstrumento"
+            required
+            value={formData.categoriaInstrumento}
+            onChange={handleChange}
+            options={categoriasInstrumentos}
+            defaultOptionText="Seleccione una categoría"
+            error={errors.categoriaInstrumento}
+          />
 
           <PasswordInput 
             inputId="password" 
@@ -251,10 +248,12 @@ function RegistroView() {
             onChange={handleChange}
             error={errors.password}
           />
-          
-          <label id="label-password-requirements">
-            (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un caracter especial. No debe contener datos personales ni palabras comunes a contraseña/password.)
-          </label>
+
+          <div className="mb-3 px-1">
+            <small className="text-muted d-block lh-sm" id="label-password-requirements" style={{ fontSize: '0.8rem' }}>
+              (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un carácter especial. No debe contener datos personales ni palabras comunes.)
+            </small>
+          </div>
 
           <PasswordInput 
             inputId="repeatPassword" 
@@ -266,12 +265,20 @@ function RegistroView() {
             error={errors.repeatPassword}
           />
 
-          <button type="submit" id="btn-registrarse" disabled={isSubmitting}>
-            {isSubmitting ? "Procesando..." : "Registrarse"}
-          </button>
+          <div className="d-flex justify-content-center mt-4">
+            <button 
+              type="submit" 
+              id="btn-registrarse" 
+              disabled={isSubmitting}
+              className="btn text-white fw-bold px-4 py-2"
+              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+            >
+              {isSubmitting ? "Procesando..." : "Registrarse"}
+            </button>
+          </div>
         </fieldset>
       </form>
-    </>
+    </div>
   );
 }
 
