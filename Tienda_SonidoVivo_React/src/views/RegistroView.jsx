@@ -129,155 +129,155 @@ function RegistroView() {
       className="d-flex justify-content-center align-items-center w-100 my-5 px-3"
       style={{ minHeight: '60vh' }}
     >
-      <form 
-        id="formulario" 
-        onSubmit={handleSubmit} 
-        noValidate
-        style={{ maxWidth: '580px', width: '100%' }}
+      <div 
+        className="rounded-3 shadow-sm w-100" 
+        style={{ 
+          maxWidth: '580px', 
+          backgroundColor: '#dbe4be' 
+        }}
       >
-        <fieldset 
-          className="border border-secondary-subtle p-4 rounded-3 shadow-sm w-100" 
-          style={{ backgroundColor: 'rgba(226, 234, 198, 0.5)' }}
-        >
-          <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
-            Ingrese datos de registro de usuario:
-          </legend>
+        <form id="formulario" onSubmit={handleSubmit} noValidate>
+          <fieldset className="border border-secondary-subtle p-4 rounded-3 w-100">
+            <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
+              Ingrese datos de registro de usuario:
+            </legend>
 
-          <FormField 
-            label="Nombre completo:" 
-            id="nombre" 
-            placeholder="Ingrese su nombre" 
-            required 
-            value={formData.nombre}
-            onChange={handleChange}
-            error={errors.nombre}
-          />
+            <FormField 
+              label="Nombre completo:" 
+              id="nombre" 
+              placeholder="Ingrese su nombre" 
+              required 
+              value={formData.nombre}
+              onChange={handleChange}
+              error={errors.nombre}
+            />
 
-          <FormField 
-            label="RUN:" 
-            id="run" 
-            placeholder="ej: 99999999-9" 
-            required 
-            value={formData.run}
-            onChange={handleChange}
-            error={errors.run}
-          />
+            <FormField 
+              label="RUN:" 
+              id="run" 
+              placeholder="ej: 99999999-9" 
+              required 
+              value={formData.run}
+              onChange={handleChange}
+              error={errors.run}
+            />
 
-          <FormField 
-            label="Correo E:" 
-            id="correo" 
-            type="email" 
-            placeholder="ej: xxxxx@xxxxx.com" 
-            autoComplete="username"
-            required 
-            value={formData.correo}
-            onChange={handleChange}
-            error={errors.correo}
-          />
+            <FormField 
+              label="Correo E:" 
+              id="correo" 
+              type="email" 
+              placeholder="ej: xxxxx@xxxxx.com" 
+              autoComplete="username"
+              required 
+              value={formData.correo}
+              onChange={handleChange}
+              error={errors.correo}
+            />
 
-          <FormField 
-            label="Teléfono:" 
-            id="telefono" 
-            type="tel" 
-            placeholder="ej: +56999999999" 
-            required 
-            value={formData.telefono}
-            onChange={handleChange}
-            error={errors.telefono}
-          />
+            <FormField 
+              label="Teléfono:" 
+              id="telefono" 
+              type="tel" 
+              placeholder="ej: +56999999999" 
+              required 
+              value={formData.telefono}
+              onChange={handleChange}
+              error={errors.telefono}
+            />
 
-          <FormField 
-            label="Fecha de nacimiento:" 
-            id="fecNac" 
-            type="date" 
-            required 
-            value={formData.fecNac}
-            onChange={handleChange}
-            error={errors.fecNac}
-          />
+            <FormField 
+              label="Fecha de nacimiento:" 
+              id="fecNac" 
+              type="date" 
+              required 
+              value={formData.fecNac}
+              onChange={handleChange}
+              error={errors.fecNac}
+            />
 
-          <FormField 
-            label="Dirección:" 
-            id="direccion" 
-            placeholder="ej: Calle Norte 123" 
-            required 
-            value={formData.direccion}
-            onChange={handleChange}
-            error={errors.direccion}
-          />
+            <FormField 
+              label="Dirección:" 
+              id="direccion" 
+              placeholder="ej: Calle Norte 123" 
+              required 
+              value={formData.direccion}
+              onChange={handleChange}
+              error={errors.direccion}
+            />
 
-          <SelectField 
-            label="Comuna (RM):"
-            id="comuna"
-            required
-            value={formData.comuna}
-            onChange={handleChange}
-            options={comunasRM}
-            defaultOptionText="Seleccione una comuna"
-            error={errors.comuna}
-          />
+            <SelectField 
+              label="Comuna (RM):"
+              id="comuna"
+              required
+              value={formData.comuna}
+              onChange={handleChange}
+              options={comunasRM}
+              defaultOptionText="Seleccione una comuna"
+              error={errors.comuna}
+            />
 
-          <SelectField 
-            label="Estilo musical:"
-            id="estiloMusical"
-            required
-            value={formData.estiloMusical}
-            onChange={handleChange}
-            options={estilosMusicales}
-            defaultOptionText="Seleccione un estilo musical"
-            error={errors.estiloMusical}
-          />
+            <SelectField 
+              label="Estilo musical:"
+              id="estiloMusical"
+              required
+              value={formData.estiloMusical}
+              onChange={handleChange}
+              options={estilosMusicales}
+              defaultOptionText="Seleccione un estilo musical"
+              error={errors.estiloMusical}
+            />
 
-          <SelectField 
-            label="Categoría preferida:"
-            id="categoriaInstrumento"
-            required
-            value={formData.categoriaInstrumento}
-            onChange={handleChange}
-            options={categoriasInstrumentos}
-            defaultOptionText="Seleccione una categoría"
-            error={errors.categoriaInstrumento}
-          />
+            <SelectField 
+              label="Categoría preferida:"
+              id="categoriaInstrumento"
+              required
+              value={formData.categoriaInstrumento}
+              onChange={handleChange}
+              options={categoriasInstrumentos}
+              defaultOptionText="Seleccione una categoría"
+              error={errors.categoriaInstrumento}
+            />
 
-          <PasswordInput 
-            inputId="password" 
-            labelText="Contraseña:" 
-            autoComplete="new-password"
-            required 
-            value={formData.password}
-            onChange={handleChange}
-            error={errors.password}
-          />
+            <PasswordInput 
+              inputId="password" 
+              labelText="Contraseña:" 
+              autoComplete="new-password"
+              required 
+              value={formData.password}
+              onChange={handleChange}
+              error={errors.password}
+            />
 
-          <div className="mb-3 px-1">
-            <small className="text-muted d-block lh-sm" id="label-password-requirements" style={{ fontSize: '0.8rem' }}>
-              (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un carácter especial. No debe contener datos personales ni palabras comunes.)
-            </small>
-          </div>
+            <div className="mb-3 px-1">
+              <small className="text-muted d-block lh-sm" id="label-password-requirements" style={{ fontSize: '0.8rem' }}>
+                (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un carácter especial. No debe contener datos personales ni palabras comunes.)
+              </small>
+            </div>
 
-          <PasswordInput 
-            inputId="repeatPassword" 
-            labelText="Repetir contraseña:" 
-            autoComplete="new-password"
-            required
-            value={formData.repeatPassword}
-            onChange={handleChange}
-            error={errors.repeatPassword}
-          />
+            <PasswordInput 
+              inputId="repeatPassword" 
+              labelText="Repetir contraseña:" 
+              autoComplete="new-password"
+              required
+              value={formData.repeatPassword}
+              onChange={handleChange}
+              error={errors.repeatPassword}
+            />
 
-          <div className="d-flex justify-content-center mt-4">
-            <button 
-              type="submit" 
-              id="btn-registrarse" 
-              disabled={isSubmitting}
-              className="btn text-white fw-bold px-4 py-2"
-              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
-            >
-              {isSubmitting ? "Procesando..." : "Registrarse"}
-            </button>
-          </div>
-        </fieldset>
-      </form>
+            <div className="d-flex justify-content-center mt-4">
+              <button 
+                type="submit" 
+                id="btn-registrarse" 
+                disabled={isSubmitting}
+                className="btn text-white fw-bold px-4 py-2"
+                style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+              >
+                {isSubmitting ? "Procesando..." : "Registrarse"}
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
     </div>
   );
 }
