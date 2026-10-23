@@ -7,10 +7,10 @@ import LoginView from '../views/LoginView';
 import ProductoDetalleView from '../views/ProductoDetalleView';
 import ProductosView from '../views/ProductosView';
 import RegistroView  from '../views/RegistroView';
+import CarritoView from '../views/CarritoView';
 
 const           PerfilView = () => <h1>Vista: Mi Perfil</h1>;
 const            AdminView = () => <h1>Vista: Panel de Administración</h1>;
-const          CarritoView = () => <h1>Vista: Carrito de Compras</h1>;
 const         NotFoundView = () => <h1>Error 404: Página no encontrada</h1>;
 
 export const AppRouter = () => {

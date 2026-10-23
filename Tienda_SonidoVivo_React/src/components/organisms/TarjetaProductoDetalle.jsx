@@ -6,10 +6,8 @@ function DetalleProductoCard({ producto }) {
     const [cantidad, setCantidad] = useState(1);
 
     const handleCantidadChange = (e) => {
-        const val = parseInt(e.target.value);
-        if (!isNaN(val) && val >= 1) {
-            setCantidad(val);
-        }
+        const val = parseInt(e.target.value, 10);
+        setCantidad(isNaN(val) || val < 1 ? 1 : val);
     };
 
     return (
@@ -35,6 +33,7 @@ function DetalleProductoCard({ producto }) {
                         value={cantidad} 
                         onChange={handleCantidadChange} 
                     />
+                    {/* Le pasamos la cantidad seleccionada en el input */}
                     <BotonAgregarCarrito producto={producto} cantidad={cantidad} />
                 </div>
             </div>

@@ -19,9 +19,7 @@ export const itemsProductos = [
             "Ideal para rock, blues y pop.",
             "Pensada para músicos principiantes y usuarios con mayor experiencia.",
             "Producto perteneciente al catálogo de Sonido Vivo."
-        ],
-        href: "producto.html?producto=sv-strat-01"
-
+        ]
     },
     {
         id: 2,
@@ -36,8 +34,7 @@ export const itemsProductos = [
             "Orientados a monitoreo y reproducción de audio.",
             "Cómodos para sesiones prolongadas.",
             "Adecuados para practicar, producir y escuchar música."
-        ],
-        href: "producto.html?producto=sv-studio-h1"
+        ]
     },
     {
         id: 3,
@@ -52,8 +49,7 @@ export const itemsProductos = [
             "Orientado a grabación y creación de contenido.",
             "Adecuado para voces e instrumentos.",
             "Alternativa para grabación de podcasts."
-        ],
-        href: "producto.html?producto=sv-mic-pro-01"
+        ]
     },
     {
         id: 4,
@@ -69,8 +65,7 @@ export const itemsProductos = [
             "Pensado para estudiantes y músicos.",
             "Adecuado para practicar.",
             "Ideal para desarrollar habilidades musicales."
-        ],
-        href: "producto.html?producto=sv-key-61"
+        ]
     },
     {
         id: 5,
@@ -85,8 +80,7 @@ export const itemsProductos = [
             "Diseño cómodo.",
             "Versátil para distintos estilos musicales.",
             "Adecuado para diferentes proyectos musicales."
-        ],
-        href: "producto.html?producto=sv-bass-4"
+        ]
     },
     {
         id: 6,
@@ -102,8 +96,7 @@ export const itemsProductos = [
             "Pensado para guitarra eléctrica.",
             "Adecuado para practicar.",
             "Ideal para espacios pequeños."
-        ],
-        href: "producto.html?producto=sv-amp-20"
+        ]
     }
 ]
 
@@ -121,9 +114,7 @@ export const itemsProductosDestacados = [
             "Ideal para rock, blues y pop.",
             "Pensada para músicos principiantes y usuarios con mayor experiencia.",
             "Producto perteneciente al catálogo de Sonido Vivo."
-        ],
-        href: "producto.html?producto=sv-strat-01"
-
+        ]
     },
     {
         id: 2,
@@ -138,8 +129,7 @@ export const itemsProductosDestacados = [
             "Orientados a monitoreo y reproducción de audio.",
             "Cómodos para sesiones prolongadas.",
             "Adecuados para practicar, producir y escuchar música."
-        ],
-        href: "producto.html?producto=sv-studio-h1"
+        ]
     },
     {
         id: 3,
@@ -154,7 +144,6 @@ export const itemsProductosDestacados = [
             "Orientado a grabación y creación de contenido.",
             "Adecuado para voces e instrumentos.",
             "Alternativa para grabación de podcasts."
-        ],
-        href: "producto.html?producto=sv-mic-pro-01" 
+        ]
     }
 ]
