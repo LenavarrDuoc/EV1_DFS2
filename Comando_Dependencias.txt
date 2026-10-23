@@ -1,0 +1,17 @@
+//Bootstrap:
+npm install react-bootstrap bootstrap
+
+//Router:
+npm install react-router-dom 
+
+//Vitest:
+npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom
+
+
+//adicionales:
+
+npm dependencies      
+
+npm audit fix
+
+npm run test
