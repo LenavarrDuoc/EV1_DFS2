@@ -4,24 +4,30 @@ import FiltroBusquedaCategorias from '../components/molecules/FiltroBusquedaCate
 import GaleriaProductos from '../components/organisms/GaleriaProductos';
 
 function ProductosView() {
+    // Cargar del localStorage si el administrador ha modificado productos
+    const [listaProductos] = useState(() => {
+        const guardados = localStorage.getItem('productos_sonidovivo');
+        return guardados ? JSON.parse(guardados) : itemsProductos;
+    });
+
     const [categoriaActiva, setCategoriaActiva] = useState('Todas');
     const [busqueda, setBusqueda] = useState('');
 
-    // Extraer categorías únicas dinámicamente
+    // Extraer categorías únicas dinámicamente de la lista activa
     const categorias = useMemo(() => {
-        const lista = itemsProductos.map(p => p.categoria);
+        const lista = listaProductos.map(p => p.categoria);
         return [...new Set(lista)];
-    }, []);
+    }, [listaProductos]);
 
     // Filtrar por texto y por categoría
     const productosFiltrados = useMemo(() => {
-        return itemsProductos.filter(p => {
+        return listaProductos.filter(p => {
             const coincideCat = categoriaActiva === 'Todas' || p.categoria === categoriaActiva;
             const coincideBusqueda = p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
                                      p.descripcion.toLowerCase().includes(busqueda.toLowerCase());
             return coincideCat && coincideBusqueda;
         });
-    }, [categoriaActiva, busqueda]);
+    }, [listaProductos, categoriaActiva, busqueda]);
 
     return (
         <main>

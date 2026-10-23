@@ -1883,3 +1883,192 @@ footer {
         text-align: center;
     }
 }
+
+/*
+    PÁGINA ADMIN DASHBOARD
+*/
+
+#admin-dashboard {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    color: var(--color_3);
+}
+
+.admin-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.admin-encabezado h2 {
+    font-size: 2rem;
+    color: var(--color_5);
+}
+
+/*=== Formulario de Crear / Editar Producto ===*/
+.admin-form-container {
+    background-color: var(--color_2);
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.admin-form-container h3 {
+    margin-bottom: 20px;
+    color: var(--color_5);
+    border-bottom: 2px solid var(--color_7);
+    padding-bottom: 8px;
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.admin-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-form-field.full-width {
+    grid-column: 1 / -1;
+}
+
+.admin-form-field label {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--color_3);
+}
+
+.admin-form-field input,
+.admin-form-field select,
+.admin-form-field textarea {
+    padding: 10px;
+    border: 1px solid var(--color_4);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: var(--color_1);
+}
+
+.admin-form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-guardar {
+    padding: 12px 25px;
+    background-color: var(--color_7);
+    color: var(--color_1);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--animacion_boton1);
+}
+
+.btn-guardar:hover {
+    background-color: var(--color_8);
+    color: var(--color_5);
+}
+
+.btn-cancelar {
+    padding: 12px 25px;
+    background-color: transparent;
+    color: var(--color_4);
+    border: 1px solid var(--color_4);
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--animacion_boton1);
+}
+
+.btn-cancelar:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: var(--color_1);
+}
+
+/*=== Tabla de Productos ===*/
+.admin-tabla-container {
+    overflow-x: auto;
+    background-color: var(--color_2);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tabla-productos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabla-productos th,
+.tabla-productos td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #D9DCE1;
+}
+
+.tabla-productos th {
+    background-color: var(--color_6);
+    color: var(--color_1);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.tabla-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.acciones-cell {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-editar {
+    padding: 6px 12px;
+    background-color: var(--color_6);
+    color: var(--color_1);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-editar:hover {
+    background-color: var(--color_7);
+}
+
+.btn-borrar {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: var(--color_1);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-borrar:hover {
+    background-color: #bd2130;
+}
+
+@media (max-width: 768px) {
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { MainLayout } from '../components/templates/MainLayout';
-import { RutaProtegida } from './RutaProtegida';
+import RutaProtegida from './RutaProtegida';
 
 import HomeView  from '../views/HomeView';
 import LoginView from '../views/LoginView';
@@ -9,9 +9,9 @@ import ProductosView from '../views/ProductosView';
 import RegistroView  from '../views/RegistroView';
 import CarritoView from '../views/CarritoView';
 import PerfilView from '../views/PerfilView';
+import AdminDashboardView from '../views/AdminDashboardView';
 
-const            AdminView = () => <h1>Vista: Panel de Administración</h1>;
-const         NotFoundView = () => <h1>Error 404: Página no encontrada</h1>;
+const  NotFoundView = () => <h1>Error 404: Página no encontrada</h1>;
 
 export const AppRouter = () => {
 
@@ -30,8 +30,8 @@ export const AppRouter = () => {
                 <Route 
                     path="/admin" 
                     element={
-                    <RutaProtegida>
-                        <AdminView/>
+                    <RutaProtegida requireAdmin={true}>
+                        <AdminDashboardView/>
                     </RutaProtegida>
                     } 
                 />
