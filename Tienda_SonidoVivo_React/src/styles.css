@@ -1769,3 +1769,117 @@ footer {
         justify-content: space-between;
     }
 }
+
+/*
+    PÁGINA MI PERFIL
+*/
+
+#perfil-usuario {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px 20px;
+    color: var(--color_3);
+}
+
+.perfil-card {
+    background-color: var(--color_2);
+    border-radius: 10px;
+    padding: 35px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--color_7);
+    margin-bottom: 30px;
+}
+
+.perfil-avatar {
+    width: 70px;
+    height: 70px;
+    background-color: var(--color_6);
+    color: var(--color_1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.perfil-titulo h2 {
+    color: var(--color_5);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.perfil-rol {
+    display: inline-block;
+    background-color: var(--color_7);
+    color: var(--color_1);
+    padding: 3px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.perfil-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 30px;
+    margin-bottom: 30px;
+}
+
+.perfil-campo label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color_4);
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.perfil-campo p {
+    font-size: 1.05rem;
+    color: var(--color_5);
+    font-weight: 500;
+}
+
+.perfil-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    border-top: 1px solid #D9DCE1;
+    padding-top: 25px;
+}
+
+.btn-iniciar-sesion-auxiliar {
+    display: inline-block;
+    margin: 10px 10px;
+    padding: 12px 28px;
+    background-color: var(--color_6);
+    color: var(--color_1);
+    border: 2px solid var(--color_6);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 600px) {
+    .perfil-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .perfil-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}

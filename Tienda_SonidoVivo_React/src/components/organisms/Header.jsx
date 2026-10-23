@@ -44,7 +44,7 @@ function Header() {
 
                         {user ? (
                             <>
-                                <li><Link to="/perfil">{user.nombre || 'MI PERFIL'}</Link></li>
+                                <li><Link to="/perfil">{'MI PERFIL: ' + user.nombre}</Link></li>
                                 <li><button onClick={handleLogout} className="btn-logout">CERRAR SESIÓN</button></li>
                             </>
                         ) : (

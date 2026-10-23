@@ -11,15 +11,23 @@ export const AuthProvider = ({ children }) => {
         const storedUser = localStorage.getItem("usuario_sonidovivo");
 
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        };
-
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error("Error al parsear el usuario guardado:", e);
+            }
+        }
     }, []);
 
     const login = (userData) => {
-        setUser(userData);
-        localStorage.setItem("usuario_sonidovivo")
+        // Asignamos rol por defecto 'cliente' si no viene definido
+        const usuarioSesion = {
+            ...userData,
+            rol: userData.rol || (userData.correo === "admin@sonidovivo.cl" ? "admin" : "cliente")
+        };
 
+        setUser(usuarioSesion);
+        localStorage.setItem("usuario_sonidovivo", JSON.stringify(usuarioSesion));
     };
 
     const logout = () => {
@@ -32,11 +40,11 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider
             value={{ 
-                    user,
-                    login,
-                    logout,
-                    isAdmin 
-                }}
+                user,
+                login,
+                logout,
+                isAdmin 
+            }}
         >
             {children}
         </AuthContext.Provider>

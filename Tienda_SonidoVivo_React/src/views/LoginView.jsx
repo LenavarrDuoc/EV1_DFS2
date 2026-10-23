@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import FormField from '../components/molecules/FormField';
 import PasswordInput from '../components/molecules/PasswordInput';
 
+import { useAuth } from '../context/AuthContext'; // Importamos el contexto
 import { encriptarPassword, validarPasswordFormat } from '../utils/validaciones';
 
 function LoginView() {
-
+  
   const navigate = useNavigate();
+  const { login } = useAuth(); // Extraemos la función login
 
   const [formData, setFormData] = useState({
     correo: '',
@@ -49,15 +51,15 @@ function LoginView() {
       return;
     }
 
-    // 2. VALIDACIÓN DE CONTRASEÑA (Consumiendo la función centralizada)
+    // 2. Validar formato de contraseña
     const errorPassword = validarPasswordFormat(pass);
     if (errorPassword) {
       alert(errorPassword);
       document.getElementById("password")?.focus();
-      return; // Corta la ejecución si la contraseña no cumple las reglas
+      return;
     }
 
-    // 3. Consultar usuarios en localStorage
+    // 3. Consultar usuarios registrados
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
     const usuarioEncontrado = usuariosRegistrados.find(
       (u) => u.correo.toLowerCase() === correoLimpio
@@ -83,20 +85,20 @@ function LoginView() {
       return;
     }
 
-    // 5. Éxito
+    // 5. Éxito: Sincronizar con AuthContext
     alert(`¡Hola, ${usuarioEncontrado.nombre}! Le damos la bienvenida al sistema de Sonido Vivo.`);
 
     const usuarioSesionObj = { ...usuarioEncontrado };
     delete usuarioSesionObj.password;
 
-    sessionStorage.setItem("usuarioActivo", JSON.stringify(usuarioSesionObj));
-    sessionStorage.setItem("sesionActiva", "true");
+    // Invocación del contexto global
+    login(usuarioSesionObj);
 
     navigate('/');
   };
 
   return (
-    <>
+    <main>
       <form id="formulario-login" onSubmit={handleSubmit}>
         <fieldset className="grid-formulario">
           <legend className="legend-titulo-fieldset">Iniciar Sesión</legend>
@@ -122,7 +124,7 @@ function LoginView() {
           <button type="submit" id="btn-login">Ingresar</button>
         </fieldset>
       </form>
-    </>
+    </main>
   );
 }
 

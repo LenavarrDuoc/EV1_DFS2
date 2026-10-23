@@ -8,8 +8,8 @@ import ProductoDetalleView from '../views/ProductoDetalleView';
 import ProductosView from '../views/ProductosView';
 import RegistroView  from '../views/RegistroView';
 import CarritoView from '../views/CarritoView';
+import PerfilView from '../views/PerfilView';
 
-const           PerfilView = () => <h1>Vista: Mi Perfil</h1>;
 const            AdminView = () => <h1>Vista: Panel de Administración</h1>;
 const         NotFoundView = () => <h1>Error 404: Página no encontrada</h1>;
 
