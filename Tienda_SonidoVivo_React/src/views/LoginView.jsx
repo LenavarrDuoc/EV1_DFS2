@@ -82,67 +82,67 @@ function LoginView() {
       className="d-flex justify-content-center align-items-center w-100 my-5 px-3"
       style={{ minHeight: '60vh' }}
     >
-      <div 
-        className="rounded-3 shadow-sm w-100" 
-        style={{ 
-          maxWidth: '520px', 
-          backgroundColor: '#dbe4be' 
-        }}
+      <form 
+        id="formulario-login" 
+        onSubmit={handleSubmit} 
+        noValidate
+        style={{ maxWidth: '520px', width: '100%' }}
       >
-        <form id="formulario-login" onSubmit={handleSubmit} noValidate>
-          <fieldset className="border border-secondary-subtle p-4 rounded-3 w-100">
-            <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
-              Ingrese datos de inicio de sesión:
-            </legend>
+        <fieldset 
+          className="border border-secondary-subtle p-4 rounded-3 shadow-sm w-100" 
+          style={{ backgroundColor: 'rgba(226, 234, 198, 0.5)' }}
+        >
+          <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
+            Ingrese datos de inicio de sesión:
+          </legend>
 
-            <FormField 
-              label="Correo E:" 
-              id="correo" 
-              type="email" 
-              placeholder="ej: usuario@dominio.com" 
-              required 
-              value={formData.correo}
-              onChange={handleChange}
-            />
+          <FormField 
+            label="Correo E:" 
+            id="correo" 
+            type="email" 
+            placeholder="ej: usuario@dominio.com" 
+            required 
+            value={formData.correo}
+            onChange={handleChange}
+          />
 
-            <PasswordInput 
-              inputId="password" 
-              labelText="Contraseña:" 
-              placeholder="Ingrese su contraseña"
-              required 
-              value={formData.password}
-              onChange={handleChange}
-            />
+          <PasswordInput 
+            inputId="password" 
+            labelText="Contraseña:" 
+            placeholder="Ingrese su contraseña"
+            required 
+            value={formData.password}
+            onChange={handleChange}
+          />
 
-            <div className="d-flex justify-content-center mt-3">
-              <button 
-                type="submit" 
-                id="btn-login"
-                className="btn text-white fw-bold px-4 py-2"
-                style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
-              >
-                Iniciar Sesión
-              </button>
-            </div>
+          <div className="d-flex justify-content-center mt-3">
+            <button 
+              type="submit" 
+              id="btn-login"
+              className="btn text-white fw-bold px-4 py-2"
+              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+            >
+              Iniciar Sesión
+            </button>
+          </div>
 
-            <hr className="my-4 text-secondary-subtle" />
+          <hr className="my-4 text-secondary-subtle" />
 
-            <div className="text-center">
-              <p className="mb-2 fw-semibold text-dark">
-                Aún no estoy registrado:
-              </p>
-              <Link 
-                to="/registro" 
-                id="btn-ir-registro"
-                className="btn text-white fw-bold px-4 py-2 text-decoration-none d-inline-block"
-                style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
-              >
-                Registrarse
-              </Link>
-            </div>
-          </fieldset>
-        </form>
-      </div>
+          <div className="text-center">
+            <p className="mb-2 fw-semibold text-dark">
+              Aún no estoy registrado:
+            </p>
+            <Link 
+              to="/registro" 
+              id="btn-ir-registro"
+              className="btn text-white fw-bold px-4 py-2 text-decoration-none d-inline-block"
+              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+            >
+              Registrarse
+            </Link>
+          </div>
+        </fieldset>
+      </form>
     </div>
   );
 }
