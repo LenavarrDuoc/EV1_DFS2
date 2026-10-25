@@ -125,20 +125,14 @@ function RegistroView() {
   };
 
   return (
-    <div 
-      className="d-flex justify-content-center align-items-center w-100 my-5 px-3"
-      style={{ minHeight: '60vh' }}
-    >
+    <div className="d-flex justify-content-center align-items-center w-100 my-5 px-3 registro-container">
       <form 
         id="formulario" 
         onSubmit={handleSubmit} 
         noValidate
-        style={{ maxWidth: '580px', width: '100%' }}
+        className="registro-form"
       >
-        <fieldset 
-          className="border border-secondary-subtle p-4 rounded-3 shadow-sm w-100" 
-          style={{ backgroundColor: 'rgba(226, 234, 198, 0.5)' }}
-        >
+        <fieldset className="border border-secondary-subtle p-4 rounded-3 shadow-sm w-100 registro-fieldset">
           <legend className="float-none w-auto px-2 fs-6 fw-bold text-dark text-center">
             Ingrese datos de registro de usuario:
           </legend>
@@ -250,7 +244,7 @@ function RegistroView() {
           />
 
           <div className="mb-3 px-1">
-            <small className="text-muted d-block lh-sm" id="label-password-requirements" style={{ fontSize: '0.8rem' }}>
+            <small className="text-muted d-block lh-sm texto-ayuda-form" id="label-password-requirements">
               (Debe contener al menos 8 caracteres, incluyendo una letra mayúscula, una letra minúscula, un número, y un carácter especial. No debe contener datos personales ni palabras comunes.)
             </small>
           </div>
@@ -270,8 +264,7 @@ function RegistroView() {
               type="submit" 
               id="btn-registrarse" 
               disabled={isSubmitting}
-              className="btn text-white fw-bold px-4 py-2"
-              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+              className="btn fw-bold px-4 py-2 btn-primario"
             >
               {isSubmitting ? "Procesando..." : "Registrarse"}
             </button>

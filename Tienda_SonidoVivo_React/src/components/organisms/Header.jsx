@@ -67,11 +67,10 @@ function Header() {
 
             {/* MENÚ LATERAL OFFCANVAS (Móviles). Misma logica de arriba, pero con menú hamburgesa y menú lateral off canvas de Bootstrap. */}
             <div 
-                className="offcanvas offcanvas-end d-lg-none text-bg-dark" 
+                className="offcanvas offcanvas-end d-lg-none text-bg-dark custom-offcanvas-bg" 
                 tabIndex="-1" /* elemento de HTML que permite dar prioridad y orden de navegación de elementos en página con la tecla TAB o elementos de asistencia de navegación. 1 = personalizado. Bootstrap lo requiere para la asistencia de navegación.  */
                 id="headerOffcanvas" 
                 aria-labelledby="headerOffcanvasLabel"
-                style={{ backgroundColor: 'var(--color_1, #212529)' }}
             >
                 <div className="offcanvas-header border-bottom border-secondary border-opacity-25">
                     <h5 className="offcanvas-title text-white fw-bold mb-0" id="headerOffcanvasLabel">

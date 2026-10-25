@@ -21,17 +21,13 @@ function CarritoView() {
         </div>
 
         {(!carrito || carrito.length === 0) ? (
-          <div 
-            className="text-center p-5 rounded-3 shadow-sm my-4"
-            style={{ backgroundColor: 'rgba(226, 234, 198, 0.5)' }}
-          >
+          <div className="text-center p-5 rounded-3 shadow-sm my-4 carrito-vacio-card">
             <p className="fs-5 mb-4 text-dark fw-semibold">
               Tu carrito de compras está vacío actualmente.
             </p>
             <Link 
               to="/productos" 
-              className="btn text-white fw-bold px-4 py-2 text-decoration-none"
-              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+              className="btn text-white fw-bold px-4 py-2 text-decoration-none btn-primario"
             >
               EXPLORAR CATÁLOGO
             </Link>
