@@ -10,8 +10,10 @@ import RegistroView  from '../views/RegistroView';
 import CarritoView from '../views/CarritoView';
 import PerfilView from '../views/PerfilView';
 import AdminDashboardView from '../views/AdminDashboardView';
+import NotFoundView from '../views/NotFoundView';
 
-const  NotFoundView = () => <h1>Error 404: Página no encontrada</h1>;
+/* Se reemplaza por NotFoundTemplate: */
+/* const  NotFoundView = () => <h1>Error 404: Página no encontrada</h1>; */
 
 export const AppRouter = () => {
 
