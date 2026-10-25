@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function PasswordInput({ 
   inputId = 'contrasena', 
@@ -12,17 +12,16 @@ function PasswordInput({
   const [mostrarPassword, setMostrarPassword] = useState(false);
 
   return (
-    <div className="d-flex align-items-center mb-3" style={{ gap: '10px' }}>
+    <div className="password-input-group d-flex align-items-center mb-3">
       {labelText && (
         <label 
           htmlFor={inputId} 
-          className="fw-bold mb-0" 
-          style={{ flex: '0 0 35%', maxWidth: '35%', fontSize: '0.95rem' }}
+          className="password-label fw-bold mb-0"
         >
           {labelText}
         </label>
       )}
-      <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+      <div className="password-wrapper">
         <div className="input-group w-100">
           <input
             type={mostrarPassword ? 'text' : 'password'}

@@ -4,18 +4,14 @@ function CarritoItem({ item }) {
   const { actualizarCantidad, eliminarDelCarrito } = useCart();
 
   return (
-    <div 
-      className="card border-0 shadow-sm p-3 rounded-3"
-      style={{ backgroundColor: 'rgba(226, 234, 198, 0.5)' }}
-    >
+    <div className="card border-0 shadow-sm p-3 rounded-3 carrito-item-card">
       <div className="row align-items-center g-3">
         {/* Imagen del producto */}
         <div className="col-12 col-sm-auto text-center">
           <img 
             src={item.imagen} 
             alt={item.nombre} 
-            className="img-fluid rounded" 
-            style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+            className="img-fluid rounded carrito-item-img" 
           />
         </div>
 

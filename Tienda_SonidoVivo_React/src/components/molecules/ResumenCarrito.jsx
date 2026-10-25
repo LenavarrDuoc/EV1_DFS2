@@ -25,7 +25,7 @@ function ResumenCarrito({ onFinalizarCompra }) {
 
             <div className="resumen-linea d-flex justify-content-between align-items-center mb-2">
                 <span>Envío:</span>
-                <span style={{ color: 'var(--color_7)', fontWeight: 'bold' }}>Gratis</span>
+                <span className="resumen-envio-gratis">Gratis</span>
             </div>
 
             <div className="resumen-linea resumen-total d-flex justify-content-between align-items-center fw-bold border-top pt-2 mt-3 mb-3 fs-5">

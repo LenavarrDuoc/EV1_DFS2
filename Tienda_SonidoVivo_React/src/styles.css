@@ -1252,11 +1252,32 @@ main {
     display: contents; /*para que el contenido del componente se muestre en la grilla del formulario*/
 }
 
+/*=== Componentes de Formulario (SelectField, FormField, PasswordInput) ===*/
+.select-field-group,
+.form-field-group,
+.password-input-group {
+    gap: 10px;
+}
+
+.select-field-label,
+.form-field-label,
+.password-label {
+    flex: 0 0 35%;
+    max-width: 35%;
+    font-size: 0.95rem;
+}
+
+.select-field-wrapper,
+.form-field-wrapper,
+.password-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
 /* Ajusta el envoltorio para juntar input y botón */
 .password-wrapper {
-    display: flex;
-    align-items: stretch;
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .password-wrapper input {
@@ -1266,6 +1287,19 @@ main {
     border-top-right-radius: 0;    /* Quita las esquinas redondeadas derechas */
     border-bottom-right-radius: 0;
 }
+
+
+.password-input-group {
+    gap: 10px;
+}
+
+.password-label {
+    flex: 0 0 35%;
+    max-width: 35%;
+    font-size: 0.95rem;
+}
+
+
 
 /* Botón flotante para alternar visibilidad */
 .btn-toggle-pass {
@@ -1523,6 +1557,16 @@ footer {
     font-weight: bold;
 }
 
+.carrito-item-card {
+    background-color: rgba(226, 234, 198, 0.5);
+}
+
+.carrito-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
 /*=== Controles de Cantidad en Carrito ===*/
 .carrito-item-controles {
     display: flex;
@@ -1587,6 +1631,11 @@ footer {
     justify-content: space-between;
     margin-bottom: 15px;
     font-size: 1rem;
+}
+
+.resumen-envio-gratis {
+    color: var(--color_7);
+    font-weight: bold;
 }
 
 .resumen-total {
@@ -1997,4 +2046,22 @@ footer {
     .admin-form-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* FormField: */
+
+/*=== Componente FormField ===*/
+.form-field-group {
+    gap: 10px;
+}
+
+.form-field-label {
+    flex: 0 0 35%;
+    max-width: 35%;
+    font-size: 0.95rem;
+}
+
+.form-field-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
 }

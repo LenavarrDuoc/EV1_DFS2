@@ -10,17 +10,16 @@ function SelectField({
   ...props 
 }) {
   return (
-    <div className="d-flex align-items-center mb-3" style={{ gap: '10px' }}>
+    <div className="select-field-group d-flex align-items-center mb-3">
       {label && (
         <label 
           htmlFor={id} 
-          className="fw-bold mb-0" 
-          style={{ flex: '0 0 35%', maxWidth: '35%', fontSize: '0.95rem' }}
+          className="select-field-label fw-bold mb-0"
         >
           {label}
         </label>
       )}
-      <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+      <div className="select-field-wrapper">
         <select
           id={id}
           name={id}

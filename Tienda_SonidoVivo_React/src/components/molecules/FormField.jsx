@@ -10,17 +10,16 @@ function FormField({
   ...props 
 }) {
   return (
-    <div className="d-flex align-items-center mb-3" style={{ gap: '10px' }}>
+    <div className="form-field-group d-flex align-items-center mb-3">
       {label && (
         <label 
           htmlFor={id} 
-          className="fw-bold mb-0" 
-          style={{ flex: '0 0 35%', maxWidth: '35%', fontSize: '0.95rem' }}
+          className="form-field-label fw-bold mb-0"
         >
           {label}
         </label>
       )}
-      <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+      <div className="form-field-wrapper">
         <input
           type={type}
           id={id}
