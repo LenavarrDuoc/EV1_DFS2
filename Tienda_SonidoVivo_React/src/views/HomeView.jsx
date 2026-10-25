@@ -5,7 +5,7 @@ import GaleriaProductosDestacados from '../components/organisms/GaleriaProductos
 import imagen_presentacion from '../assets/img/imagen_presentacion.png'
 import tienda from '../assets/img/tienda.png'
 
-import { itemsProductosDestacados } from '../data/productos'
+import { itemsProductosDestacados } from '../data/productosData'
 
 function HomeView() {
     return (

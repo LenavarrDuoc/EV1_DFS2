@@ -34,12 +34,12 @@ export function NotFoundTemplate() {
 
                     {/* Mensaje principal */}
                     <h2 className="h3 fw-semibold mb-3">
-                        Página no encontrada
+                        404 - Página no encontrada
                     </h2>
 
                     {/* Descripción */}
                     <p className="text-secondary mb-4">
-                        Lo sentimos, la página que estás buscando no existe, ha sido movida o cambió de dirección.
+                        Lo sentimos, la página que estás buscando no existe, está en mantención, ha sido movida, o cambió de dirección.
                     </p>
 
                     {/* Acciones */}

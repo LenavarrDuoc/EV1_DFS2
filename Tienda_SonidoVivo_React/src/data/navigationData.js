@@ -1,5 +1,8 @@
 /**
  * Configuración centralizada de las rutas principales de navegación.
+ * Desde aquí, se agrega, modifica o eliminan los enlaces del header y sus rutas.
+ * Lo que se modifique aquí se reflejará automáticamente en el header (en parte central y en menú hamburguesa con el off canvas)
+ * y en la navegación de la aplicación.
  */
 export const NAV_ITEMS = [
     {
@@ -10,6 +13,11 @@ export const NAV_ITEMS = [
     {
         label: 'CATÁLOGO',
         path: '/productos',
+        requireAdmin: false,
+    },
+    {
+        label: 'OFERTAS',
+        path: '/ofertas',
         requireAdmin: false,
     },
     {

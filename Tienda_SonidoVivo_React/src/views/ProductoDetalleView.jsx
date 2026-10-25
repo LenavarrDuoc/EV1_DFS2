@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { itemsProductos } from '../data/productos';
+import { itemsProductos } from '../data/productosData';
 import DetalleProductoCard from '../components/organisms/TarjetaProductoDetalle';
 
 function ProductoDetalleView() {

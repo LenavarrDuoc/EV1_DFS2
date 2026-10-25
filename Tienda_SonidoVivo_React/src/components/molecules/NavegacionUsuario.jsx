@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { GUEST_NAV_ITEMS } from '../../data/navigation';
+import { GUEST_NAV_ITEMS } from '../../data/navigationData';
 import { IconoCarrito } from './IconoCarrito';
 
 export function NavegacionUsuario({ onItemClick, vertical = false }) {

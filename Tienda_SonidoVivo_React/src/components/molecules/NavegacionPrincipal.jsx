@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { NAV_ITEMS } from '../../data/navigation';
+import { NAV_ITEMS } from '../../data/navigationData';
 
 export function NavegacionPrincipal({ onItemClick, vertical = false }) {
     const { isAdmin } = useAuth();
