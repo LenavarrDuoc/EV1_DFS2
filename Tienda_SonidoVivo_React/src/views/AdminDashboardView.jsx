@@ -1,6 +1,6 @@
 // src/views/AdminDashboardView.jsx
 import { useState, useEffect } from 'react';
-import { itemsProductos as productosIniciales } from '../data/productos';
+import { itemsProductos as productosIniciales } from '../data/productosData';
 
 function AdminDashboardView() {
     // Cargar catálogo desde localStorage o desde la lista inicial

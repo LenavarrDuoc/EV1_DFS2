@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { itemsProductos } from '../data/productos';
+import { itemsProductos } from '../data/productosData';
 import FiltroBusquedaCategorias from '../components/molecules/FiltroBusquedaCategorias';
 import GaleriaProductos from '../components/organisms/GaleriaProductos';
 
