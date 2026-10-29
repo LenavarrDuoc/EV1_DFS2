@@ -1,0 +1,15 @@
+Entidades:
+
+-Roles.
+-Estilos_musicales.
+-Categoria_productos.
+-Usuario.
+
+-Tipo_Producto.
+-Producto.
+
+-Carrito.
+-Carrito_detalle.
+
+-Ventas.
+-Venta-detalle.
