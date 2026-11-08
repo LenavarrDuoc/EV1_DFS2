@@ -93,13 +93,11 @@ CREATE TABLE CARRITO_DETALLE (
     id_carrito          INT NOT NULL,
     id_producto         INT NOT NULL,
     cantidad            INT NOT NULL,
+    precio_unitario     INT NOT NULL,
 
-    CONSTRAINT fk_carrito_items_carritos
+    CONSTRAINT fk_carrito_detalle_carrito
     FOREIGN KEY (id_carrito) REFERENCES CARRITOS(id_carrito)
     ON DELETE CASCADE,
-
-    CONSTRAINT fk_carrito_items_productos
-    FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto),
 
     CONSTRAINT uq_carrito_producto
     UNIQUE (id_carrito, id_producto),
