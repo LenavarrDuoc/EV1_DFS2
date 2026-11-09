@@ -54,29 +54,39 @@ CREATE TABLE CATEGORIAS_PRODUCTOS (
     nombre_categoria_prod    VARCHAR(50)  NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
+
 -- 6. PRODUCTO
 CREATE TABLE PRODUCTOS (
     id_producto         INT AUTO_INCREMENT PRIMARY KEY,
     nombre              VARCHAR(100) NOT NULL,
     descripcion         TEXT         NULL,
     precio              INT          NOT NULL,
-    stock               INT          NOT NULL  DEFAULT 0,
-    imagen_url          VARCHAR(255) NOT NULL,
+    stock               INT          NOT NULL DEFAULT 0,
+    imagen_uri          VARCHAR(255) NOT NULL,
     id_categoria_prod   INT          NOT NULL,
-    activo              TINYINT(1)   NOT NULL  DEFAULT 1,
-    fecha_creacion      DATETIME     NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    activo              TINYINT(1)   NOT NULL DEFAULT 1,
+    fecha_creacion      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_productos_categorias
-    FOREIGN KEY (id_categoria_prod) REFERENCES CATEGORIAS_PRODUCTOS(id_categoria_prod),
+       FOREIGN KEY (id_categoria_prod) REFERENCES CATEGORIAS_PRODUCTOS(id_categoria_prod),
 
     CONSTRAINT chk_precio_posicion
-    CHECK (precio >= 0),
-    
+       CHECK (precio >= 0),
+
     CONSTRAINT chk_stock_positivo
-    CHECK (stock >= 0)
+       CHECK (stock >= 0)
 ) ENGINE=InnoDB;
 
--- 7. CARRITO
+-- 7. CARACTERISTICAS_PRODUCTOS
+CREATE TABLE CARACTERISTICAS_PRODUCTOS (
+    id_producto         INT NOT NULL,
+    caracteristica      VARCHAR(255) NOT NULL,
+
+    CONSTRAINT fk_caract_producto
+        FOREIGN KEY (id_producto) REFERENCES PRODUCTOS(id_producto)
+) ENGINE=InnoDB;
+
+-- 8. CARRITO
 CREATE TABLE CARRITOS (
     id_carrito          INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario          INT      NOT NULL UNIQUE,
@@ -87,7 +97,7 @@ CREATE TABLE CARRITOS (
     ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- 8. CARRITO_DETALLE
+-- 9. CARRITO_DETALLE
 CREATE TABLE CARRITO_DETALLE (
     id_carrito_item     INT AUTO_INCREMENT PRIMARY KEY,
     id_carrito          INT NOT NULL,
@@ -106,7 +116,7 @@ CREATE TABLE CARRITO_DETALLE (
     CHECK (cantidad > 0)
 ) ENGINE=InnoDB;
 
--- 9. VENTAS
+-- 10. VENTAS
 CREATE TABLE VENTAS (
     id_venta            INT AUTO_INCREMENT PRIMARY KEY,
     codigo_seguimiento  VARCHAR(20) NOT NULL UNIQUE,
@@ -133,7 +143,7 @@ CREATE TABLE VENTAS (
     CHECK (estado_envio IN ('Registrado', 'En Proceso', 'Enviado', 'Entregado'))
 ) ENGINE=InnoDB;
 
--- 10. VENTA_DETALLES
+-- 11. VENTA_DETALLES
 CREATE TABLE VENTA_DETALLE (
     id_detalle          INT AUTO_INCREMENT PRIMARY KEY,
     id_venta            INT NOT NULL,
