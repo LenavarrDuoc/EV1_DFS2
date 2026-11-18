@@ -1,32 +1,31 @@
 // src/views/AdminDashboardView.jsx
-import { useState, useEffect } from 'react';
-//import { itemsProductos as productosIniciales } from '../data/productosData'; //Reemplazado por ProductoService.
+import { useState, useEffect, useRef } from 'react';
 import ProductoService from '../services/ProductoService';
 
 function AdminDashboardView() {
-    // Cargar catálogo desde localStorage o desde la lista inicial
-    /*const [productos, setProductos] = useState(() => {
-        const guardados = localStorage.getItem('productos_sonidovivo');
-        return guardados ? JSON.parse(guardados) : productosIniciales;
-    });*/ // Reemplazado por la carga desde el backend con ProductoService.
-
-    const [productos, setProductos] = useState([]); // Inicia vacío en vez de mapearle la lista localStorage como arriba.
-    const [categorias, setCategorias] = useState([]); // Categorías reales desde GET /api/v1/categorias-productos
+    const [productos, setProductos] = useState([]);
+    const [categorias, setCategorias] = useState([]);
     const [productoEditar, setProductoEditar] = useState(null);
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
-    const [archivoImagen, setArchivoImagen] = useState(null); // Archivo seleccionado para subir a MinIO (Paso 2)
+    const [archivoImagen, setArchivoImagen] = useState(null);
 
-    // Estado para el ajuste parcial de stock (PATCH /{id}/stock -> ProductoStockUpdateDTO)
-    const [modalStock, setModalStock] = useState({ visible: false, productoId: null, operacion: 'INGRESO', cantidad: 1 });
-        
-    // Ajustado exactamente a ProductoInputDTO y ProductoUpdateDTO:
-    // nombre, descripcion, caracteristicas (List<String>), precio (Integer), stock (Integer), activo (Boolean), idCategoriaProducto (Integer)
+    // Referencia al formulario para hacer scroll suave y dar foco al editar
+    const formContainerRef = useRef(null);
+    const nombreInputRef = useRef(null);
+
+    // Estado para el ajuste de stock en línea dentro de la misma columna de Stock
+    const [stockInline, setStockInline] = useState({
+        productoId: null,
+        operacion: 'INGRESO',
+        cantidad: 1
+    });
+
     const [formData, setFormData] = useState({
         nombre: '',
         descripcion: '',
         caracteristicas: '',
         precio: '',
-        stock: '', 
+        stock: '',
         activo: true,
         idCategoriaProducto: 1
     });
@@ -44,26 +43,19 @@ function AdminDashboardView() {
             .catch(err => console.error("Error al cargar categorías", err));
     }, []);
 
-    /*const [formData, setFormData] = useState({ //Antiguo formato sin ajustes a DTOs de API REST.
-        nombre: '',
-        categoria: 'Guitarras',
-        precio: '',
-        imagen: '',
-        descripcion: '',
-        caracteristicas: ''
-    });*/
-
-    // Guardar siempre cambios en localStorage // Esto ya no es necesario, porque ahora se hace un POST/PUT al backend para guardar los cambios.
-    /*useEffect(() => {
-        localStorage.setItem('productos_sonidovivo', JSON.stringify(productos));
-    }, [productos]);*/
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
+    };
+
+    const enfocarFormulario = () => {
+        setTimeout(() => {
+            formContainerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            nombreInputRef.current?.focus();
+        }, 50);
     };
 
     const handleNuevoProducto = () => {
@@ -76,36 +68,30 @@ function AdminDashboardView() {
             precio: '',
             stock: '',
             activo: true,
-            // CategoriaProductoResponseDTO devuelve idCategoriaProd
             idCategoriaProducto: categorias.length > 0 ? categorias[0].idCategoriaProd : 1
         });
         setMostrarFormulario(true);
+        enfocarFormulario();
     };
 
     const handleEditarClick = (prod) => {
         setProductoEditar(prod.id);
         setArchivoImagen(null);
 
-        // Buscamos el ID de la categoría comparando nombreCategoriaProd con prod.categoriaProducto
         const catEncontrada = categorias.find(c => c.nombreCategoriaProd === prod.categoriaProducto);
 
         setFormData({
             nombre: prod.nombre,
             descripcion: prod.descripcion,
             caracteristicas: Array.isArray(prod.caracteristicas) ? prod.caracteristicas.join(', ') : '',
-            precio: prod.precio, // Integer
-            stock: prod.stock,   // ProductoUpdateDTO exige @NotNull en stock
-            activo: prod.activo === 'Disponible' || prod.activo === true, // ProductoResponseDTO devuelve "Disponible" o "No disponible"
+            precio: prod.precio,
+            stock: prod.stock,
+            activo: prod.activo === 'Disponible' || prod.activo === true,
             idCategoriaProducto: catEncontrada ? catEncontrada.idCategoriaProd : (categorias[0]?.idCategoriaProd || 1)
         });
         setMostrarFormulario(true);
+        enfocarFormulario();
     };
-
-    /*const handleEliminarClick = (id) => {
-        if (window.confirm("¿Estás seguro de que deseas eliminar este producto del catálogo?")) {
-            setProductos(prev => prev.filter(p => p.id !== id));
-        }
-    };*/ //Reemplazado por la nueva función abajo:
 
     const handleEliminarClick = (id) => {
         if (window.confirm("¿Estás seguro de eliminar este producto de la base de datos?")) {
@@ -115,13 +101,9 @@ function AdminDashboardView() {
         }
     };
 
-    // Flujo en 2 pasos:
-    // Paso 1: POST /api/v1/productos (ProductoInputDTO) o PUT /api/v1/productos/{id} (ProductoUpdateDTO)
-    // Paso 2: POST /api/v1/productos/{id}/imagen (multipart/form-data) si se seleccionó archivo
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // @NotEmpty exige al menos 1 característica en el arreglo
         const caracteristicasArray = formData.caracteristicas
             ? formData.caracteristicas.split(',').map(c => c.trim()).filter(Boolean)
             : [];
@@ -131,7 +113,6 @@ function AdminDashboardView() {
             return;
         }
 
-        // Payload exacto para ProductoInputDTO y ProductoUpdateDTO
         const payload = {
             nombre: formData.nombre.trim(),
             descripcion: formData.descripcion.trim(),
@@ -146,7 +127,6 @@ function AdminDashboardView() {
             let productoGuardado;
 
             if (productoEditar) {
-                // Conservar la imagenUri actual en el PUT para que no se borre si no se sube una nueva
                 const prodActual = productos.find(p => p.id === productoEditar);
                 const payloadUpdate = {
                     ...payload,
@@ -159,7 +139,6 @@ function AdminDashboardView() {
                 productoGuardado = res.data;
             }
 
-            // Paso 2: Subir archivo físico a MinIO si el admin seleccionó una imagen
             if (archivoImagen && productoGuardado?.id) {
                 await ProductoService.uploadImagen(productoGuardado.id, archivoImagen);
             }
@@ -174,20 +153,24 @@ function AdminDashboardView() {
         }
     };
 
-    // --- LÓGICA PARA EL STOCK (PATCH /api/v1/productos/{id}/stock -> ProductoStockUpdateDTO) ---
+    // --- LÓGICA PARA EL STOCK EN LÍNEA (PATCH /api/v1/productos/{id}/stock -> ProductoStockUpdateDTO) ---
     const handleAjustarStock = (e) => {
         e.preventDefault();
 
-        const cantidadAbsoluta = Math.abs(parseInt(modalStock.cantidad, 10));
-        // ProductoStockUpdateDTO espera { cantidadAjuste: Integer } (positivo para sumar, negativo para descontar)
+        const cantidadAbsoluta = Math.abs(parseInt(stockInline.cantidad, 10));
+        if (!cantidadAbsoluta || cantidadAbsoluta <= 0) {
+            alert("Ingresa una cantidad válida mayor a 0.");
+            return;
+        }
+
         const payloadStock = {
-            cantidadAjuste: modalStock.operacion === 'INGRESO' ? cantidadAbsoluta : -cantidadAbsoluta
+            cantidadAjuste: stockInline.operacion === 'INGRESO' ? cantidadAbsoluta : -cantidadAbsoluta
         };
 
-        ProductoService.updateStock(modalStock.productoId, payloadStock)
+        ProductoService.updateStock(stockInline.productoId, payloadStock)
             .then(() => {
                 alert("Inventario ajustado correctamente");
-                setModalStock({ visible: false, productoId: null, operacion: 'INGRESO', cantidad: 1 });
+                setStockInline({ productoId: null, operacion: 'INGRESO', cantidad: 1 });
                 cargarProductos();
             })
             .catch(err => {
@@ -210,18 +193,26 @@ function AdminDashboardView() {
 
                 {/* Formulario Principal (Crear/Editar) */}
                 {mostrarFormulario && (
-                    <div className="admin-form-container">
+                    <div className="admin-form-container" ref={formContainerRef}>
                         <h3>{productoEditar ? 'Editar Producto' : 'Crear Nuevo Producto'}</h3>
                         <form onSubmit={handleSubmit}>
                             <div className="admin-form-grid">
                                 <div className="admin-form-field">
                                     <label>Nombre del Producto (3 a 100 caracteres):</label>
-                                    <input type="text" name="nombre" minLength="3" maxLength="100" required value={formData.nombre} onChange={handleChange} />
+                                    <input
+                                        ref={nombreInputRef}
+                                        type="text"
+                                        name="nombre"
+                                        minLength="3"
+                                        maxLength="100"
+                                        required
+                                        value={formData.nombre}
+                                        onChange={handleChange}
+                                    />
                                 </div>
 
                                 <div className="admin-form-field">
                                     <label>Categoría:</label>
-                                    {/* Mapeado con CategoriaProductoResponseDTO: idCategoriaProd y nombreCategoriaProd */}
                                     <select name="idCategoriaProducto" value={formData.idCategoriaProducto} onChange={handleChange}>
                                         {categorias.map(cat => (
                                             <option key={cat.idCategoriaProd} value={cat.idCategoriaProd}>
@@ -243,20 +234,20 @@ function AdminDashboardView() {
 
                                 <div className="admin-form-field">
                                     <label>Imagen del Producto (JPG, PNG, WEBP):</label>
-                                    <input 
-                                        type="file" 
-                                        accept="image/jpeg,image/png,image/webp" 
-                                        onChange={(e) => setArchivoImagen(e.target.files[0])} 
+                                    <input
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/webp"
+                                        onChange={(e) => setArchivoImagen(e.target.files[0])}
                                     />
                                 </div>
 
                                 <div className="admin-form-field">
                                     <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '24px' }}>
-                                        <input 
-                                            type="checkbox" 
-                                            name="activo" 
-                                            checked={formData.activo} 
-                                            onChange={handleChange} 
+                                        <input
+                                            type="checkbox"
+                                            name="activo"
+                                            checked={formData.activo}
+                                            onChange={handleChange}
                                         />
                                         Producto Disponible / Activo
                                     </label>
@@ -269,13 +260,13 @@ function AdminDashboardView() {
 
                                 <div className="admin-form-field full-width">
                                     <label>Características (obligatorio, separadas por comas):</label>
-                                    <input 
-                                        type="text" 
-                                        name="caracteristicas" 
-                                        required 
-                                        placeholder="Cuerpo de aliso, Mástil de arce, 22 trastes" 
-                                        value={formData.caracteristicas} 
-                                        onChange={handleChange} 
+                                    <input
+                                        type="text"
+                                        name="caracteristicas"
+                                        required
+                                        placeholder="Cuerpo de aliso, Mástil de arce, 22 trastes"
+                                        value={formData.caracteristicas}
+                                        onChange={handleChange}
                                     />
                                 </div>
 
@@ -284,26 +275,6 @@ function AdminDashboardView() {
                                     <button type="submit" className="btn-guardar">{productoEditar ? 'Guardar Cambios' : 'Crear Producto'}</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                )}
-
-                {/* Modal de Stock (PATCH) */}
-                {modalStock.visible && (
-                    <div className="admin-modal-overlay" style={{ border: '2px solid red', padding: '20px', margin: '20px 0' }}>
-                        <h3>Ajustar Inventario</h3>
-                        <form onSubmit={handleAjustarStock}>
-                            <label>Operación:</label>
-                            <select value={modalStock.operacion} onChange={(e) => setModalStock({...modalStock, operacion: e.target.value})}>
-                                <option value="INGRESO">Entrada (+)</option>
-                                <option value="EGRESO">Salida (-)</option>
-                            </select>
-
-                            <label>Cantidad:</label>
-                            <input type="number" required min="1" value={modalStock.cantidad} onChange={(e) => setModalStock({...modalStock, cantidad: e.target.value})} />
-
-                            <button type="submit">Confirmar Ajuste</button>
-                            <button type="button" onClick={() => setModalStock({...modalStock, visible: false})}>Cancelar</button>
                         </form>
                     </div>
                 )}
@@ -325,21 +296,61 @@ function AdminDashboardView() {
                             {productos.map(prod => (
                                 <tr key={prod.id}>
                                     <td>
-                                        <img 
-                                            src={prod.imagenUri || '/placeholder-instrumento.png'} 
-                                            alt={prod.nombre} 
-                                            className="tabla-img" 
+                                        <img
+                                            src={prod.imagenUri || '/placeholder-instrumento.png'}
+                                            alt={prod.nombre}
+                                            className="tabla-img"
                                         />
                                     </td>
                                     <td><strong>{prod.nombre}</strong></td>
-                                    <td>{prod.categoriaProducto || 'Sin Cat'}</td> 
+                                    <td>{prod.categoriaProducto || 'Sin Cat'}</td>
                                     <td>${Number(prod.precio).toLocaleString('es-CL')}</td>
-                                    <td>{prod.stock}</td>
+                                    <td>
+                                        {stockInline.productoId === prod.id ? (
+                                            <form onSubmit={handleAjustarStock} className="d-flex align-items-center gap-1 flex-wrap">
+                                                <span className="fw-bold me-1">{prod.stock}</span>
+                                                <select
+                                                    value={stockInline.operacion}
+                                                    onChange={(e) => setStockInline({ ...stockInline, operacion: e.target.value })}
+                                                    style={{ padding: '2px 4px' }}
+                                                >
+                                                    <option value="INGRESO">+</option>
+                                                    <option value="EGRESO">-</option>
+                                                </select>
+                                                <input
+                                                    type="number"
+                                                    required
+                                                    min="1"
+                                                    autoFocus
+                                                    value={stockInline.cantidad}
+                                                    onChange={(e) => setStockInline({ ...stockInline, cantidad: e.target.value })}
+                                                    style={{ width: '60px', padding: '2px 4px' }}
+                                                />
+                                                <button type="submit" className="btn-guardar" style={{ padding: '3px 8px', fontSize: '0.8rem' }}>
+                                                    Confirmar
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="btn-cancelar"
+                                                    style={{ padding: '3px 8px', fontSize: '0.8rem' }}
+                                                    onClick={() => setStockInline({ productoId: null, operacion: 'INGRESO', cantidad: 1 })}
+                                                >
+                                                    X
+                                                </button>
+                                            </form>
+                                        ) : (
+                                            prod.stock
+                                        )}
+                                    </td>
                                     <td>{prod.activo}</td>
                                     <td>
                                         <div className="acciones-cell">
                                             <button type="button" className="btn-editar" onClick={() => handleEditarClick(prod)}>Editar Datos</button>
-                                            <button type="button" style={{backgroundColor: '#17a2b8', color: 'white'}} onClick={() => setModalStock({ visible: true, productoId: prod.id, operacion: 'INGRESO', cantidad: 1 })}>
+                                            <button
+                                                type="button"
+                                                className="btn-editar"
+                                                onClick={() => setStockInline({ productoId: prod.id, operacion: 'INGRESO', cantidad: 1 })}
+                                            >
                                                 Ajustar Stock
                                             </button>
                                             <button type="button" className="btn-borrar" onClick={() => handleEliminarClick(prod.id)}>Eliminar</button>
