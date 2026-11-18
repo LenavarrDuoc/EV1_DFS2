@@ -17,10 +17,9 @@ export const AuthProvider = ({ children }) => {
     });
 
     const login = (userData) => {
-        // Conservamos el rol que viene del JWT (ej. ROLE_ADMIN, ROLE_CLIENTE) y el token
         const usuarioSesion = {
             ...userData,
-            rol: userData.rol || "ROLE_CLIENTE"
+            rol: userData.rol || "Cliente"
         };
 
         setUser(usuarioSesion);
@@ -32,8 +31,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("usuario_sonidovivo");
     };
 
-    // Reconoce tanto 'ROLE_ADMIN' (Spring Security) como 'ADMIN' o 'admin'
-    const isAdmin = ["admin", "ADMIN", "ROLE_ADMIN"].includes(user?.rol);
+    // Coincide con 'Administrador' de la BD (y variantes por compatibilidad)
+    const isAdmin = ["Administrador", "ADMINISTRADOR", "admin", "ADMIN", "ROLE_ADMIN"].includes(user?.rol);
+    const isVendedor = ["Vendedor", "VENDEDOR", "vendedor", "ROLE_VENDEDOR"].includes(user?.rol);
 
     return (
         <AuthContext.Provider
@@ -41,7 +41,8 @@ export const AuthProvider = ({ children }) => {
                 user,
                 login,
                 logout,
-                isAdmin 
+                isAdmin,
+                isVendedor
             }}
         >
             {children}

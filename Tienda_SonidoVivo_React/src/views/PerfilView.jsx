@@ -30,6 +30,12 @@ function PerfilView() {
     // Obtener la inicial para el avatar
     const inicial = user.nombre ? user.nombre.charAt(0).toUpperCase() : 'U';
 
+    // Formatear fecha YYYY-MM-DD a formato local chileno sin desfase UTC
+    const fechaNacimientoRaw = user.fechaNacimiento || user.fecNac;
+    const fechaFormateada = fechaNacimientoRaw
+        ? fechaNacimientoRaw.split('-').reverse().join('-')
+        : 'No especificada';
+
     return (
         <main>
             <section id="perfil-usuario">
@@ -41,7 +47,7 @@ function PerfilView() {
                         <div className="perfil-titulo">
                             <h2>{user.nombre}</h2>
                             <span className="perfil-rol">
-                                {user.rol === 'admin' ? 'Administrador' : 'Cliente Registrado'}
+                                {user.nombreRol || user.rol || 'Cliente'}
                             </span>
                         </div>
                     </div>
@@ -69,7 +75,7 @@ function PerfilView() {
 
                         <div className="perfil-campo">
                             <label>Fecha de Nacimiento</label>
-                            <p>{user.fecNac ? new Date(user.fecNac).toLocaleDateString('es-CL') : 'No especificada'}</p>
+                            <p>{fechaFormateada}</p>
                         </div>
 
                         <div className="perfil-campo">
@@ -84,12 +90,12 @@ function PerfilView() {
 
                         <div className="perfil-campo">
                             <label>Estilo Musical Favorito</label>
-                            <p>{user.estiloMusical || 'No especificado'}</p>
+                            <p>{user.nombreEstilo || user.estiloMusical || 'No especificado'}</p>
                         </div>
 
                         <div className="perfil-campo">
                             <label>Categoría de Instrumento Preferida</label>
-                            <p>{user.categoriaInstrumento || 'No especificada'}</p>
+                            <p>{user.nombreCategoriaInst || user.categoriaInstrumento || 'No especificada'}</p>
                         </div>
                     </div>
 
