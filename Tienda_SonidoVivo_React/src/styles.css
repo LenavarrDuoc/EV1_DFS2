@@ -2106,3 +2106,15 @@ footer {
     border-color: #fd7e14;
     color: white;
 }
+
+/* Botón principal (Login y Registro) - Color 3 a Naranja */
+.btn-tema-principal {
+    background-color: var(--color_3); 
+    border: 1px solid var(--color_3);
+    color: white;
+}
+.btn-tema-principal:hover {
+    background-color: #fd7e14; /* Naranja Bootstrap */
+    border-color: #fd7e14;
+    color: white;
+}
