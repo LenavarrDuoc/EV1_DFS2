@@ -1,13 +1,30 @@
+import { useState, useEffect } from 'react' // Importados hooks para manejar el estado y la carga asíncrona desde el backend
 import { Link } from 'react-router-dom'
 
 import GaleriaProductosDestacados from '../components/organisms/GaleriaProductosDestacados'
+import ProductoService from '../services/ProductoService' // Servicio conectado al microservicio ms-productos (acceso público)
 
 import imagen_presentacion from '../assets/img/imagen_presentacion.png'
 import tienda from '../assets/img/tienda.png'
 
-import { itemsProductosDestacados } from '../data/productosData'
+// import { itemsProductosDestacados } from '../data/productosData' // Reemplazado por carga dinámica desde el backend
 
 function HomeView() {
+    // Estado para almacenar los productos destacados obtenidos desde la API
+    const [productosDestacados, setProductosDestacados] = useState([])
+
+    // Carga inicial de productos activos sin requerir autenticación (endpoint público en Traefik)
+    useEffect(() => {
+        ProductoService.getProductosActivos()
+            .then(response => {
+                // Seleccionamos los primeros 4 productos activos para mostrarlos como destacados en el Home
+                setProductosDestacados(response.data.slice(0, 4))
+            })
+            .catch(error => {
+                console.error("Error al cargar productos destacados:", error)
+            })
+    }, [])
+
     return (
         <>
             <main>
@@ -75,8 +92,9 @@ function HomeView() {
 
 
                 {/*== PRODUCTOS DESTACADOS ==*/}
+                {/* Se pasa el estado cargado desde ms-productos en lugar del arreglo estático local */}
                 <GaleriaProductosDestacados
-                    productos={itemsProductosDestacados}
+                    productos={productosDestacados}
                 />
 
 

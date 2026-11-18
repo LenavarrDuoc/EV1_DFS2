@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { GUEST_NAV_ITEMS } from '../../data/navigationData';
 import { IconoCarrito } from './IconoCarrito';
 

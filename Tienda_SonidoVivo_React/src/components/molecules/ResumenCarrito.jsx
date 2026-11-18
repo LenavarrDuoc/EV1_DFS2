@@ -3,10 +3,12 @@ import { useCart } from '../../context/CartContext';
 function ResumenCarrito({ onFinalizarCompra }) {
     const { carrito, vaciarCarrito } = useCart();
 
-    // Convierte el string de precio "$249.990" a un número usable
+    // Soporta tanto el precio numérico del backend (ej. 289990) como strings antiguos (ej. "$249.990")
     const calcularSubtotal = () => {
         return carrito.reduce((total, item) => {
-            const precioNumerico = parseInt(item.precio.replace(/[^0-9]/g, '')) || 0;
+            const precioNumerico = typeof item.precio === 'number'
+                ? item.precio
+                : parseInt(String(item.precio).replace(/[^0-9]/g, ''), 10) || 0;
             return total + (precioNumerico * item.cantidad);
         }, 0);
     };

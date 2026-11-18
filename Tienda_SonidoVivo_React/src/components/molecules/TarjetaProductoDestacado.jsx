@@ -5,8 +5,9 @@ function TarjetaProductoDestacado({ producto }) {
         <>
             <article className="producto-destacado">
 
+                {/* Se cambia producto.imagen por producto.imagenUri (URL desde MinIO) con fallback */}
                 <img 
-                    src={producto.imagen}
+                    src={producto.imagenUri || '/placeholder-instrumento.png'}
                     alt={producto.nombre}
                 />
 

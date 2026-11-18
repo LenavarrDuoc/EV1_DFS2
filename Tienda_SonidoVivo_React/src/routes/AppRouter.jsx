@@ -13,6 +13,8 @@ import PerfilView from '../views/PerfilView';
 import AdminDashboardView from '../views/AdminDashboardView';
 import NotFoundView from '../views/NotFoundView';
 
+import ProductoList from '../components/ProductoList';
+import ProductoForm from '../components/ProductoForm';
 /* Se reemplaza por NotFoundTemplate: */
 /* const  NotFoundView = () => <h1>Error 404: Página no encontrada</h1>; */
 
@@ -37,6 +39,30 @@ export const AppRouter = () => {
                     <RutaProtegida requireAdmin={true}>
                         <AdminDashboardView/>
                     </RutaProtegida>
+                    } 
+                />
+                <Route 
+                    path="/admin/productos" 
+                    element={
+                        <RutaProtegida requireAdmin={true}>
+                            <ProductoList/>
+                        </RutaProtegida>
+                    } 
+                />
+                <Route 
+                    path="/admin/productos/add" 
+                    element={
+                        <RutaProtegida requireAdmin={true}>
+                            <ProductoForm/>
+                        </RutaProtegida>
+                    } 
+                />
+                <Route 
+                    path="/admin/productos/edit/:id" 
+                    element={
+                        <RutaProtegida requireAdmin={true}>
+                            <ProductoForm/>
+                        </RutaProtegida>
                     } 
                 />
 

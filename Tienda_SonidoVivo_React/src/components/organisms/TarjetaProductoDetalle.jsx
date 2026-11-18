@@ -13,14 +13,17 @@ function DetalleProductoCard({ producto }) {
     return (
         <div className="producto-detalle">
             <div className="producto-detalle-imagen">
-                <img src={producto.imagen} alt={producto.nombre} />
+                {/* Se cambia producto.imagen por producto.imagenUri (URL desde MinIO) con fallback */}
+                <img src={producto.imagenUri || '/placeholder-instrumento.png'} alt={producto.nombre} />
             </div>
 
             <div className="producto-detalle-info">
-                <span className="producto-categoria">{producto.categoria}</span>
+                {/* Se cambia producto.categoria por producto.categoriaProducto según ProductoResponseDTO */}
+                <span className="producto-categoria">{producto.categoriaProducto}</span>
                 <h1>{producto.nombre}</h1>
                 <p className="producto-descripcion">{producto.descripcion}</p>
-                <p className="producto-precio-detalle">{producto.precio}</p>
+                {/* Se formatea el precio numérico proveniente del DTO del backend */}
+                <p className="producto-precio-detalle">${Number(producto.precio).toLocaleString('es-CL')}</p>
 
                 <InformacionAdicional caracteristicas={producto.caracteristicas} />
 

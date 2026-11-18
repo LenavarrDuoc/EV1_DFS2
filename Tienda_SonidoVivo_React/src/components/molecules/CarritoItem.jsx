@@ -8,8 +8,9 @@ function CarritoItem({ item }) {
       <div className="row align-items-center g-3">
         {/* Imagen del producto */}
         <div className="col-12 col-sm-auto text-center">
+          {/* Se lee item.imagenUri (URL desde MinIO) con respaldo de item.imagen y placeholder */}
           <img 
-            src={item.imagen} 
+            src={item.imagenUri || item.imagen || '/placeholder-instrumento.png'} 
             alt={item.nombre} 
             className="img-fluid rounded carrito-item-img" 
           />
@@ -18,7 +19,10 @@ function CarritoItem({ item }) {
         {/* Información del producto */}
         <div className="col-12 col-sm text-center text-sm-start">
           <h5 className="mb-1 fs-6 fw-bold text-dark">{item.nombre}</h5>
-          <p className="mb-0 fw-semibold text-secondary">{item.precio}</p>
+          {/* Se formatea el precio numérico proveniente del DTO del backend */}
+          <p className="mb-0 fw-semibold text-secondary">
+            ${Number(item.precio).toLocaleString('es-CL')}
+          </p>
         </div>
 
         {/* Controles de cantidad y botón eliminar */}

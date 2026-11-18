@@ -4,8 +4,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import FormField from '../components/molecules/FormField';
 import PasswordInput from '../components/molecules/PasswordInput';
 
-import { useAuth } from '../context/AuthContext';
-import { encriptarPassword, validarPasswordFormat } from '../utils/validaciones';
+import { useAuth } from '../context/useAuth';
+import AuthService from '../services/AuthService'; // Servicio conectado a POST /api/v1/auth/login
+import { validarPasswordFormat } from '../utils/validaciones';
 
 function LoginView() {
   const navigate = useNavigate();
@@ -47,34 +48,21 @@ function LoginView() {
       return;
     }
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const usuarioEncontrado = usuariosRegistrados.find(
-      (u) => u.correo.toLowerCase() === correoLimpio
-    );
+    try {
+      // Autenticación real contra ms-auth vía Traefik (POST /api/v1/auth/login)
+      const usuarioSesionObj = await AuthService.login(correoLimpio, pass);
 
-    if (!usuarioEncontrado) {
+      alert(`¡Hola, ${usuarioSesionObj.nombre}! Le damos la bienvenida al sistema de Sonido Vivo.`);
+
+      // Guardamos en AuthContext y localStorage (incluye el JWT en usuarioSesionObj.token)
+      login(usuarioSesionObj);
+      navigate('/');
+    } catch (error) {
+      console.error("Error en inicio de sesión:", error);
       alert(mensajeCredenciales);
       setFormData({ correo: '', password: '' });
       document.getElementById("correo")?.focus();
-      return;
     }
-
-    const passwordHash = await encriptarPassword(pass);
-
-    if (passwordHash !== usuarioEncontrado.password) {
-      alert(mensajeCredenciales);
-      setFormData({ correo: '', password: '' });
-      document.getElementById("password")?.focus();
-      return;
-    }
-
-    alert(`¡Hola, ${usuarioEncontrado.nombre}! Le damos la bienvenida al sistema de Sonido Vivo.`);
-
-    const usuarioSesionObj = { ...usuarioEncontrado };
-    delete usuarioSesionObj.password;
-
-    login(usuarioSesionObj);
-    navigate('/');
   };
 
   return (

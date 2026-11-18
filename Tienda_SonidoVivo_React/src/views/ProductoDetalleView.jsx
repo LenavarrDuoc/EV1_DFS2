@@ -1,12 +1,30 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { itemsProductos } from '../data/productosData';
+// import { itemsProductos } from '../data/productosData'; // Reemplazado por ProductoService.
+import ProductoService from '../services/ProductoService';
 import DetalleProductoCard from '../components/organisms/TarjetaProductoDetalle';
 
 function ProductoDetalleView() {
     const { id } = useParams();
 
     // Buscar el producto por ID en la lista de items
-    const productoEncontrado = itemsProductos.find(p => p.id === parseInt(id));
+    //const productoEncontrado = itemsProductos.find(p => p.id === parseInt(id));
+    const [productoEncontrado, setProductoEncontrado] = useState(null);
+    const [cargando, setCargando] = useState(true);
+    useEffect(() => {
+        // Le pedimos al backend el producto específico
+        ProductoService.getProductoById(id)
+            .then(response => {
+                setProductoEncontrado(response.data);
+                setCargando(false);
+            })
+            .catch(error => {
+                console.error("Producto no encontrado", error);
+                setCargando(false);
+            });
+    }, [id]);
+
+    if (cargando) return <p>Cargando detalle...</p>;
 
     if (!productoEncontrado) {
         return (

@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import BotonAgregarCarrito from '../atoms/BotonAgregarCarrito';
 
+
 function TarjetaProducto({ producto }) {
 
     return (
         <article className="producto">
+            {/* Se cambia producto.imagen por producto.imagenUri (URL desde MinIO) con fallback por si llega nula */}
             <img 
-                src={producto.imagen} 
+                src={producto.imagenUri || '/placeholder-instrumento.png'} 
                 alt={producto.nombre} 
             />
 
@@ -15,8 +17,9 @@ function TarjetaProducto({ producto }) {
 
                 <p>{producto.descripcion}</p>
 
+                {/* Se formatea el precio numérico proveniente del DTO del backend */}
                 <p className="producto-precio">
-                    {producto.precio}
+                    ${Number(producto.precio).toLocaleString('es-CL')}
                 </p>
 
                 <Link 
