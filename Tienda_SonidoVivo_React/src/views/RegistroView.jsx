@@ -43,7 +43,7 @@ function RegistroView() {
     run: '',
     correo: '',
     telefono: '',
-    fecNac: '',
+    fechaNacimiento: '',
     direccion: '',
     comuna: '',
     estiloMusical: '',
@@ -103,7 +103,7 @@ function RegistroView() {
         formData.run,
         formData.correo,
         formData.telefono,
-        formData.fecNac,
+        formData.fechaNacimiento,
         formData.direccion,
         formData.comuna,
         formData.estiloMusical,
@@ -182,12 +182,12 @@ function RegistroView() {
 
           <FormField 
             label="Fecha de nacimiento:" 
-            id="fecNac" 
+            id="fechaNacimiento" 
             type="date" 
             required 
-            value={formData.fecNac}
+            value={formData.fechaNacimiento}
             onChange={handleChange}
-            error={errors.fecNac}
+            error={errors.fechaNacimiento}
           />
 
           <FormField 
