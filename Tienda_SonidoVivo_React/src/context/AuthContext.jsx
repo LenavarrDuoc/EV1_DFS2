@@ -26,9 +26,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("usuario_sonidovivo", JSON.stringify(usuarioSesion));
     };
 
+// Busca esta función en tu AuthContext.jsx y déjala así:
     const logout = () => {
         setUser(null);
         localStorage.removeItem("usuario_sonidovivo");
+        sessionStorage.removeItem("carrito_temporal"); // <- Borra carrito al cerrar sesión.
     };
 
     // Coincide con 'Administrador' de la BD (y variantes por compatibilidad)
