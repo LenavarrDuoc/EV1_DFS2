@@ -107,8 +107,8 @@ function LoginView() {
             <button 
               type="submit" 
               id="btn-login"
-              className="btn text-white fw-bold px-4 py-2"
-              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+              /* Aquí aplicamos nuestras clases en lugar del style en línea */
+              className="btn text-white fw-bold px-4 py-2 btn-tema-principal btn-animado"
             >
               Iniciar Sesión
             </button>
@@ -123,8 +123,8 @@ function LoginView() {
             <Link 
               to="/registro" 
               id="btn-ir-registro"
-              className="btn text-white fw-bold px-4 py-2 text-decoration-none d-inline-block"
-              style={{ backgroundColor: 'var(--color_3)', borderColor: 'var(--color_3)' }}
+              /* Aquí aplicamos nuestras clases en lugar del style en línea */
+              className="btn text-white fw-bold px-4 py-2 text-decoration-none d-inline-block btn-tema-principal btn-animado"
             >
               Registrarse
             </Link>

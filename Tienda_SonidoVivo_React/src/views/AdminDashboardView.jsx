@@ -185,7 +185,7 @@ function AdminDashboardView() {
                 <div className="admin-encabezado">
                     <h2>Panel de Administración de Productos</h2>
                     {!mostrarFormulario && (
-                        <button type="button" className="btn-guardar" onClick={handleNuevoProducto}>
+                        <button type="button" className="btn-guardar btn-animado" onClick={handleNuevoProducto}>
                             + AGREGAR PRODUCTO
                         </button>
                     )}
@@ -271,8 +271,8 @@ function AdminDashboardView() {
                                 </div>
 
                                 <div className="admin-form-actions">
-                                    <button type="button" className="btn-cancelar" onClick={() => setMostrarFormulario(false)}>Cancelar</button>
-                                    <button type="submit" className="btn-guardar">{productoEditar ? 'Guardar Cambios' : 'Crear Producto'}</button>
+                                    <button type="button" className="btn-cancelar btn-animado" onClick={() => setMostrarFormulario(false)}>Cancelar</button>
+                                    <button type="submit" className="btn-guardar btn-animado">{productoEditar ? 'Guardar Cambios' : 'Crear Producto'}</button>
                                 </div>
                             </div>
                         </form>
@@ -326,12 +326,12 @@ function AdminDashboardView() {
                                                     onChange={(e) => setStockInline({ ...stockInline, cantidad: e.target.value })}
                                                     style={{ width: '60px', padding: '2px 4px' }}
                                                 />
-                                                <button type="submit" className="btn-guardar" style={{ padding: '3px 8px', fontSize: '0.8rem' }}>
+                                                <button type="submit" className="btn-guardar btn-animado" style={{ padding: '3px 8px', fontSize: '0.8rem' }}>
                                                     Confirmar
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    className="btn-cancelar"
+                                                    className="btn-cancelar btn-animado"
                                                     style={{ padding: '3px 8px', fontSize: '0.8rem' }}
                                                     onClick={() => setStockInline({ productoId: null, operacion: 'INGRESO', cantidad: 1 })}
                                                 >
@@ -345,15 +345,15 @@ function AdminDashboardView() {
                                     <td>{prod.activo}</td>
                                     <td>
                                         <div className="acciones-cell">
-                                            <button type="button" className="btn-editar" onClick={() => handleEditarClick(prod)}>Editar Datos</button>
+                                            <button type="button" className="btn-editar-datos btn-animado" onClick={() => handleEditarClick(prod)}>Editar Datos</button>
                                             <button
                                                 type="button"
-                                                className="btn-editar"
+                                                className="btn-ajustar-stock btn-animado"
                                                 onClick={() => setStockInline({ productoId: prod.id, operacion: 'INGRESO', cantidad: 1 })}
                                             >
                                                 Ajustar Stock
                                             </button>
-                                            <button type="button" className="btn-borrar" onClick={() => handleEliminarClick(prod.id)}>Eliminar</button>
+                                            <button type="button" className="btn-eliminar-datos btn-animado" onClick={() => handleEliminarClick(prod.id)}>Eliminar</button>
                                         </div>
                                     </td>
                                 </tr>

@@ -2065,3 +2065,44 @@ footer {
     flex: 1 1 auto;
     min-width: 0;
 }
+
+/* 1. CLASE BASE PARA LA ANIMACIÓN (Se la puedes poner a cualquier botón del proyecto) */
+.btn-animado {
+    transition: all 0.3s ease-in-out !important; /* El !important asegura que sobreescriba la transición rápida por defecto de Bootstrap */
+}
+
+/* 2. BOTÓN AJUSTAR STOCK (Verde a Naranja) */
+.btn-ajustar-stock {
+    background-color: #198754; 
+    border: 1px solid #198754;
+    color: white;
+}
+.btn-ajustar-stock:hover {
+    background-color: #fd7e14; /* Naranja */
+    border-color: #fd7e14;
+    color: white;
+}
+
+/* 3. BOTÓN EDITAR DATOS (Azul a Naranja) */
+.btn-editar-datos {
+    background-color: #0d6efd; 
+    border: 1px solid #0d6efd;
+    color: white;
+}
+.btn-editar-datos:hover {
+    background-color: #fd7e14; /* Naranja */
+    border-color: #fd7e14;
+    color: white;
+}
+
+/* 4. BOTÓN ELIMINAR (Rojo a Naranja) */
+.btn-eliminar-datos {
+    background-color: #dc3545; 
+    border: 1px solid #dc3545;
+    color: white;
+}
+.btn-eliminar-datos:hover {
+    background-color: #fd7e14; /* Naranja */
+    border-color: #fd7e14;
+    color: white;
+}
