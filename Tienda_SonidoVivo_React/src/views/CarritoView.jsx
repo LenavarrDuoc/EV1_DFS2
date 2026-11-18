@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/useCart';
 import ListaCarrito from '../components/organisms/ListaCarrito';
 import ResumenCarrito from '../components/molecules/ResumenCarrito';
 
