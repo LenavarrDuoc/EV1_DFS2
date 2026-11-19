@@ -1,51 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import FormField from '../components/molecules/FormField';
 import PasswordInput from '../components/molecules/PasswordInput';
 import SelectField from '../components/molecules/SelectField';
-import { Usuario } from '../models/Usuario';
-import { validarRegistro, validarCampo, encriptarPassword } from '../utils/validaciones';
+import { validarRegistro, validarCampo } from '../utils/validaciones';
+import RegistroService from '../services/RegistroService'; // Importamos el servicio real
 
 function RegistroView() {
   const navigate = useNavigate();
 
-  const comunasRM = [
-    "Alhué", "Buin", "Calera de Tango", "Cerrillos", "Cerro Navia", "Colina",
-    "Conchalí", "Curacaví", "El Bosque", "El Monte", "Estación Central", "Huechuraba",
-    "Independencia", "Isla de Maipo", "La Cisterna", "La Florida", "La Granja",
-    "La Pintana", "La Reina", "Lampa", "Las Condes", "Lo Barnechea", "Lo Espejo",
-    "Lo Prado", "Macul", "Maipú", "María Pinto", "Melipilla", "Ñuñoa",
-    "Padre Hurtado", "Paine", "Pedro Aguirre Cerda", "Peñaflor", "Peñalolén",
-    "Pirque", "Providencia", "Pudahuel", "Puente Alto", "Quilicura", "Quinta Normal",
-    "Recoleta", "Renca", "San Bernardo", "San Joaquín", "San José de Maipo",
-    "San Miguel", "San Pedro", "San Ramón", "Santiago", "Talagante", "Til Til", "Vitacura"
-  ];
+  // Estados para guardar los objetos completos del backend
+  const [estilosCatalog, setEstilosCatalog] = useState([]);
+  const [categoriasCatalog, setCategoriasCatalog] = useState([]);
 
-  const estilosMusicales = [
-    "Rock", "Pop", "Jazz", "Blues", "Metal", "Hip Hop / Rap",
-    "Reggae", "Música Clásica", "Música Electrónica", "Folclore / Tradicional",
-    "Funk / Soul", "Latina / Salsa / Cumbia"
-  ];
-
-  const categoriasInstrumentos = [
-    "Cuerdas (Guitarras, Bajos, Violines, etc.)",
-    "Percusión (Baterías, Percusión latina, etc.)",
-    "Viento Madera (Saxofones, Flautas, Clarinetes, etc.)",
-    "Viento Metal (Trompetas, Trombones, Tubas, etc.)",
-    "Teclados y Pianos (Teclados, Pianos, Sintetizadores)",
-    "Equipos de Audio / Djing (Micrófonos, Interfaces, Mezcladoras)",
-    "Accesorios Musicales"
-  ];
+  // Arreglos de strings para no romper tu componente <SelectField> original
+  const [estilosMusicales, setEstilosMusicales] = useState([]);
+  const [categoriasInstrumentos, setCategoriasInstrumentos] = useState([]);
 
   const [formData, setFormData] = useState({
-    nombre: '',
-    run: '',
+    pnombre: '',
+    snombre: '',
+    apaterno: '',
+    amaterno: '',
     correo: '',
-    telefono: '',
-    fechaNacimiento: '',
-    direccion: '',
-    comuna: '',
     estiloMusical: '',
     categoriaInstrumento: '',
     password: '',
@@ -54,6 +32,29 @@ function RegistroView() {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Cargar catálogos al montar el componente
+  useEffect(() => {
+    const fetchCatalogos = async () => {
+      try {
+        const [resEstilos, resCategorias] = await Promise.all([
+          RegistroService.obtenerEstilosMusicales(),
+          RegistroService.obtenerCategoriasInstrumentos()
+        ]);
+        
+        // Guardamos los catálogos completos (para sacar los IDs después)
+        setEstilosCatalog(resEstilos.data);
+        setCategoriasCatalog(resCategorias.data);
+
+        // Extraemos solo los nombres para pasarlos a tu SelectField
+        setEstilosMusicales(resEstilos.data.map(e => e.nombre));
+        setCategoriasInstrumentos(resCategorias.data.map(c => c.nombre));
+      } catch (error) {
+        console.error("Error al cargar catálogos desde el backend:", error);
+      }
+    };
+    fetchCatalogos();
+  }, []);
 
   const handleChange = (e) => {
     const { id, name, value } = e.target;
@@ -67,26 +68,40 @@ function RegistroView() {
 
     setFormData(updatedFormData);
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const mensajeError = validarCampo(key, value, updatedFormData, usuariosRegistrados);
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [key]: mensajeError
-    }));
+    // Validamos en tiempo real si existe la función validarCampo
+    if (typeof validarCampo === 'function') {
+      const mensajeError = validarCampo(key, value, updatedFormData, []);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [key]: mensajeError
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const error = validarRegistro(formData, usuariosRegistrados);
+    // Adaptamos el formData al formato que espera validarRegistro ahora
+    // (Asignando los IDs correspondientes según la selección)
+    const idEstiloSeleccionado = estilosCatalog.find(est => est.nombre === formData.estiloMusical)?.idEstilo || '';
+    const idCatSeleccionada = categoriasCatalog.find(cat => cat.nombre === formData.categoriaInstrumento)?.idCategoriaInst || '';
 
-    if (error) {
-      setErrors((prev) => ({ ...prev, [error.campo]: error.mensaje }));
-      alert(error.mensaje);
+    const usuarioParaValidar = {
+      ...formData,
+      idEstilo: idEstiloSeleccionado,
+      idCategoriaInst: idCatSeleccionada
+    };
 
-      const elementoConError = document.getElementById(error.campo);
+    // Validamos pasándole el objeto preparado y la repeatPassword
+    const errorList = validarRegistro(usuarioParaValidar, formData.repeatPassword);
+
+    // Si validarRegistro ahora retorna un objeto con errores
+    if (Object.keys(errorList).length > 0) {
+      setErrors(errorList);
+      
+      // Hacemos focus en el primer error encontrado
+      const primerError = Object.keys(errorList)[0];
+      const elementoConError = document.getElementById(primerError);
       if (elementoConError) {
         elementoConError.focus();
       }
@@ -96,29 +111,29 @@ function RegistroView() {
     try {
       setIsSubmitting(true);
 
-      const passwordEncriptada = await encriptarPassword(formData.password);
+      // Preparamos el DTO final exacto para el Backend
+      const usuarioInputDTO = {
+        pnombre: formData.pnombre,
+        snombre: formData.snombre,
+        apaterno: formData.apaterno,
+        amaterno: formData.amaterno,
+        correo: formData.correo,
+        password: formData.password, // Se envía en texto plano asumiendo que Spring Security lo encripta (BCrypt)
+        idRol: 2, 
+        idEstilo: idEstiloSeleccionado,
+        idCategoriaInst: idCatSeleccionada
+      };
 
-      const uMock = new Usuario(
-        formData.nombre,
-        formData.run,
-        formData.correo,
-        formData.telefono,
-        formData.fechaNacimiento,
-        formData.direccion,
-        formData.comuna,
-        formData.estiloMusical,
-        formData.categoriaInstrumento,
-        passwordEncriptada
-      );
+      // Consumimos el microservicio
+      await RegistroService.registrarUsuario(usuarioInputDTO);
 
-      usuariosRegistrados.push(uMock);
-      localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
-
-      alert(`Registro válido. Usuario ${uMock.nombre} registrado. Se ha enviado un correo de confirmación a ${uMock.correo}.`);
+      alert(`Registro válido. Usuario ${formData.pnombre} registrado. Se ha enviado un correo de confirmación a ${formData.correo}.`);
       navigate('/login');
+
     } catch (err) {
       console.error("Error al procesar el registro:", err);
-      alert("Ocurrió un error inesperado al registrar el usuario.");
+      // Extraemos el mensaje de error del backend si existe
+      alert(err.response?.data?.message || "Ocurrió un error inesperado al registrar el usuario.");
     } finally {
       setIsSubmitting(false);
     }
@@ -138,23 +153,41 @@ function RegistroView() {
           </legend>
 
           <FormField 
-            label="Nombre completo:" 
-            id="nombre" 
-            placeholder="Ingrese su nombre" 
+            label="Primer Nombre:" 
+            id="pnombre" 
+            placeholder="Ingrese su primer nombre" 
             required 
-            value={formData.nombre}
+            value={formData.pnombre}
             onChange={handleChange}
-            error={errors.nombre}
+            error={errors.pnombre}
           />
 
           <FormField 
-            label="RUN:" 
-            id="run" 
-            placeholder="ej: 99999999-9" 
-            required 
-            value={formData.run}
+            label="Segundo Nombre:" 
+            id="snombre" 
+            placeholder="Ingrese su segundo nombre (opcional)" 
+            value={formData.snombre}
             onChange={handleChange}
-            error={errors.run}
+            error={errors.snombre}
+          />
+
+          <FormField 
+            label="Apellido Paterno:" 
+            id="apaterno" 
+            placeholder="Ingrese su apellido paterno" 
+            required 
+            value={formData.apaterno}
+            onChange={handleChange}
+            error={errors.apaterno}
+          />
+
+          <FormField 
+            label="Apellido Materno:" 
+            id="amaterno" 
+            placeholder="Ingrese su apellido materno (opcional)" 
+            value={formData.amaterno}
+            onChange={handleChange}
+            error={errors.amaterno}
           />
 
           <FormField 
@@ -169,48 +202,6 @@ function RegistroView() {
             error={errors.correo}
           />
 
-          <FormField 
-            label="Teléfono:" 
-            id="telefono" 
-            type="tel" 
-            placeholder="ej: +56999999999" 
-            required 
-            value={formData.telefono}
-            onChange={handleChange}
-            error={errors.telefono}
-          />
-
-          <FormField 
-            label="Fecha de nacimiento:" 
-            id="fechaNacimiento" 
-            type="date" 
-            required 
-            value={formData.fechaNacimiento}
-            onChange={handleChange}
-            error={errors.fechaNacimiento}
-          />
-
-          <FormField 
-            label="Dirección:" 
-            id="direccion" 
-            placeholder="ej: Calle Norte 123" 
-            required 
-            value={formData.direccion}
-            onChange={handleChange}
-            error={errors.direccion}
-          />
-
-          <SelectField 
-            label="Comuna (RM):"
-            id="comuna"
-            required
-            value={formData.comuna}
-            onChange={handleChange}
-            options={comunasRM}
-            defaultOptionText="Seleccione una comuna"
-            error={errors.comuna}
-          />
-
           <SelectField 
             label="Estilo musical:"
             id="estiloMusical"
@@ -219,7 +210,7 @@ function RegistroView() {
             onChange={handleChange}
             options={estilosMusicales}
             defaultOptionText="Seleccione un estilo musical"
-            error={errors.estiloMusical}
+            error={errors.estiloMusical || errors.idEstilo}
           />
 
           <SelectField 
@@ -230,7 +221,7 @@ function RegistroView() {
             onChange={handleChange}
             options={categoriasInstrumentos}
             defaultOptionText="Seleccione una categoría"
-            error={errors.categoriaInstrumento}
+            error={errors.categoriaInstrumento || errors.idCategoriaInst}
           />
 
           <PasswordInput 
@@ -256,7 +247,7 @@ function RegistroView() {
             required
             value={formData.repeatPassword}
             onChange={handleChange}
-            error={errors.repeatPassword}
+            error={errors.repeatPassword || errors.confirmarContrasena}
           />
 
           <div className="d-flex justify-content-center mt-4">

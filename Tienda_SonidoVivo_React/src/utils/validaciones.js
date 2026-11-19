@@ -1,6 +1,6 @@
 // src/utils/validaciones.js
 
-// 1. Encriptación SHA-256
+// 1. Encriptación SHA-256 (Mantenida intacta)
 export async function encriptarPassword(pass) {
   const conversionBinario = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pass));
   return Array.from(new Uint8Array(conversionBinario))
@@ -8,7 +8,7 @@ export async function encriptarPassword(pass) {
     .join("");
 }
 
-// 2. Validación de formato de contraseña (Reutilizable en Login y Registro)
+// 2. Validación de formato de contraseña (Mantenida intacta)
 export function validarPasswordFormat(password) {
   if (password.length < 8) {
     return "La contraseña debe tener al menos 8 caracteres.";
@@ -31,35 +31,22 @@ export function validarPasswordFormat(password) {
   return null; // Formato correcto
 }
 
-// 3. Validación individual por campo
+// 3. Validación individual por campo (Adaptada a pnombre, apaterno, etc.)
 export function validarCampo(name, value, formData, usuariosRegistrados = []) {
-  if (!value || value.trim() === '') {
+  if (!value || String(value).trim() === '') {
     return null; // No muestra errores visuales mientras la casilla está vacía
   }
 
   switch (name) {
-    case 'nombre': {
+    case 'pnombre':
+    case 'snombre':
+    case 'apaterno':
+    case 'amaterno': {
       if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñÜü\s]+$/.test(value)) {
-        return "El nombre debe contener letras y espacios";
+        return "El campo debe contener solo letras y espacios";
       }
-      if (value.length < 3) {
-        return "El nombre debe tener al menos 3 caracteres";
-      }
-      break;
-    }
-
-    case 'run': {
-      if (!/^[0-9kK-]+$/.test(value)) {
-        return "El RUN debe contener solo números, guión y dígito verificador";
-      }
-      if (value.length < 9 || value.length > 10) {
-        return "El RUN debe tener entre 9 y 10 caracteres";
-      }
-      const dvValido = 
-        value.slice(-2)[0] === "-" && 
-        (value.trim().slice(-1).toUpperCase() === "K" || !isNaN(value.trim().slice(-1)));
-      if (!dvValido) {
-        return "El RUN debe terminar en - y un dígito verificador válido (0 a 9 o K)";
+      if (value.length < 3 && (name === 'pnombre' || name === 'apaterno')) {
+        return "El campo debe tener al menos 3 caracteres";
       }
       break;
     }
@@ -70,8 +57,9 @@ export function validarCampo(name, value, formData, usuariosRegistrados = []) {
         value.trim().toLowerCase().endsWith(".cl") || 
         value.trim().toLowerCase().endsWith(".org");
       if (!dominioValido) {
-        return "Debe ingresar un correo válido";
+        return "Debe ingresar un correo válido (.com, .cl, .org)";
       }
+      // Se mantiene tu validación contra el arreglo por si aún la necesitas
       const correoExistente = usuariosRegistrados.some(
         (u) => u.correo.trim().toLowerCase() === value.trim().toLowerCase()
       );
@@ -81,45 +69,17 @@ export function validarCampo(name, value, formData, usuariosRegistrados = []) {
       break;
     }
 
-    case 'telefono': {
-      if (!/^[0-9+]+$/.test(value)) {
-        return "El teléfono debe contener solo números y el signo +";
-      }
-      if (value.length !== 12 || !value.startsWith("+")) {
-        return "El teléfono debe tener 12 caracteres e iniciar con +";
-      }
-      break;
-    }
-
-    case 'fecNac': {
-      const fecha = new Date(value + "T00:00:00");
-      const anio = fecha.getFullYear();
-      const fechaActual = new Date();
-      const difAnios = fechaActual.getFullYear() - anio;
-      const difMeses = fecha.getMonth() - fechaActual.getMonth();
-      const difDias = fecha.getDate() - fechaActual.getDate();
-
-      if (anio < 1900 || fecha > fechaActual) {
-        return "Debe ingresar una fecha de nacimiento inferior a la fecha actual";
-      }
-      if (difAnios < 18 || (difAnios === 18 && (difMeses > 0 || (difMeses === 0 && difDias > 0)))) {
-        return "Debe ser mayor de edad para registrarse.";
-      }
-      break;
-    }
-
     case 'password': {
       const errorFormat = validarPasswordFormat(value);
       if (errorFormat) return errorFormat;
 
+      // Actualizado para comparar con los nuevos campos de nombre/correo
       if (
-        value === formData.nombre || 
-        value === formData.run || 
-        value === formData.correo || 
-        value === formData.telefono || 
-        value === formData.fecNac
+        value === formData.pnombre || 
+        value === formData.apaterno || 
+        value === formData.correo
       ) {
-        return "La contraseña no debe ser igual a ninguno de los otros campos.";
+        return "La contraseña no debe ser igual a tus datos personales.";
       }
       if (value.toLowerCase().includes("password") || value.toLowerCase().includes("1234")) {
         return "La contraseña no debe contener palabras comunes como 'password' o secuencias como '1234'.";
@@ -142,15 +102,13 @@ export function validarCampo(name, value, formData, usuariosRegistrados = []) {
 }
 
 // 4. Validación estricta para el envío del formulario (onSubmit)
-export function validarRegistro(formData, usuariosRegistrados) {
+// Mantiene tu estructura original que devuelve { mensaje, campo }
+export function validarRegistro(formData, usuariosRegistrados = []) {
+  // Solo incluimos los campos que el backend necesita ahora
   const camposObligatorios = [
-    { id: 'nombre', label: 'Nombre completo' },
-    { id: 'run', label: 'RUN' },
+    { id: 'pnombre', label: 'Primer nombre' },
+    { id: 'apaterno', label: 'Apellido paterno' },
     { id: 'correo', label: 'Correo electrónico' },
-    { id: 'telefono', label: 'Teléfono' },
-    { id: 'fecNac', label: 'Fecha de nacimiento' },
-    { id: 'direccion', label: 'Dirección' },
-    { id: 'comuna', label: 'Comuna' },
     { id: 'estiloMusical', label: 'Estilo musical' },
     { id: 'categoriaInstrumento', label: 'Categoría de instrumento' },
     { id: 'password', label: 'Contraseña' },
@@ -160,7 +118,7 @@ export function validarRegistro(formData, usuariosRegistrados) {
   // Paso A: Comprobar si hay algún campo obligatorio completamente vacío
   for (let c of camposObligatorios) {
     const valor = formData[c.id];
-    if (!valor || valor.trim() === '') {
+    if (!valor || String(valor).trim() === '') {
       return { 
         mensaje: `El campo "${c.label}" es obligatorio y no puede quedar vacío.`, 
         campo: c.id 
