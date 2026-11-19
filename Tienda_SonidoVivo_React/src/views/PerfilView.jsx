@@ -1,9 +1,13 @@
+import { useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 
 function PerfilView() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    
+    // Referencia para controlar el modal nativo de HTML5
+    const modalRef = useRef(null);
 
     // Si por alguna razón el usuario accede sin sesión, se redirige al login
     if (!user) {
@@ -22,7 +26,17 @@ function PerfilView() {
         );
     }
 
-    const handleLogout = () => {
+    // Funciones para controlar el Modal y el Logout
+    const handleClickLogout = () => {
+        modalRef.current?.showModal();
+    };
+
+    const handleCancelar = () => {
+        modalRef.current?.close();
+    };
+
+    const handleConfirmarSalir = () => {
+        modalRef.current?.close();
         logout();
         navigate('/login');
     };
@@ -103,13 +117,33 @@ function PerfilView() {
                         <button 
                             type="button" 
                             className="btn-logout" 
-                            onClick={handleLogout}
+                            onClick={handleClickLogout}
                         >
                             CERRAR SESIÓN
                         </button>
                     </div>
                 </div>
             </section>
+
+            {/* Modal de confirmación integrado nativamente en JSX */}
+            <dialog id="modal-cerrar-sesion" ref={modalRef}>
+                <h4 className="mb-3 fw-bold">Cerrar Sesión</h4>
+                <p className="mb-4">¿Estás seguro que deseas cerrar tu sesión?</p>
+                <div className="d-flex justify-content-center gap-3">
+                    <button 
+                        id="btn-cancelar-logout" 
+                        onClick={handleCancelar}
+                    >
+                        Cancelar
+                    </button>
+                    <button 
+                        id="btn-confirmar-logout" 
+                        onClick={handleConfirmarSalir}
+                    >
+                        Sí, salir
+                    </button>
+                </div>
+            </dialog>
         </main>
     );
 }
