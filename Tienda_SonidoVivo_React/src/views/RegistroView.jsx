@@ -47,8 +47,8 @@ function RegistroView() {
         setCategoriasCatalog(resCategorias.data);
 
         // Extraemos solo los nombres para pasarlos a tu SelectField
-        setEstilosMusicales(resEstilos.data.map(e => e.nombre));
-        setCategoriasInstrumentos(resCategorias.data.map(c => c.nombre));
+        setEstilosMusicales(resEstilos.data.map(e => e.nombreEstilo));
+        setCategoriasInstrumentos(resCategorias.data.map(c => c.nombreCategoriaInst));
       } catch (error) {
         console.error("Error al cargar catálogos desde el backend:", error);
       }
@@ -83,8 +83,8 @@ function RegistroView() {
 
     // Adaptamos el formData al formato que espera validarRegistro ahora
     // (Asignando los IDs correspondientes según la selección)
-    const idEstiloSeleccionado = estilosCatalog.find(est => est.nombre === formData.estiloMusical)?.idEstilo || '';
-    const idCatSeleccionada = categoriasCatalog.find(cat => cat.nombre === formData.categoriaInstrumento)?.idCategoriaInst || '';
+    const idEstiloSeleccionado = estilosCatalog.find(est => est.nombreEstilo === formData.estiloMusical)?.idEstilo || '';
+    const idCatSeleccionada = categoriasCatalog.find(cat => cat.nombreCategoriaInst === formData.categoriaInstrumento)?.idCategoriaInst || '';
 
     const usuarioParaValidar = {
       ...formData,
