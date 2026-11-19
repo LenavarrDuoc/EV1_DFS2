@@ -92,8 +92,8 @@ function RegistroView() {
       idCategoriaInst: idCatSeleccionada
     };
 
-    // Validamos pasándole el objeto preparado y la repeatPassword
-    const errorList = validarRegistro(usuarioParaValidar, formData.repeatPassword);
+    // CORRECCIÓN AQUÍ: Pasamos el objeto a validar y el arreglo vacío [] para que no falle el .some()
+    const errorList = validarRegistro(usuarioParaValidar, []);
 
     // Si validarRegistro ahora retorna un objeto con errores
     if (Object.keys(errorList).length > 0) {
@@ -110,6 +110,7 @@ function RegistroView() {
 
     try {
       setIsSubmitting(true);
+      setErrors({}); // Limpiamos errores
 
       // Preparamos el DTO final exacto para el Backend
       const usuarioInputDTO = {

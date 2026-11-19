@@ -31,7 +31,7 @@ export function validarPasswordFormat(password) {
   return null; // Formato correcto
 }
 
-// 3. Validación individual por campo (Adaptada a pnombre, apaterno, etc.)
+// 3. Validación individual por campo (Mantenida intacta)
 export function validarCampo(name, value, formData, usuariosRegistrados = []) {
   if (!value || String(value).trim() === '') {
     return null; // No muestra errores visuales mientras la casilla está vacía
@@ -102,9 +102,10 @@ export function validarCampo(name, value, formData, usuariosRegistrados = []) {
 }
 
 // 4. Validación estricta para el envío del formulario (onSubmit)
-// Mantiene tu estructura original que devuelve { mensaje, campo }
+// CORREGIDA: Ahora devuelve un objeto con todos los errores juntos para que React los lea bien.
 export function validarRegistro(formData, usuariosRegistrados = []) {
-  // Solo incluimos los campos que el backend necesita ahora
+  const errores = {};
+
   const camposObligatorios = [
     { id: 'pnombre', label: 'Primer nombre' },
     { id: 'apaterno', label: 'Apellido paterno' },
@@ -119,20 +120,19 @@ export function validarRegistro(formData, usuariosRegistrados = []) {
   for (let c of camposObligatorios) {
     const valor = formData[c.id];
     if (!valor || String(valor).trim() === '') {
-      return { 
-        mensaje: `El campo "${c.label}" es obligatorio y no puede quedar vacío.`, 
-        campo: c.id 
-      };
+      errores[c.id] = `El campo "${c.label}" es obligatorio.`;
     }
   }
 
-  // Paso B: Si todo está rellenado, validar las reglas de negocio/formato
+  // Paso B: Si no está vacío, validar las reglas de negocio/formato
   for (let c of camposObligatorios) {
-    const mensajeError = validarCampo(c.id, formData[c.id], formData, usuariosRegistrados);
-    if (mensajeError) {
-      return { mensaje: mensajeError, campo: c.id };
+    if (!errores[c.id]) {
+      const mensajeError = validarCampo(c.id, formData[c.id], formData, usuariosRegistrados);
+      if (mensajeError) {
+        errores[c.id] = mensajeError;
+      }
     }
   }
 
-  return null; // Todo completo y válido
+  return errores; 
 }
